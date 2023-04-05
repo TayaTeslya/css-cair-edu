@@ -104,6 +104,11 @@ header {
 
  .categories p {
     color: #4C466B;
+    width: 100%;
+ }
+ 
+ .search {
+   width: 100%;
  }
 
  .search button, .search input {
@@ -126,7 +131,7 @@ header {
  }
 
  .logo-mobile {
-    font-size: 20px;
+    font-size: 30px;
  }
 
  .logo-mobile img {
