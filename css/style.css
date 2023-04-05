@@ -16,15 +16,11 @@ header {
     font-family: 'Inter';
     font-style: Italic;
     font-weight: 900;
+    color: #FFFFFF;
  }
 
  p {
     margin: 0;
-    color: #FFFFFF;
- }
-
- h1 {
-    color: #FFFFFF;
  }
 
  /* .body-light { - светлая тема
@@ -106,10 +102,6 @@ header {
     color: #4C466B;
     width: 100%;
  }
- 
- .search {
-   width: 100%;
- }
 
  .search button, .search input {
     background-color: #2B2643;
@@ -137,4 +129,39 @@ header {
  .logo-mobile img {
     width: 50px;
     height: 50px;
+ }
+
+ .card {
+   background-color: #2B2643;
+   border-radius: 10px;
+   border: none;
+   color: white;
+   padding: 20px;
+ }
+
+ .card-img img {
+   max-width: 100%;
+   border-radius: 10px;
+ }
+
+ .card-description {
+
+ }
+
+ .card-status-level {
+
+ }
+
+ .card-status-level img {
+   width: 35px;
+   height: 35px;
+ }
+
+ .card-title {
+   font-size: 20px;
+ }
+
+ .card-author {
+   font-size: 15px;
+   color: #3C90B8;
  }
