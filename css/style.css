@@ -2,172 +2,357 @@
 
 header {
     flex: 0 0 auto;
- }
+}
 
- main {
+main {
     flex: 1 0 auto;
- }
+}
 
- footer {
+footer {
     flex: 0 0 auto;
- }
+}
 
- * {
+*{
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+*,*:before,*:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+:focus,:active{outline: none;}
+a:focus,a:active{outline: none;}
+nav,footer,header,aside{display: block;}
+
+html,body {
+    height: 100%;
+    width: 100%;
+    font-size: 100%;
+    line-height: 1;
+    font-size: 14px;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+input,button,textarea {font-family:inherit;}
+input::-ms-clear{display: none;}
+button{cursor: pointer;}
+button::-moz-focus-inner {padding:0;border:0;}
+a, a:visited{text-decoration: none;}
+a:hover{text-decoration: none;}
+ul li{list-style: none;}
+img{vertical-align: top;}
+h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
+
+
+img {    /* запрет выделения */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none; /*элемент не может стать объектом мыши*/
+  user-select: none; /*запрет на перенос текста*/
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* W3C standard
+   сейчас только для Firefox */
+* {
+    scrollbar-width: auto;
+    scrollbar-color: rgba(192, 191, 191, 0.586) white;
+}
+
+/* для Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+    height: 5px;
+    width: 10px;
+    border-radius: 10px;
+    margin: 10px;
+}
+*::-webkit-scrollbar-track {
+    background: #312C4D;
+}
+*::-webkit-scrollbar-thumb {
+    background-color: #8f4c485e;
+    border-radius: 10px;
+    border: px solid white;
+}
+
+a {
+    color: white;
+}
+
+* {
     font-family: 'Inter';
     font-style: Italic;
     font-weight: 900;
     color: #FFFFFF;
- }
+}
 
- p {
+p {
     margin: 0;
- }
+}
 
- /* .body-light { - светлая тема
-    
- } */
+/* .body-light { - светлая тема
+
+} */
 
 .body-dark {
     background-color: #312C4D;
 }
 
- .logo-cair img {
+.logo-cair img {
     width: 100px;
     height: 100px;
- }
+}
 
- .logo-cair {
+.logo-cair {
     font-size: 40px;
     font-style: Italic;
     font-weight: 900;
- }
+}
 
- .profile {
+.profile {
     background-color: #2B2643;
     border-radius: 10px;
     padding: 10px 20px 10px 15px;
     box-shadow: 0px 5px 20px rgba(40, 36, 60, 0.73);
- }
+}
 
- .profile-photo img {
+.profile:hover {
+    background-color: #26223C;
+}
+
+.profile-photo img {
     background-color: white;
     width: 55px;
     height: 55px;
     border-radius: 50%;
     object-fit: cover; /* для подгона изображения без деформации */
- }
+}
 
- .redirect {
+.redirect {
     background-color: #8F4C48;
     padding: 10px 20px 10px 15px;
     box-shadow: 0px 5px 20px rgba(40, 36, 60, 0.73);
     border-radius: 10px;
     min-height: 80px;
- }
 
- .redirect a {
     text-decoration: none;
     font-style: Italic;
     font-weight: 900;
     color: white;
     font-size: 40px;
- }
+}
 
- .redirect-levels {
+.redirect a {
+    text-decoration: none;
+    font-style: Italic;
+    font-weight: 900;
+    color: white;
+    font-size: 40px;
+}
+
+.redirect-level a {
+    text-decoration: none;
+    font-style: Italic;
+    font-weight: 900;
+    color: white;
+    font-size: 40px;
+}
+
+.redirect-levels {
+    background-color: #8F4C48;
+    padding: 10px 20px 10px 15px;
+    box-shadow: 0px 5px 20px rgba(40, 36, 60, 0.73);
+    border-radius: 10px;
+    min-height: 80px;
+}
+
+.redirect-level {
     background-color: #733C38;
     border-radius: 10px;
     padding: 10px 20px 10px 15px;
     transition: .2s;
- }
+}
 
- .redirect-levels:hover {
+.redirect-level:hover {
     background-color: #663431;
- }
+}
 
- .redirect-levels a {
+.redirect-level a {
     font-size: 20px;
- }
+}
 
- .redirect-anime:hover {
+.redirect-anime:hover {
     background-color: #79403e;
- }
+}
 
- .categories {
+.categories {
     background-color: #2B2643;
     border-radius: 10px;
     min-height: 40px;
- }
+}
 
- .categories p {
+.categories p {
     color: #4C466B;
     width: 100%;
- }
+}
 
- .search button, .search input {
+.search button, .search input {
     background-color: #2B2643;
     border: none;
     min-height: 40px;
- }
+}
 
- .search input::placeholder {
+.search input::placeholder {
     color: #4C466B;
- }
+}
 
- .search input {
+.search input {
     border-radius: 10px 0 0 10px;
     width: 100%;
- }
+}
 
- .search button {
+.search button {
     border-radius: 0 10px 10px 0;
- }
+}
 
- .logo-mobile {
+.logo-mobile {
     font-size: 30px;
- }
+}
 
- .logo-mobile img {
+.logo-mobile img {
     width: 50px;
     height: 50px;
     object-fit: cover; /* для подгона изображения без деформации */
- }
+}
 
- .card {
-   background-color: #2B2643;
-   border-radius: 10px;
-   border: none;
-   color: white;
-   padding: 20px;
- }
+.card {
+    background-color: #2B2643;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    padding: 20px;
+}
 
- .card-img img {
-   /* max-width: 100%; */
-   width: 100%;
-   height: 100%;
-   /* width: 366px;
-   height: 266px; */  /* вот так должно быть */
-   border-radius: 10px;
-   object-fit: cover; /* для подгона изображения без деформации */
- }
+.card:hover {
+    background-color: #26223C;
+}
 
- .card-description {
+.card-img {
+    position: relative;
+}
 
- }
+.card-img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover; /* для подгона изображения без деформации */
+}
 
- .card-status-level {
+.card-status-level img {
+    width: 35px;
+    height: 35px;
+}
 
- }
+.favorite {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    top: 0;
+    right: 0;
+    margin: 5px;
+}
 
- .card-status-level img {
-   width: 35px;
-   height: 35px;
- }
+.favorite img {
+    width: 100%;
+    height: 100%;
+}
 
- .card-title {
-   font-size: 20px;
- }
+.icon {
+    width: 25px;
+    height: 25px;
+}
 
- .card-author {
-   font-size: 15px;
-   color: #3C90B8;
- }
+.search-input {
+    font-weight: 600;
+}
+
+.card-title {
+    font-size: 20px;
+    
+}
+
+.card-author {
+    font-size: 15px;
+    color: #3C90B8;
+}
+
+.select-category {
+    background-color: #463E6B;
+}
+
+.category-bottom {
+    border-radius: 0 0 10px 10px;
+}
+
+.category-top {
+    border-radius: 10px 10px 0 0;
+}
+
+.category-container {
+    position: relative;
+}
+
+.unvisible {
+    visibility: hidden;
+}
+
+.categories-list {
+    position: absolute;
+    z-index: 10;
+    top: 100%;
+    left: 40%;
+    background-color: #2B2643;
+    border-radius: 10px;
+    box-shadow: 0px 5px 20px rgba(40, 36, 60, 0.73);
+}
+
+.categories-list p {
+    padding: 5px 20px;
+    width: 100%;
+    font-size: 20px;
+}
+
+.categories-list p:hover {
+    background-color: #463E6B;
+}
+
+.white-category p {
+    color: white;
+}
+
+.footer-container {
+    color: rgba(255, 255, 255, 0.493);
+    border-top: 2px solid #2B2643;
+    margin-top: 50px;
+    font-weight: 300;
+}
+
+.anime-little {
+    transition: 0.3s;
+}
+
+.anime-little:active {
+    transform: scale(0.7);
+}
