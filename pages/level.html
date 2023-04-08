@@ -36,21 +36,23 @@
         </div>
     </header>
     <main>
-        <section class="h-100">
-            <div class="container h-100"> <!-- стандартный шаблон - с чего начинается любая секция -->
-                <div class="h-100 py-4"> <!-- стандартный шаблон - с чего начинается любая секция -->
-                    <div class="level col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-center h-100">
-                        <div class="level-code col-lg-6 col-md-6 col-sm-6 col-6 d-flex">
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-1 d-flex flex-column">
-                                <p>1</p>
-                                <p>2</p>
-                                <p>3</p>
+        <section class="h-100 mh-100">
+            <div class="container h-100 mh-100"> <!-- стандартный шаблон - с чего начинается любая секция -->
+                <div class="h-100 mh-100 py-4"> <!-- стандартный шаблон - с чего начинается любая секция -->
+                    <div class="level h-100 mh-100 col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-center">
+                        <div class="level-code h-100 mh-100 col-lg-6 col-md-6 col-sm-6 col-6 d-flex">
+                            <div id="strs-count" class="h-100 mh-100 col-lg-1 col-md-1 col-sm-1 col-1 d-flex flex-column">
+                                <div>1</div>
                             </div>
-                            <div  class="col-lg-11 col-md-11 col-sm-11 col-11 d-flex flex-column">
-                                <div id="strs-code" contenteditable="true" spellcheck="false" translate="no" role="textbox" aria-multiline="true"></div> 
+                            <div class="h-100 mh-100 col-lg-11 col-md-11 col-sm-11 col-11 d-flex flex-column">
+                                <div id="strs-code" role="textbox" contenteditable="true" spellcheck="false" translate="no"  aria-multiline="true">
+                                    <div>
+                                        <br>
+                                    </div>
+                                </div> 
                             </div>
                         </div>
-                        <div class="level-result col-lg-6 col-md-6 col-sm-6 col-6 d-flex">
+                        <div class="h-100 mh-100 level-result col-lg-6 col-md-6 col-sm-6 col-6 d-flex">
                             <div class="level-result-left col-lg-6 col-md-6 col-sm-6 col-6 d-flex justify-content-between flex-column">
                                 <div>
                                     <img src="../img/levels/101.png" alt="">
