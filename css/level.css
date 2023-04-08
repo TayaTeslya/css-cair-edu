@@ -68,3 +68,18 @@ main {
     text-shadow: 1px 1px 1px black;
 }
 
+@media (max-width: 767px) {
+    .circle-color {
+        min-height: 15px; 
+        min-width: 15px;
+    }
+
+    .text-color {
+        font-size: 10px;
+    }
+
+    .information {
+        font-size: 13px;
+    }
+}
+
