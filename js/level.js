@@ -17,16 +17,11 @@ strsCode.addEventListener('keyup', (event) => {
         //     console.log(event);
         // });
         // console.log(window.getSelection().focusNode);
+        // console.log(window.getSelection().focusNode.parentNode);
         // console.log(strsCode.children[0]);
     }
     else {
-        let indexEdit;
-        for (let i = 0; i < strsCode.children.length; i++) {
-            if (strsCode.children[i] === window.getSelection().focusNode.parentNode) {
-                indexEdit = i;
-                break;
-            }
-        }
+        let indexEdit = [...strsCode.children].indexOf(window.getSelection().focusNode.parentNode);
         if (getComputedStyle(strsCode.children[indexEdit]).height !== getComputedStyle(strsCount.children[indexEdit]).height) {
             strsCount.children[indexEdit].style.height = getComputedStyle(strsCode.children[indexEdit]).height;
         }
