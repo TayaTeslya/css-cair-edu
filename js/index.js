@@ -2,8 +2,6 @@ const categoriesButton = document.getElementById("categories");
 const categoriesList = document.getElementById("categories-list")
 const favorite = document.getElementsByClassName("favorite");
 
-
-
 let selectedCategory = 5; // выбранная категория игр (по умолчанию - все)
 
 
@@ -35,13 +33,14 @@ categoriesList.addEventListener('mouseleave', (event) => { // добавлени
 
 for (let i = 0; i < favorite.length; i++) {
     favorite[i].addEventListener('click', (event) => { // изменение иконки "избранное" при нажатии
+        event.preventDefault(); //отключение стандартного поведение ссылки (родителя избранного)
         if (favorite[i].children[0].src.includes('/img/not_favorite_icon.png')) {
             favorite[i].children[0].src = favorite[i].children[0].src.replace('not_favorite', 'favorite');
         }
         else {
             favorite[i].children[0].src = favorite[i].children[0].src.replace('favorite', 'not_favorite');
         }
-        // вытаскивать айди, делать запрос на добавление в таблицу "избранное"
+        //вытаскивать айди, делать запрос на добавление в таблицу "избранное"
     });
 }
 
