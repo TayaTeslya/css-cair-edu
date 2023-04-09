@@ -72,7 +72,6 @@ strsCode.addEventListener('paste', (event) => {
         if (key === '0') {
             if (selectedItem.textContent !== '') {
                 console.log(selectedItem.parentNode);
-                // selectedItem.textContent = buffer[key];
                 textInStr = selectedItem.textContent;
                 div.textContent = textInStr.slice(0, focusIndex) + buffer[key];
                 selectedItem.parentNode.replaceWith(div);
