@@ -63,6 +63,9 @@ strsCode.addEventListener('paste', (event) => {
     let focusIndex = window.getSelection().focusOffset;
     let buffer = event.clipboardData.getData("text").split('\n');
     let textInStr;
+    if (selectedItem === strsCode) {
+        selectedItem = selectedItem.firstChild.firstChild;
+    }
     for (const key in buffer) {
         console.log(key);
         let div = document.createElement('div');
@@ -87,8 +90,6 @@ strsCode.addEventListener('paste', (event) => {
         selectedItem = div;
     }
     selectedItem.textContent += textInStr.slice(focusIndex, textInStr.length - 1);
-    // focus = true;
-    strsCode.lastChild.setSelectionRange(0, 0);
     updateCount();
 });
 
