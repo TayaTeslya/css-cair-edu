@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital@1&display=swap');
+
 header {
     background-color: #312C4D;
 }
@@ -27,6 +29,12 @@ main {
 .level-code {
     padding: 10px;
     overflow: auto;
+}
+
+.level-code * {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-style: italic;
 }
 
 .level-result {
