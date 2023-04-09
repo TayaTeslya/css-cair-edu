@@ -40,14 +40,14 @@ strsCode.addEventListener('keyup', (event) => {
         if (strsCode.children[indexEdit]) {
             updateHeightCount(indexEdit);
         }
-        if (event.key === '<' || event.key === '>' || event.key === '{' || event.key === '}') {
-            let focusIndex = window.getSelection().focusOffset;
-            selectedItem.textContent = selectedItem.textContent.slice(0, focusIndex) + selectedItem.textContent.slice(focusIndex + 1, (selectedItem.textContent.length - 1));
-            let span = document.createElement('span');
-            span.style.color = '#959595';
-            span.textContent = event.key;
-            selectedItem.appendChild(span);
-        }
+        // if (event.key === '<' || event.key === '>' || event.key === '{' || event.key === '}') {
+        //     let focusIndex = window.getSelection().focusOffset;
+        //     selectedItem.textContent = selectedItem.textContent.slice(0, focusIndex) + selectedItem.textContent.slice(focusIndex + 1, (selectedItem.textContent.length - 1));
+        //     let span = document.createElement('span');
+        //     span.style.color = '#959595';
+        //     span.textContent = event.key;
+        //     selectedItem.appendChild(span);
+        // }
     }
     
 });
@@ -57,8 +57,39 @@ strsCode.addEventListener('cut', (event) => {
 });
 
 strsCode.addEventListener('paste', (event) => {
+    
+    event.preventDefault();
+    let selectedItem =  window.getSelection().focusNode;
+    let focusIndex = window.getSelection().focusOffset;
+    let buffer = event.clipboardData.getData("text").split('\n');
+    let textInStr;
+    for (const key in buffer) {
+        console.log(key);
+        let div = document.createElement('div');
+        if (key === '0') {
+            if (selectedItem.textContent !== '') {
+                console.log(selectedItem.parentNode);
+                // selectedItem.textContent = buffer[key];
+                textInStr = selectedItem.textContent;
+                div.textContent = textInStr.slice(0, focusIndex) + buffer[key];
+                selectedItem.parentNode.replaceWith(div);
+            }
+            else {
+                div.textContent = buffer[key];
+                selectedItem.after(div);
+                strsCode.removeChild(selectedItem);
+            }
+        }
+        else {
+            div.textContent = buffer[key];
+            selectedItem.after(div);
+        }
+        selectedItem = div;
+    }
+    selectedItem.textContent += textInStr.slice(focusIndex, textInStr.length - 1);
+    // focus = true;
+    strsCode.lastChild.setSelectionRange(0, 0);
     updateCount();
-    console.log(event.clipboardData.getData("text/html"));
 });
 
 function addCount(count) {
@@ -74,7 +105,6 @@ function updateHeightCount(i) {
 }
 
 function updateCount() {
-    console.log('count');
     while (strsCount.firstChild) { // удаление номеров строк
         strsCount.removeChild(strsCount.lastChild);
         console.log('lelele');
