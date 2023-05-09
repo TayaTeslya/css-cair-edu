@@ -1,0 +1,15 @@
+.name-level {
+    background-color: #2B2643;
+    border-radius: 10px;
+    padding: 0 15px;
+    font-size: 15px;
+    font-family: 'Inter';
+    font-style: Italic;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 0 10px;
+}
+
+.name-level::placeholder {
+    color: #4C466B;
+}
