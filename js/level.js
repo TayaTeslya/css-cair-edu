@@ -12,6 +12,7 @@ editor.save();
 let resultDom = document.getElementById('result-code');
 let error = document.getElementById('error');
 let saveCodeToImg = document.getElementById('save-code-to-img');
+let img;
 
 //проверка запущен ли уровень
 editor.setValue(`<style>\n\t.class {\n\t\tbackground-color: #AA759F;\n\t\twidth: 100px;\n\t\theight: 100px;\n\t}\n</style>\n<div class="class">\n\n</div>\n\n<!-- CSS CAIR EDU -->\n<!-- Это поле для вашего кода.\nПостарайтесь повторить заданную картинку.\nУдачи!\n(Скрипты и картинки запрещены, не смей читерить ;))-->`);
@@ -48,9 +49,11 @@ saveCodeToImg.addEventListener('click', () => {
     domtoimage.toPng(resultDom)
     .then(function (dataUrl) {
         console.log(dataUrl);
-        let img = new Image();
+        img = new Image();
         img.src = dataUrl;
         document.body.appendChild(img);
+        // отправляем картинку на сервер
+        
     })
     .catch(function (error) {
         console.error('oops, something went wrong!', error);

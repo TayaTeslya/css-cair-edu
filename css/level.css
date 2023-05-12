@@ -36,6 +36,7 @@ main {
 
 .result-conteiner {
     background-color: #242038;
+    overflow: hidden;
 }
 
 /* @media(min-width: 1400px) {
