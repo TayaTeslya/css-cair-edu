@@ -32,7 +32,10 @@ main {
 .img-container {
     height: 200px;
     width: 300px;
-    border: 1px solid black;
+}
+
+.result-conteiner {
+    background-color: #242038;
 }
 
 /* @media(min-width: 1400px) {
@@ -156,4 +159,10 @@ main {
 
 .editor {
     height: 94%;
+    /* position: relative; */
+}
+
+.error {
+    /* position: absolute; */
+    color: #8F4C48;
 }
