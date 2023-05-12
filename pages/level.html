@@ -45,12 +45,12 @@
         </div>
     </header>
     <main>
-        <section class="h-100 mh-100">
-            <div class="container h-100 mh-100"> <!-- стандартный шаблон - с чего начинается любая секция -->
+        <section class="container-code h-100 mh-100">
+            <div class="h-100 mh-100"> <!-- стандартный шаблон - с чего начинается любая секция -->
                 <div class="h-100 mh-100 py-4"> <!-- стандартный шаблон - с чего начинается любая секция -->
-                    <div class="level h-100 mh-100 col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-center">
-                        <div class="level-code h-100 mh-100 col-xxl-6 col-xl-4 col-lg-4 col-md-4 col-sm-2 col-2 d-flex flex-column">
-                            <div class="editor col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="level h-100 mh-100 d-flex justify-content-center">
+                        <div class="level-code h-100 mh-100 d-flex flex-column">
+                            <div class="editor">
                                 <textarea style="tab-size: 2; -moz-tab-size : 2; -o-tab-size : 2;" name="" id="textarea"></textarea>
                                 <p class="error" id="error"></p>
                             </div>
@@ -59,11 +59,42 @@
                                 <button class="level-button" id="save-code-to-img">Сохранить</button>
                             </div>
                         </div>
-                        <div class="h-100 mh-100 level-result col-xxl-6 col-xl-8 col-lg-8 col-md-8 col-sm-10 col-10 d-flex">
-                            <div class="level-result-left col-lg-6 col-md-6 col-sm-6 col-6 d-flex justify-content-between flex-column">
+
+                        <div class="h-100 mh-100 level-result d-flex ">
+                            <div class="h-100 mh-100 level-result-left d-flex flex-column align-items-center justify-content-lg-between gap-3 gap-lg-0">
                                 <div class="d-flex align-items-center justify-content-center">
-                                    <div class="img-container result-conteiner" id="result-code"> <!-- код, написанный пользователем -->
-                                        <!-- <img src="../300px-Leopard_in_the_Colchester_Zoo.jpg" alt=""> -->
+                                    <div class="img-container result-conteiner" id="result-code"> 
+                                        
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center d-xl-none d-lg-none d-flex">
+                                    <div class="img-container">
+                                        <img src="../img/levels/46.png" alt="" id="default-img">
+                                    </div>
+                                </div>
+                                <div class="information flex-column gap-3 d-lg-none d-flex">
+                                    <p>HEX-коды:</p>
+                                    <div class="d-flex flex-row gap-xl-0 gap-lg-3">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 justify-content-around d-flex flex-column gap-3">
+                                            <div class="d-flex justify-content-start align-items-center gap-2">
+                                                <p class="circle-color" style="background-color: #000000;"></p>
+                                                <p class="text-color" style="color: #000000;">#000000</p>
+                                            </div>
+                                            <div class="d-flex justify-content-start align-items-center gap-2">
+                                                <p class="circle-color" style="background-color: #9897AE;"></p>
+                                                <p class="text-color" style="color: #9897AE;">#9897AE</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 justify-content-around d-flex flex-column gap-3">
+                                            <div class="d-flex justify-content-start align-items-center gap-2">
+                                                <p class="circle-color" style="background-color: #37385A;"></p>
+                                                <p class="text-color" style="color: #37385A;">#37385A</p>
+                                            </div>
+                                            <div class="d-flex justify-content-start align-items-center gap-2">
+                                                <p class="circle-color" style="background-color: #C0C3DB;"></p>
+                                                <p class="text-color" style="color: #C0C3DB;">#C0C3DB</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="d-flex gap-3 flex-column">
@@ -75,13 +106,101 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="level-result-right col-lg-6 col-md-6 col-sm-6 col-6 d-flex justify-content-between flex-column">
+                            <div class="level-result-right justify-content-between flex-column d-none d-lg-flex">
                                 <div class="d-flex align-items-center justify-content-center">
+                                    <div class="img-container" id="result-code">
+                                        <img src="../img/levels/46.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="information d-flex flex-column gap-3">
+                                    <p>HEX-коды:</p>
+                                    <div class="d-flex flex-row gap-xl-0 gap-lg-3">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 justify-content-around d-flex flex-column gap-3">
+                                            <div class="d-flex justify-content-start align-items-center gap-2">
+                                                <p class="circle-color" style="background-color: #000000;"></p>
+                                                <p class="text-color" style="color: #000000;">#000000</p>
+                                            </div>
+                                            <div class="d-flex justify-content-start align-items-center gap-2">
+                                                <p class="circle-color" style="background-color: #9897AE;"></p>
+                                                <p class="text-color" style="color: #9897AE;">#9897AE</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 justify-content-around d-flex flex-column gap-3">
+                                            <div class="d-flex justify-content-start align-items-center gap-2">
+                                                <p class="circle-color" style="background-color: #37385A;"></p>
+                                                <p class="text-color" style="color: #37385A;">#37385A</p>
+                                            </div>
+                                            <div class="d-flex justify-content-start align-items-center gap-2">
+                                                <p class="circle-color" style="background-color: #C0C3DB;"></p>
+                                                <p class="text-color" style="color: #C0C3DB;">#C0C3DB</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="h-100 mh-100 level-result">
+                            <div class="level-result-left d-flex justify-content-between flex-column">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="img-container result-conteiner" id="result-code"> 
+                                        
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center d-xl-none d-lg-none d-flex">
                                     <div class="img-container" id="result-code">
                                         <img src="../300px-Leopard_in_the_Colchester_Zoo.jpg" alt="">
                                     </div>
                                 </div>
-                                <div class="information d-flex flex-column gap-3">
+                                <div class="information d-flex flex-column gap-3 d-lg-none d-flex">
+                                    <p>HEX-коды:</p>
+                                    <div class="d-flex flex-row gap-xl-0 gap-lg-3">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 justify-content-around d-flex flex-column gap-3">
+                                            <div class="d-flex justify-content-start align-items-center gap-2">
+                                                <p class="circle-color" style="background-color: #000000;"></p>
+                                                <p class="text-color" style="color: #000000;">#000000</p>
+                                            </div>
+                                            <div class="d-flex justify-content-start align-items-center gap-2">
+                                                <p class="circle-color" style="background-color: #9897AE;"></p>
+                                                <p class="text-color" style="color: #9897AE;">#9897AE</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6 justify-content-around d-flex flex-column gap-3">
+                                            <div class="d-flex justify-content-start align-items-center gap-2">
+                                                <p class="circle-color" style="background-color: #37385A;"></p>
+                                                <p class="text-color" style="color: #37385A;">#37385A</p>
+                                            </div>
+                                            <div class="d-flex justify-content-start align-items-center gap-2">
+                                                <p class="circle-color" style="background-color: #C0C3DB;"></p>
+                                                <p class="text-color" style="color: #C0C3DB;">#C0C3DB</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-3 flex-column">
+                                    <div class="information">
+                                        <p>Последний результат: 134 (53%)</p>
+                                    </div>
+                                    <div class="information">
+                                        <p>Лучший результат: 134 из 711</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="level-result-right d-flex justify-content-between flex-column">
+                                
+                            </div>
+                        </div>
+
+                        
+                        <div class="h-100 mh-100 level-result-small d-flex d-lg-none"> 
+                            <div class="level-res-small d-flex flex-column align-items-center">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="img-container result-conteiner" id="result-code"> 
+                                        
+                                    </div>
+                                </div>
+                                
+                                <div class="information information-small d-flex flex-column gap-3">
                                     <p>HEX-коды:</p>
                                     <div class="d-flex flex-xl-row flex-lg-column flex-md-column flex-sm-column flex-column gap-xl-0 gap-lg-3 gap-md-3 gap-sm-3 gap-3">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-6 justify-content-around d-flex flex-column  gap-3">
@@ -106,8 +225,19 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="d-flex gap-3 flex-column">
+                                    <div class="information information-small">
+                                        <p>Последний результат: 134 (53%)</p>
+                                    </div>
+                                    <div class="information information-small">
+                                        <p>Лучший результат: 134 из 711</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </div> -->
+
+
+                        
                     </div>
                 </div>
             </div>
