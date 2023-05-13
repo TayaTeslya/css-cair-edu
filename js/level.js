@@ -96,35 +96,54 @@ function getBase64Image(img) {
     return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
 }
 
+function base64ToArrayBuffer(base64) {
+    var binaryString = atob(base64);
+    var bytes = new Uint8Array(binaryString.length);
+    for (var i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
+function getCanvas(img) {
+    let canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    let context = canvas.getContext("2d");
+    context.drawImage(img, 0, 0);
+    return canvas;
+}
+
 saveCodeToImg.addEventListener('click', () => {
     domtoimage.toPng(resultDom)
     .then(function (dataUrl) {
-        let base64Default = getBase64Image(document.getElementById('default-img'));
-        let base64User = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
-        if (base64Default.includes(base64User)) {
-            console.log(base64Default);
-            console.log(base64User);
-            let result = 0;
-            console.log(base64Default.length);
-            for (let i = 0;  i < base64Default.length; i += 6) {
-                if (base64Default.slice(i, i + 7).includes(base64User.slice(i, i + 7))) {
-                    result += 6;
+
+            var canvas = document.createElement("canvas");
+            var ctx = canvas.getContext('2d');
+
+            ctx.drawImage(document.getElementById('default-img'), 0, 0);
+            let imgDataDefault = ctx.getImageData(0, 0, document.getElementById('default-img').width, document.getElementById('default-img').height);
+
+            let imgDataUser;
+            
+            var imageUser = new Image()
+
+            imageUser.onload = function() {
+                ctx.drawImage(imageUser, 0, 0);
+                var imageData = ctx.getImageData(0, 0, imageUser.width, imageUser.height);
+                imgDataUser = imageData;
+
+                let result = 0;
+                for (let i = 0; i < imgDataDefault.data.length; i++) {
+                    if (imgDataDefault.data[i] === imgDataUser.data[i]) {
+                        result++;
+                    }
                 }
+                console.log(100 / imgDataDefault.data.length * result);
             }
-            console.log('Всего:' + base64Default.length + '; рез:' + result + '; проц:' + 100 / base64Default.length * result + '%');
-        }
-        else {
-            let result = 0;
-            console.log(base64Default.length);
-            for (let i = 0;  i < base64Default.length; i += 6) {
-                if (base64Default.slice(i, i + 7).includes(base64User.slice(i, i + 7))) {
-                    result += 6;
-                }
-            }
-            console.log('Всего:' + base64Default.length + '; рез:' + result + '; проц:' + 100 / base64Default.length * result + '%');
-            console.log(base64Default);
-            console.log(base64User);
-        }
+
+            imageUser.src = dataUrl;
+
     })
     .catch(function (error) {
         console.error('oops, something went wrong!', error);
