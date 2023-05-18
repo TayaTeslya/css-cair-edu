@@ -17,12 +17,6 @@ main {
 
 @media(max-width: 1799px) {
     .container-code {
-        width: 60%;
-    }
-}
-
-@media(max-width: 1570px) {
-    .container-code {
         width: 80%;
     }
 }
@@ -71,6 +65,7 @@ main {
 
 .level-code {
     padding: 10px;
+    width: 100%;
 }
 
 .level-code * {
@@ -181,4 +176,11 @@ main {
 .error {
     /* position: absolute; */
     color: #8F4C48;
+    width: 100%;
+    text-align: center;
+    height: 50px;
+}
+
+.hex {
+    width: 105px;
 }
