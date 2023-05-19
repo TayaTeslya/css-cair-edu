@@ -1,0 +1,62 @@
+.profile-container * {
+    font-family: 'Inter';
+    font-style: Italic;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+.profile-container {
+    background-color: #242038;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 50px;
+    overflow-y: auto;
+}
+
+.info {
+    background-color: #2B2643;
+    border-radius: 10px;
+    padding: 20px;
+    color: #FFFFFF;
+    box-shadow: 0px 5px 20px #2A2543;
+}
+
+.info::placeholder {
+    color: #4C466B;
+}
+
+.statystic {
+    width: 30%;
+}
+
+.avatar {
+    background-color: white;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0px 5px 20px #2A2543;
+}
+
+.avatar img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+}
+
+.info-1 {
+    width: 65%;
+}
+
+.avatar-container {
+    width: 30%;
+}
+
+.name {
+    width: 100%;
+}
+
+textarea.name {
+    resize: none;
+}
+

@@ -1,4 +1,3 @@
-
 let saveCodeToImg = document.getElementById('save-code-to-img');
 let img;
 

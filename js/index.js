@@ -2,10 +2,10 @@ const categoriesButton = document.getElementById("categories");
 const categoriesList = document.getElementById("categories-list")
 const favorite = document.getElementsByClassName("favorite");
 
-let selectedCategory = 5; // выбранная категория игр (по умолчанию - все)
+let selectedCategory = 0; // выбранная категория игр (по умолчанию - все)
 
 categoriesButton.addEventListener('click', (event) => {
-    categoriesList.classList.toggle('unvisible');
+        categoriesList.classList.toggle('unvisible');
 });
 
 for (let i = 0; i < categoriesList.children.length; i++) { // выбор категории
