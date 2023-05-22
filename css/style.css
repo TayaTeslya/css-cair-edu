@@ -371,3 +371,10 @@ p {
 .anime-little:active {
     transform: scale(0.7);
 }
+
+.profile-menu {
+    width: 40%;
+    z-index: 10;
+    top: 100%;
+    left: 60%;
+}
