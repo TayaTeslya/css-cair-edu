@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CSS CAIR EDU</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/level.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/statistics.css">
+</head>
+<body class="body-dark h-100 d-flex flex-column">
+    <header>
+        <div class="container"> <!-- стандартный шаблон - с чего начинается любая секция -->
+            <div class="d-flex align-items-center flex-wrap"> <!-- стандартный шаблон - с чего начинается любая секция -->
+                <div class="col-lg-6 col-md-6 col-sm-12 col-12 d-flex justify-content-center justify-content-md-start align-items-center">
+                    <h1 class="logo-cair d-none d-sm-flex align-items-center">
+                        <a class="anime-little" href="../index.html">CSS</a>
+                        <a href="https://cair-world.com" class="anime-little"><img class="logo-cair" src="../img/icons/cair_icon.png" alt="ЛОГОТИП"></a>
+                        <a class="anime-little" href="../index.html">CAIR EDU</a>
+                    </h1>
+                    <h1 class="logo-cair d-flex d-sm-none logo-mobile align-items-center">
+                        <a class="anime-little" href="../index.html">CSS</a>
+                        <a href="https://cair-world.com" class="anime-little"><img class="logo-cair" src="../img/icons/cair_icon.png" alt="ЛОГОТИП"></a>
+                        <a class="anime-little" href="../index.html">CAIR EDU</a>
+                    </h1>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-12 d-flex justify-content-center justify-content-md-end">
+                    <div class="anime-little profile d-flex align-items-center justify-content-center justify-content-md-end">
+                        <div class="profile-photo me-3">
+                            <img src="../img/avatars/av1.png" alt="АВАТАРКА">
+                        </div>
+                        <p>Имя Пользователя</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="container h-100 mh-100">
+            <div class="h-100 mh-100 py-4 w-100">  <!--  стандартный шаблон - с чего начинается любая секция -->
+                <div class="profile-container h-100 mh-100 d-flex justify-content-center align-items-center w-100 flex-column gap-5">
+                    <div class="d-flex w-100 justify-content-between">
+                        <div class="info statystic d-flex justify-content-center">
+                            <p>Рейтинг - 254/42345</p>
+                        </div>
+                        <div class="info statystic d-flex justify-content-center">
+                            <p>Собрано очков - 5437</p>
+                        </div> 
+                        <div class="info statystic d-flex justify-content-center">
+                            <p>Пройдено уровней - 4/1234</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start w-100">
+                        <div class="category-container">
+                            <div id="categories" class="categories d-flex justify-content-between align-items-center w-100">
+                                <p class="ps-3">Категории</p>
+                                <img class="icon" src="../img/icons/categories.svg" alt="">
+                            </div>
+                            <div id="categories-list" class="unvisible categories-list col-lg-10 col-md-12 col-sm-10 col-10 d-flex flex-column">
+                                <p class="select-category category-top">
+                                    Все
+                                </p>
+                                <p>
+                                    Основные
+                                </p>
+                                <p>
+                                    Пользовательские
+                                </p>
+                                <p>
+                                    Избранное
+                                </p>
+                                <p>
+                                    Пройденные
+                                </p>
+                                <p>
+                                    Непройденные
+                                </p>
+                                <p class="category-bottom">
+                                    На проверке
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="test">
+
+                    </div>
+                    <!-- <div class="info-levels w-100 d-flex flex-column">
+                        <div class="header-statistic d-flex col-lg-12 col-md-12 col-sm-12 col-12 align-items-center justify-content-center">
+                            <p class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                Уровень
+                            </p>
+                            <p class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                Статус
+                            </p>
+                            <p class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                Очки
+                            </p>
+                        </div>
+                        
+
+
+                        <div class="row ps-0 ms-0 levels-statistic d-flex col-12 col-sm-12 col-md-12 col-lg-12 align-items-center justify-content-center">
+
+                            
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/46.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center gap-3">
+                                <div class="img-level">
+                                    <img src="../img/levels/98.png" alt=""/>
+                                </div>
+                                <span>#98</span>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <div class="img-progress">
+                                    <img src="../img/icons/done_icon.png" alt=""/>
+                                </div>
+                            </div>
+                            <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+                                <span>124 из 711 (24%)</span>
+                            </div>
+
+
+                            
+                        </div>
+                    </div> 
+                
+                </div> -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container"> <!-- стандартный шаблон - с чего начинается любая секция -->
+            <div class="d-flex align-items-center flex-wrap"> <!-- стандартный шаблон - с чего начинается любая секция -->
+                <div class="footer-container col-lg-12 col-md-12 col-sm-12 col-12 py-5 justify-content-center align-items-center text-center">
+                    2023 &copy; ООО "ЦИИР" все права защищены.
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="../js/statistics.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+.category-container {
+    width: 30%;
+}
+
+.categories {
+    padding: 15px;
+    box-shadow: 0px 5px 20px #2A2543;
+}
+
+.header-statistic {
+    border-radius: 10px 10px 0 0;
+}
+
+.header-statistic p {
+    border: 3px solid #312C4D;
+    padding: 10px;
+}
+
+.info-levels {
+    background-color: #2B2643;
+    border: 3px solid #312C4D;
+    border-radius: 10px 10px 0 0;
+    color: #FFFFFF;
+    box-shadow: 0px 5px 20px #2A2543;
+}
+
+.levels-statistic {
+
+}
+
+.levels-statistic>div {
+    height: 100px;
+    border: 3px solid #312C4D;
+}
+
+.img-level {
+    min-width: 120px;
+    min-height: 80px;
+    max-width: 120px;
+    max-height: 80px;
+}
+
+.img-level img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.img-progress {
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+}
+
+.img-progress img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.test {
+    background-color: red;
+    min-height: 2000px;
+    width: 100%
+}

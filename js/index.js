@@ -1,6 +1,8 @@
 const categoriesButton = document.getElementById("categories");
 const categoriesList = document.getElementById("categories-list")
 const favorite = document.getElementsByClassName("favorite");
+const profileContainer = document.getElementById("profile-container");
+const profileMenu = document.getElementById("profile-menu");
 
 let selectedCategory = 0; // выбранная категория игр (по умолчанию - все)
 
@@ -21,6 +23,10 @@ for (let i = 0; i < categoriesList.children.length; i++) { // выбор кат�
         categoriesList.classList.add('unvisible');
     });
 }
+
+profileContainer.addEventListener('click', (event) => {
+    profileMenu.classList.toggle('unvisible');
+});
 
 categoriesList.addEventListener('mouseenter', (event) => { // удаление класса "выбрано" при наведении на категории
     categoriesList.children[selectedCategory].classList.remove('select-category');
