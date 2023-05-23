@@ -1,3 +1,15 @@
 .reject {
     color: #8F4C48;
 }
+
+button.card-status-level  {
+    background-color: inherit;
+    height: 30px;
+    width: auto;
+}
+
+button.card-status-level img {
+    width: 100%;
+    height: 100%;
+}
+
