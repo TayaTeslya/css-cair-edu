@@ -90,7 +90,15 @@ main {
     padding: 2%;
 }
 
-@media(max-width: 991px) {
+.info-right {
+    max-height: 70%;
+}
+
+@media(max-width: 1199px) {
+    .info-right {
+        max-height: 30%;
+    }
+
     .level-result {
         min-width: 350px;
         max-width: 350px;
@@ -132,21 +140,6 @@ main {
     text-shadow: 1px 1px 1px black;
 }
 
-@media (max-width: 767px) {
-    .circle-color {
-        min-height: 15px; 
-        min-width: 15px;
-    }
-
-    .text-color {
-        font-size: 10px;
-    }
-
-    .information {
-        font-size: 13px;
-    }
-}
-
 .level-button {
     background-color: #8F4C48;
     border-radius: 10px;
@@ -183,4 +176,12 @@ main {
 
 .hex {
     width: 105px;
+}
+
+.hex-codes {
+    overflow: auto;
+}
+
+.name-level {
+    width: 30%;
 }

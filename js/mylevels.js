@@ -1,5 +1,12 @@
 const favorite = document.getElementsByClassName("favorite");
 
+const profileContainer = document.getElementById("profile-container");
+const profileMenu = document.getElementById("profile-menu");
+
+profileContainer.addEventListener('click', (event) => {
+    profileMenu.classList.toggle('unvisible');
+});
+
 for (let i = 0; i < favorite.length; i++) {
     favorite[i].addEventListener('click', (event) => { // изменение иконки "избранное" при нажатии
         event.preventDefault(); //отключение стандартного поведение ссылки (родителя избранного)

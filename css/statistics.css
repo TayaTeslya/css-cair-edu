@@ -1,4 +1,4 @@
-.category-container {
+.category-statictic {
     width: 30%;
 }
 
@@ -22,10 +22,6 @@
     border-radius: 10px 10px 0 0;
     color: #FFFFFF;
     box-shadow: 0px 5px 20px #2A2543;
-}
-
-.levels-statistic {
-
 }
 
 .levels-statistic>div {

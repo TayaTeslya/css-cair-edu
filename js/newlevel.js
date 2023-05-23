@@ -1,6 +1,13 @@
 let saveCodeToImg = document.getElementById('save-code-to-img');
 let nameLevel = document.getElementById('name-level');
 
+const profileContainer = document.getElementById("profile-container");
+const profileMenu = document.getElementById("profile-menu");
+
+profileContainer.addEventListener('click', (event) => {
+    profileMenu.classList.toggle('unvisible');
+});
+
 console.log(nameLevel.value.trim().length);
 
 saveCodeToImg.addEventListener('click', () => {

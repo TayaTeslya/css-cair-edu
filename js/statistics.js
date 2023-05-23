@@ -3,6 +3,13 @@ const categoriesList = document.getElementById("categories-list");
 
 let selectedCategory = 0; // выбранная категория игр (по умолчанию - все)
 
+const profileContainer = document.getElementById("profile-container");
+const profileMenu = document.getElementById("profile-menu");
+
+profileContainer.addEventListener('click', (event) => {
+    profileMenu.classList.toggle('unvisible');
+});
+
 categoriesButton.addEventListener('click', (event) => {
     categoriesList.classList.toggle('unvisible');
     console.log('loh');
