@@ -246,7 +246,12 @@ p {
     object-fit: cover; /* для подгона изображения без деформации */
 }
 
+.card-container {
+    width: 30%;
+}
+
 .card {
+    width: 100%;
     background-color: #2B2643;
     border-radius: 10px;
     border: none;
