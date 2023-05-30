@@ -61,6 +61,8 @@ main {
 .result-conteiner {
     background-color: #242038;
     overflow: hidden;
+    width: 300px;
+    height: 200px;
 }
 
 .level-code {

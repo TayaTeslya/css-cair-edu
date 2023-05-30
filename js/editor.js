@@ -10,27 +10,18 @@ let editor = CodeMirror.fromTextArea(document.getElementById('textarea'), {
 let resultDom = document.getElementById('result-code');
 
 //проверка запущен ли уровень
-// editor.setValue(`<style>\n\t.class {\n\t\tbackground-color: #AA759F;\n\t\twidth: 100px;\n\t\theight: 100px;\n\t}\n</style>\n<div class="class">\n\n</div>\n\n<!-- CSS CAIR EDU -->\n<!-- Это поле для вашего кода.\nПостарайтесь повторить заданную картинку.\nУдачи!\n(Скрипты и картинки запрещены, не смей читерить ;))-->`);
-editor.setValue(`<style>
-    .class {
-        background-color: #AA759F;
-        width: 100%;
-        height: 100%;
-        display: flex;
-    }
-  .circle {
-       background-color: black;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin: 10px;
-  }
-</style>
-<div class="class">
-    <div class="circle">
-
-  </div>
-</div>`);
+editor.setValue(`<style>\n\t.class {\n\t\tbackground-color: white;\n\t\twidth: 100px;\n\t\theight: 100px;\n\t}\n</style>\n<div class="class">\n\n</div>\n\n<!-- CSS CAIR EDU -->\n<!-- Это поле для вашего кода.\nПостарайтесь повторить заданную картинку.\nУдачи!\n(Скрипты и картинки запрещены, не смей читерить ;))-->`);
+// editor.setValue(`
+// <style>
+//   .class {
+//     background-color: #ffffff;
+//     width: 100px;
+//     height: 100px;
+//   }  
+// </style>
+// <div class="class">
+  
+// </div>`);
 resultDom.innerHTML = editor.getValue();
 
 editor.save();
@@ -43,8 +34,15 @@ editor.on('change', () => {
     for (const key in resCode) {
         error.textContent = '';
         // console.log(error);
-
-        if (resCode[key].includes('url')) {
+        if (resCode[key].includes('<style>') || resCode[key].includes('</style>')) {
+            flagStyle = !flagStyle;
+        }
+        if (flagStyle) {
+            if (resCode[key].includes('{')) {
+                resCode[key] = '.result-conteiner ' + resCode[key];
+            }
+        }
+        else if (resCode[key].includes('url')) {
             error.textContent = 'WARNING! url является запрещенным.';
             return;
         }
@@ -77,14 +75,7 @@ editor.on('change', () => {
             return;
         }
 
-        if (resCode[key].includes('<style>') || resCode[key].includes('</style>')) {
-            flagStyle = !flagStyle;
-        }
-        if (flagStyle) {
-            if (resCode[key].includes('{')) {
-                resCode[key] = '.result-conteiner ' + resCode[key];
-            }
-        }
+        
         
     }
     resultDom.innerHTML = resCode.join(' ');

@@ -17,45 +17,50 @@ saveCodeToImg.addEventListener('click', () => {
             
             error.textContent = ''; // обнуление строки ошибок
             
-            let resCode = editor.getValue().split('\n'); // массив строк када пользователя
-            let color; // переменная значения свойства
-            let hexCodes = []; // массив для хранения всех hex-кодов
-            let hexCode; // переменная для преобразования цвета в hex-code
+            // let resCode = editor.getValue().split('\n'); // массив строк када пользователя
+            // let color; // переменная значения свойства
+            // let hexCodes = []; // массив для хранения всех hex-кодов
+            // let hexCode; // переменная для преобразования цвета в hex-code
 
-            for (const str of resCode) {
+            // for (const str of resCode) {
 
-                if (str.includes('color')) {
+            //     if (str.includes('color')) {
                     
-                    color = str.split(':')[1]; // сохранение значения свойства
+            //         color = str.split(':')[1]; // сохранение значения свойства
                     
-                    if (color) {
+            //         if (color) {
 
-                        color = color.replace(' ', '');
-                        color = color.slice(0, color.length - 1); // убираем ";" из свойства
+            //             color = color.replace(' ', '');
+            //             color = color.slice(0, color.length - 1); // убираем ";" из свойства
 
-                        hexCode = getHexCode(color); // получаем hex-code цвета
-                        if (hexCode !== '') { // если пустой, значит лежал не цвет
-                            hexCodes.push(hexCode);
-                        }
+            //             hexCode = getHexCode(color); // получаем hex-code цвета
+            //             if (hexCode !== '') { // если пустой, значит лежал не цвет
+            //                 hexCodes.push(hexCode);
+            //             }
                         
-                    }
+            //         }
                     
-                }
-                else if (str.includes('border') || str.includes('background')) {
+            //     }
+            //     else if (str.includes('border') || str.includes('background')) {
 
-                    color = str.split(':')[1].trim(); // сохранение значения свойства
-                    color = color.slice(0, color.length - 1);
-                    // тут прописать для background и border
+            //         color = str.split(':')[1].trim(); // сохранение значения свойства
+            //         color = color.slice(0, color.length - 1);
+            //         // тут прописать для background и border
                     
 
-                }
+            //     }
 
-            }
-            console.log(new Set(hexCodes));
+            // }
+            // console.log(new Set(hexCodes));
 
             domtoimage.toPng(resultDom)
             .then(function (dataUrl) {
                 
+                var img = new Image();
+                img.width = 300;
+                img.height = 200;
+                img.src = dataUrl;
+                document.body.appendChild(img);
 
             })
             .catch(function (error) {
