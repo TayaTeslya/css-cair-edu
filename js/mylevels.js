@@ -33,7 +33,7 @@ for (const level of levels) {
             statusThumbnail = '../img/icons/start_icon.png';
         }
         levelContainer.innerHTML += 
-        `<div class="card-container d-flex py-0 px-0">
+        `<div class="d-flex py-0 px-0">
             <a id="` + level["id"] + `" href="../pages/level.html#` + level["id"] + `" class="d-flex card justify-content-between flex-column gap-2">
                 <div class="card-img col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-center">
                     <img src="` + level["thumbnail"] + `" alt="">

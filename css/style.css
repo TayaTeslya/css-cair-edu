@@ -246,8 +246,9 @@ p {
     object-fit: cover; /* для подгона изображения без деформации */
 }
 
-.card-container {
-    width: 30%;
+.levels-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 .card {
