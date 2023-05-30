@@ -165,12 +165,9 @@ main {
 
 .editor {
     height: 94%;
-    /* position: relative; */
 }
 
 .error {
-    /* position: absolute; */
-    color: #8F4C48;
     width: 100%;
     text-align: center;
     height: 50px;

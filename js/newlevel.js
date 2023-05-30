@@ -3,12 +3,21 @@ let nameLevel = document.getElementById('name-level');
 
 const profileContainer = document.getElementById("profile-container");
 const profileMenu = document.getElementById("profile-menu");
+const deleteButton = document.getElementById("delete-button");
 
 profileContainer.addEventListener('click', (event) => {
     profileMenu.classList.toggle('unvisible');
 });
 
-console.log(nameLevel.value.trim().length);
+const username = document.getElementById("username");
+
+let userInfo = JSON.parse(localStorage.getItem("user"));
+
+username.textContent = userInfo.username;
+
+if (userInfo.isStaff) {
+    deleteButton.classList.remove('d-none');
+}
 
 saveCodeToImg.addEventListener('click', () => {
 

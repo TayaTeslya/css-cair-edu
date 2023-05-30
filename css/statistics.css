@@ -58,3 +58,10 @@
     min-height: 2000px;
     width: 100%
 }
+
+.name-level {
+    width: 50%;
+    text-overflow: ellipsis; 
+    overflow: hidden; 
+    white-space: nowrap;
+}

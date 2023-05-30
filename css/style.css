@@ -401,3 +401,7 @@ p {
 .name-level::placeholder {
     color: #4C466B;
 }
+
+.error {
+    color: #8F4C48;
+}

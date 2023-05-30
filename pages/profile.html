@@ -14,23 +14,20 @@
         <div class="container"> <!-- стандартный шаблон - с чего начинается любая секция -->
             <div class="d-flex align-items-center flex-wrap"> <!-- стандартный шаблон - с чего начинается любая секция -->
                 <div class="col-lg-6 col-md-6 col-sm-12 col-12 d-flex justify-content-center justify-content-md-start align-items-center">
-                    <h1 class="logo-cair d-none d-sm-flex align-items-center">
-                        <a class="anime-little" href="../index.html">CSS</a>
-                        <a href="https://cair-world.com" class="anime-little"><img class="logo-cair" src="../img/icons/cair_icon.png" alt="ЛОГОТИП"></a>
-                        <a class="anime-little" href="../index.html">CAIR EDU</a>
-                    </h1>
-                    <h1 class="logo-cair d-flex d-sm-none logo-mobile align-items-center">
-                        <a class="anime-little" href="../index.html">CSS</a>
-                        <a href="https://cair-world.com" class="anime-little"><img class="logo-cair" src="../img/icons/cair_icon.png" alt="ЛОГОТИП"></a>
-                        <a class="anime-little" href="../index.html">CAIR EDU</a>
-                    </h1>
+                    <a class="d-flex align-items-center" href="../index.html">
+                        <h1 class="anime-little logo-cair d-flex align-items-center">
+                            <span>CSS</span>
+                            <span><img class="logo-cair" src="../img/icons/cair_icon.png" alt="ЛОГОТИП"></span>
+                            <span>CAIR EDU</span>
+                        </h1>
+                    </a>
                 </div>
                 <div id="profile-container" class="category-container col-lg-6 col-md-6 col-sm-12 col-12 d-flex justify-content-center justify-content-md-end">
                     <div class="anime-little profile d-flex align-items-center justify-content-center justify-content-md-end">
                         <div class="profile-photo me-3">
                             <img src="../img/avatars/av1.png" alt="АВАТАРКА">
                         </div>
-                        <p class="ov-text">Имя Пользователя dddddddddddddddddddgfffffffffffffffffffffffffffffffffffffffffffffffffsdfsddddddddddddddddddddddddgfffffffffffffffffffffffffffffffffffffffffffffffff</p>
+                        <p class="ov-text" id="username"></p>
                     </div>
                     <div id="profile-menu" class="unvisible categories-list profile-menu col-lg-10 col-md-12 col-sm-10 col-10 d-flex flex-column">
                         <a href="../pages/profile.html" class="category-top">
@@ -50,13 +47,13 @@
                 <div class="profile-container h-100 mh-100 d-flex justify-content-center align-items-center w-100 flex-column gap-5">
                     <div class="d-flex w-100 justify-content-between">
                         <div class="info statystic d-flex justify-content-center">
-                            <p>Рейтинг - 254/42345</p>
+                            <p id="rating"></p>
                         </div>
                         <div class="info statystic d-flex justify-content-center">
-                            <p>Собрано очков - 5437</p>
+                            <p id="scores"></p>
                         </div> 
                         <div class="info statystic d-flex justify-content-center">
-                            <p>Пройдено уровней - 4/1234</p>
+                            <p id="levels-done"></p>
                         </div>
                     </div>
                     <div class="d-flex w-100 justify-content-between align-items-center">
@@ -67,15 +64,15 @@
                         </div>
                         <div class="info-1 d-flex flex-column justify-content-around h-100">
                             <div class="info name">
-                                <p>Имя пользователя</p>
+                                <p id="username-info"></p>
                             </div>
                             <div>
-                                <input class="info name" type="text" placeholder="Ссылка на гитхаб">
+                                <input id="github" class="info name" type="text" placeholder="Ссылка на гитхаб">
                             </div>
                         </div>
                     </div>
                     <div class="d-flex w-100">
-                        <textarea class="info name" placeholder="Описание" id="" cols="30" rows="10">Я Тася мне 20 лет и я нихуя не умею в этой жизни.</textarea>
+                        <textarea class="info name" placeholder="Описание" id="description" cols="30" rows="10"></textarea>
                     </div>
                     <div class="d-flex w-100 align-items-center">
                         <div class="d-flex w-75 align-items-center justify-content-center">
