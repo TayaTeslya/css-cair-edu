@@ -1,13 +1,12 @@
 const categoriesButton = document.getElementById("categories");
 const categoriesList = document.getElementById("categories-list")
 const favorite = document.getElementsByClassName("favorite");
-const profileContainer = document.getElementById("profile-container");
-const profileMenu = document.getElementById("profile-menu");
 
 const username = document.getElementById("username");
 const levelContainer = document.getElementById("levels-container");
 
 localStorage.setItem("user", JSON.stringify({
+    "id": 1,
     "username": "ТАСЯ !!!",        // Имя пользователя, пример "XXxx_zubenchik_xxXX"
     "fullName": "Имя пользователя",        // ФИО пользователя, пример "Зубенко Михаил Петрович"
     "avatarPath": "../img/avatars/av1.png",      // URL путь до аватара на сервере, можно вставить в `src` аттрибут <img> напрямую, пример "/static/media/3434hff36ff.png"
@@ -24,10 +23,11 @@ let levels = [
     {"id": 2, "name": "Кружок", "thumbnail": "../img/levels/2.png", "checked": true, "status": "Начат", "favorite": true, "author": ""},
     {"id": 1, "name": "Смайлик", "thumbnail": "../img/levels/1.png", "checked": false, "status": "Не пройден", "favorite": true, "author": "Имя Пользователя"},
     {"id": 3, "name": "Лампа", "thumbnail": "../img/levels/3.png", "checked": true, "status": "Не пройден", "favorite": false, "author": ""}
-            ]
+            ];
 
 for (const level of levels) {
     if (!userInfo.isStaff && level.checked) {
+
         levelContainer.innerHTML += 
         `<div class="d-flex py-0 px-0">
             <a id="${level.id}" href="../pages/level.html#${level.id}" class="d-flex card justify-content-between flex-column gap-2">
@@ -82,9 +82,6 @@ for (const level of levels) {
 
 categoriesButton.addEventListener('click', (event) => {
         categoriesList.classList.toggle('unvisible');
-        // while (levelContainer.lastChild) {
-        //     levelContainer.removeChild(levelContainer.lastChild);
-        // }
 });
 
 for (let i = 0; i < categoriesList.children.length; i++) { // выбор категории
@@ -100,10 +97,6 @@ for (let i = 0; i < categoriesList.children.length; i++) { // выбор кат�
         categoriesList.classList.add('unvisible');
     });
 }
-
-profileContainer.addEventListener('click', (event) => {
-    profileMenu.classList.toggle('unvisible');
-});
 
 categoriesList.addEventListener('mouseenter', (event) => { // удаление класса "выбрано" при наведении на категории
     categoriesList.children[selectedCategory].classList.remove('select-category');

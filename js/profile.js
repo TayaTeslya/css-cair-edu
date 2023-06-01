@@ -1,6 +1,3 @@
-const profileContainer = document.getElementById("profile-container");
-const profileMenu = document.getElementById("profile-menu");
-
 const username = document.getElementById("username");
 const rating = document.getElementById("rating");
 const scores = document.getElementById("scores");
@@ -29,8 +26,3 @@ levelsDone.textContent = `Пройдено уровней - ${userJSON.levelsDon
 usernameInfo.textContent = userInfo.username;
 github.value = userJSON.github;
 description.value = userJSON.description;
-
-
-profileContainer.addEventListener('click', (event) => {
-    profileMenu.classList.toggle('unvisible');
-});

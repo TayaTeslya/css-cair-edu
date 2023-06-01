@@ -3,9 +3,6 @@ const categoriesList = document.getElementById("categories-list");
 
 let selectedCategory = 0; // выбранная категория игр (по умолчанию - все)
 
-const profileContainer = document.getElementById("profile-container");
-const profileMenu = document.getElementById("profile-menu");
-
 const username = document.getElementById("username");
 const rating = document.getElementById("rating");
 const scores = document.getElementById("scores");
@@ -69,11 +66,6 @@ for (const level of levels) {
         <span>${level.score} из ${level.maxSore} (${Math.floor(100 / level.maxSore * level.score)}%)</span>
     </div>`;
 }
-
-
-profileContainer.addEventListener('click', (event) => {
-    profileMenu.classList.toggle('unvisible');
-});
 
 categoriesButton.addEventListener('click', (event) => {
     categoriesList.classList.toggle('unvisible');

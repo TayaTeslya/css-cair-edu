@@ -5,10 +5,6 @@ const maxScore = document.getElementById('max-score');
 const hexCodesContainer = document.getElementsByClassName('hex-codes-container');
 const author = document.getElementsByClassName("card-author");
 
-
-const profileContainer = document.getElementById("profile-container");
-const profileMenu = document.getElementById("profile-menu");
-
 // данные
 const defaultImg = document.getElementsByClassName("img-default");
 
@@ -35,10 +31,6 @@ for (const hexCode of level["hexCodes"]) {
     </div>`;
 }
 // данные
-
-profileContainer.addEventListener('click', (event) => {
-    profileMenu.classList.toggle('unvisible');
-});
 
 saveCodeToImg.addEventListener('click', () => {
 

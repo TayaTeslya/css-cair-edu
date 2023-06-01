@@ -1,0 +1,11 @@
+.img-avatar {
+    min-width: 80px;
+    min-height: 80px;
+    max-width: 80px;
+    max-height: 80px;
+}
+
+.img-avatar img {
+    max-height: 100%;
+    max-width: 100%;
+}

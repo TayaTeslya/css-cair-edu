@@ -1,13 +1,7 @@
 let saveCodeToImg = document.getElementById('save-code-to-img');
 let nameLevel = document.getElementById('name-level');
 
-const profileContainer = document.getElementById("profile-container");
-const profileMenu = document.getElementById("profile-menu");
 const deleteButton = document.getElementById("delete-button");
-
-profileContainer.addEventListener('click', (event) => {
-    profileMenu.classList.toggle('unvisible');
-});
 
 const username = document.getElementById("username");
 
