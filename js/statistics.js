@@ -34,37 +34,41 @@ let levels = [
     {"id": 3, "name": "Лампа", "thumbnail": "../img/levels/3.png", "status": "Не пройден", "favorite": false, "author": "Имя Пользователя", maxSore: 776, score: 775}
 ]
 
-let statusThumbnail;
-for (const level of levels) {
-    levelsStatistic.innerHTML += 
-    `<div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4">
-        <a id="${level.id}" href="../pages/level.html#${level.id}" class="d-flex w-100 align-items-center justify-content-center gap-3">
-            <div class="img-level">
-                <img src="${level.thumbnail}" alt=""/>
-            </div>
-            <span class="name-level">${level.author ? `~` : `#`}${level.id} - ${level.name}</span>
-        </a>
-    </div>
-    <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
-        <div class="img-progress">
-            <img src="${ 
-                (() => 
-                    {
-                        if (level.status === 'Пройден') {
-                            return '../img/icons/done_icon.png';
-                        } else if (level.status === 'Начат') {
-                            return '../img/icons/pause_icon.png';
-                        } else {
-                            return '../img/icons/start_icon.png';
-                        }
-                    }
-                )() // () - вызов стрелочной ф-ции
-            }" alt="">  
+setLevels((element) => true);
+
+function setLevels(condition) {
+    let statusThumbnail;
+    for (const level of levels.filter(condition)) {
+        levelsStatistic.innerHTML += 
+        `<div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4">
+            <a id="${level.id}" href="../pages/level.html#${level.id}" class="d-flex w-100 align-items-center justify-content-center gap-3">
+                <div class="img-level">
+                    <img src="${level.thumbnail}" alt=""/>
+                </div>
+                <span class="name-level">${level.author ? `~` : `#`}${level.id} - ${level.name}</span>
+            </a>
         </div>
-    </div>
-    <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
-        <span>${level.score} из ${level.maxSore} (${Math.floor(100 / level.maxSore * level.score)}%)</span>
-    </div>`;
+        <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+            <div class="img-progress">
+                <img src="${ 
+                    (() => 
+                        {
+                            if (level.status === 'Пройден') {
+                                return '../img/icons/done_icon.png';
+                            } else if (level.status === 'Начат') {
+                                return '../img/icons/pause_icon.png';
+                            } else {
+                                return '../img/icons/start_icon.png';
+                            }
+                        }
+                    )() // () - вызов стрелочной ф-ции
+                }" alt="">  
+            </div>
+        </div>
+        <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
+            <span>${level.score} из ${level.maxSore} (${Math.floor(100 / level.maxSore * level.score)}%)</span>
+        </div>`;
+    }
 }
 
 categoriesButton.addEventListener('click', (event) => {
@@ -85,9 +89,33 @@ for (let i = 0; i < categoriesList.children.length; i++) { // выбор кат�
         if (categoriesList.children[i].textContent.trim() === 'Все') {
             categoriesButton.children[0].textContent = 'Категории';
             categoriesButton.classList.remove('white-category');
+            levelsStatistic.innerHTML = '';
+            setLevels((element) => true);
         } else {
             categoriesButton.children[0].textContent = categoriesList.children[i].textContent.trim();
             categoriesButton.classList.add('white-category');
+            levelsStatistic.innerHTML = '';
+            switch (selectedCategory) {
+                case 1: // Основные
+                    setLevels((element) => !element.author);
+                    break;
+
+                case 2: // пользовательские
+                    setLevels((element) => element.author);
+                    break;
+
+                case 3: // Избранное
+                    setLevels((element) => element.favorite);
+                    break;
+
+                case 4: // Пройденные
+                    setLevels((element) => element.status === "Пройден");
+                    break;
+
+                case 5: // Непройденные
+                    setLevels((element) => element.status !== 'Пройден');
+                    break;
+            }
         }
         categoriesList.classList.add('unvisible');
     });

@@ -324,12 +324,12 @@ p {
     background-color: #463E6B;
 }
 
-.category-bottom {
-    border-radius: 0 0 10px 10px;
+.categories-list p:first-child, .profile-menu a:first-child {
+    border-radius: 10px 10px 0 0;
 }
 
-.category-top {
-    border-radius: 10px 10px 0 0;
+.categories-list p:last-child, .profile-menu a:last-child {
+    border-radius: 0 0 10px 10px;
 }
 
 .category-container {
@@ -384,6 +384,7 @@ p {
     z-index: 10;
     top: 105%;
     left: 60%;
+    overflow: hidden;
 }
 
 .name-level {

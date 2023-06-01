@@ -6,8 +6,8 @@ const buttonsDeleteLevel = document.getElementsByClassName('button-delete-level'
 const username = document.getElementById("username");
 const levelContainer = document.getElementById("levels-container");
 
-let user = JSON.parse(localStorage.getItem("user"));
-username.textContent = user.username;
+let userInfo = JSON.parse(localStorage.getItem("user"));
+username.textContent = userInfo.username;
 let levels = [
     {"id": 5, "name": "Цветок", "thumbnail": "../img/levels/5.png", "checked": true, dateDelete: "24-03-21", "favorite": false, "author": "Имя Пользователя"},
     {"id": 2, "name": "Кружок", "thumbnail": "../img/levels/2.png", "checked": false, dateDelete: "", "favorite": true, "author": "Имя Пользователя"},
@@ -20,7 +20,7 @@ let statusThumbnail;
 let authorLevel;
 let checked;
 for (const level of levels) {
-    if (level["author"] === user["username"]) {
+    if (level["author"] === userInfo["username"]) {
         if (level.checked) {
             if (level.dateDelete) {
                 checked = "Отклонён";
