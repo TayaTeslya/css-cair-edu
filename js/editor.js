@@ -21,12 +21,10 @@ editor.on('change', () => { // событие изменения в редакт
         if (resCode[key].includes('<style>') || resCode[key].includes('</style>')) { 
             flagStyle = !flagStyle;
         }
-        if (flagStyle) {
-            if (resCode[key].includes('{')) {
-                resCode[key] = '.result-conteiner ' + resCode[key]; // добавление общего класса для всех селекторов, чтобы они не применялись вне объекта для вывода результата
-            }
+        if (flagStyle && resCode[key].includes('{')) {
+            resCode[key] = '.result-conteiner ' + resCode[key]; // добавление общего класса для всех селекторов, чтобы они не применялись вне объекта для вывода результата
         }
-        else if (resCode[key].includes('url')) { // запреты
+        if (resCode[key].includes('url')) { // запреты
             error.textContent = 'WARNING! url является запрещенным.';
             return;
         }
@@ -34,8 +32,12 @@ editor.on('change', () => { // событие изменения в редакт
             error.textContent = 'WARNING! Тег <script> является запрещенным.';
             return;
         }
-        else if (resCode[key].includes('<img')) {
-            error.textContent = 'WARNING! <img> является запрещенным.';
+        else if (resCode[key].includes('img')) {
+            error.textContent = 'WARNING! img является запрещенным.';
+            return;
+        }
+        else if (resCode[key].includes('image')) {
+            error.textContent = 'WARNING! image является запрещенным.';
             return;
         }
         else if (resCode[key].includes('<body')) {
@@ -56,6 +58,18 @@ editor.on('change', () => { // событие изменения в редакт
         }
         else if (resCode[key].includes('onerror')) {
             error.textContent = 'WARNING! onerror является запрещенным.';
+            return;
+        }
+        else if (resCode[key].includes('rgba')) {
+            error.textContent = 'WARNING! rgba является запрещенным. Пожалуйста, используйте rgb :).';
+            return;
+        }
+        else if (resCode[key].includes('hsl')) {
+            error.textContent = 'WARNING! hsl является запрещенным. Пожалуйста, используйте rgb :).';
+            return;
+        }
+        else if (resCode[key].includes('gradient')) {
+            error.textContent = 'WARNING! gradient является запрещенным.';
             return;
         }
     }

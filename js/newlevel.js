@@ -1,6 +1,7 @@
 const deleteButton = document.getElementById("delete-button"); // кнопка удаления уровня
 const saveCodeToImg = document.getElementById('save-code-to-img'); // кнопка "Сохранить"
 const nameLevel = document.getElementById('name-level'); // поле ввода названия уровня
+const hexCodesContainer = document.getElementById("hex-codes"); // объект для вывода hex-кодов
 
 if (userInfo.isStaff) { // кнопка "Отклонить" для администратора
     deleteButton.classList.remove('d-none');
@@ -11,49 +12,64 @@ saveCodeToImg.addEventListener('click', () => { // событие клика н�
         if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g.test(nameLevel.value)) { // в названии можно использовать только буквы и цифры
             error.textContent = ''; // обнуление строки ошибок
             
-            // let resCode = editor.getValue().split('\n'); // массив строк када пользователя
-            // let color; // переменная значения свойства
-            // let hexCodes = []; // массив для хранения всех hex-кодов
-            // let hexCode; // переменная для преобразования цвета в hex-code
 
-            // for (const str of resCode) {
 
-            //     if (str.includes('color')) {
-                    
-            //         color = str.split(':')[1]; // сохранение значения свойства
-                    
-            //         if (color) {
+            
+            let resCode = editor.getValue().split('\n'); // массив строк када пользователя
+            let property; // переменная значения свойства
+            let hexCodes = []; // массив для хранения всех hex-кодов
+            let hexCode; // переменная для преобразования цвета в hex-code
+            for (const str of resCode) {
+                if (str.includes('color')) {
+                    property = str.split(':')[1]; // сохранение значения свойства
+                    if (property) {
+                        property = property.replaceAll(' ', '');
+                        property = property.slice(0, property.length - 1); // убираем ";" из свойства
+                        hexCode = getHexCode(property); // получаем hex-code цвета
+                        if (hexCode) hexCodes.push(hexCode); // если пустой, значит лежал не цвет
+                    }
+                }
+                else if (str.includes('border') || str.includes('background')) {
+                    property = str.split(':')[1].trim(); // сохранение значения свойства
+                    property = property.slice(0, property.length - 1); // убираем точку с запятой
+                    if (property.includes('#')) {
+                        property = property.slice(property.indexOf('#'), property.indexOf('#') + 7);
+                        hexCode = getHexCode(property); // получаем hex-code цвета
+                        if (hexCode) hexCodes.push(hexCode); // если пустой, значит лежал не цвет
+                    }
+                    else if (property.includes('rgb')) {
+                        property = property.slice(property.indexOf('rgb'), property.indexOf(')'));
+                        hexCode = getHexCode(property); // получаем hex-code цвета
+                        if (hexCode) hexCodes.push(hexCode); // если пустой, значит лежал не цвет
+                    }
+                    else {
+                        let properties = property.split(' ');
+                        for (const prop of properties) {
+                            hexCode = getHexCode(prop.trim()); // получаем hex-code цвета
+                            if (hexCode) hexCodes.push(hexCode); // если пустой, значит лежал не цвет
+                        }
+                    }
+                }
+            }
+            hexCodesContainer.innerHTML = '';
+            for (const code of hexCodes) { // Отображение hex-кодов
+                hexCodesContainer.innerHTML += `
+                <div class="hex d-flex align-items-center">
+                    <p class="circle-color" style="background-color:` + code + `;"></p>
+                    <p class="text-color" style="color: ` + code + `">` + code + `</p>
+                </div>`;
+            };
 
-            //             color = color.replace(' ', '');
-            //             color = color.slice(0, color.length - 1); // убираем ";" из свойства
 
-            //             hexCode = getHexCode(color); // получаем hex-code цвета
-            //             if (hexCode !== '') { // если пустой, значит лежал не цвет
-            //                 hexCodes.push(hexCode);
-            //             }
-                        
-            //         }
-                    
-            //     }
-            //     else if (str.includes('border') || str.includes('background')) {
 
-            //         color = str.split(':')[1].trim(); // сохранение значения свойства
-            //         color = color.slice(0, color.length - 1);
-            //         // тут прописать для background и border
-                    
-
-            //     }
-
-            // }
-            // console.log(new Set(hexCodes));
 
             domtoimage.toPng(resultDom) 
             .then(function (dataUrl) { // сохранение base64 картинки из пользовательского кода
-                // var img = new Image();
-                // img.width = 300;
-                // img.height = 200;
-                // img.src = dataUrl;
-                // document.body.appendChild(img);
+                var img = new Image();
+                img.width = 300;
+                img.height = 200;
+                img.src = dataUrl;
+                document.body.appendChild(img);
             })
             .catch(function (error) {
                 console.error('oops, something went wrong!', error);
@@ -91,8 +107,10 @@ function getHexCode(color) {
  * @returns {String}
  */
 function rgbToHex(color) {
-    color = color.replace(' ', '').replace('rgb', '').replace('(', '').replace(')', '').replace('a', ''); 
+    color = color.replaceAll(' ', '').replace('rgb', '').replace('(', '').replace(')', '').replace('a', ''); 
+    console.log(color);
     let arrRGB = color.split(','); // массив из r, g, b
+    console.log(arrRGB);
     return "#" + componentToHex(Number(arrRGB[0])) + componentToHex(Number(arrRGB[1])) + componentToHex(Number(arrRGB[2]));
 }
 

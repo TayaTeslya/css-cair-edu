@@ -54,15 +54,12 @@ main {
 }
 
 .img-container {
-    height: 200px;
-    width: 300px;
-}
-
-.result-conteiner {
     background-color: #242038;
     overflow: hidden;
-    width: 300px;
     height: 200px;
+    width: 300px;
+    font-style: normal;
+    font-family: initial;
 }
 
 .level-code {
