@@ -1,15 +1,12 @@
-const username = document.getElementById("username");
-const rating = document.getElementById("rating");
-const scores = document.getElementById("scores");
-const levelsDone = document.getElementById("levels-done");
-const usernameInfo = document.getElementById("username-info");
-const github = document.getElementById("github");
-const description = document.getElementById("description");
-
-let userInfo = JSON.parse(localStorage.getItem("user"));
+const rating = document.getElementById("rating"); // объект для вывода рейтинга пользователя
+const scores = document.getElementById("scores"); // объект для вывода очков пользователя
+const levelsDone = document.getElementById("levels-done"); // объект для вывода количества пройденных уровней
+const usernameInfo = document.getElementById("username-info"); // объект для вывода имени пользователя
+const github = document.getElementById("github"); // поле для ввода сылки на гитхаб
+const description = document.getElementById("description"); // поле для ввода информации о себе
 
 // api запрос инфы о пользователе
-let userJSON = {
+let userJSON = { // объект  информации о пользователе
     "rating": 143, // место в рейтинге
     "usersLength": 894, // всего пользователей (для рейтинга)
     "scores": 5746, // собрано очков за все уровни (максимальных)
@@ -19,7 +16,6 @@ let userJSON = {
     "description": "Я Тася!" // описание
 }
 
-username.textContent = userInfo.username;
 rating.textContent = `Рейтинг - ${userJSON.rating}/${userJSON.usersLength}`;
 scores.textContent = `Собрано очков - ${userJSON.scores}`;
 levelsDone.textContent = `Пройдено уровней - ${userJSON.levelsDone}/${userJSON.levelsLength}`;

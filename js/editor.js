@@ -1,48 +1,32 @@
-let editor = CodeMirror.fromTextArea(document.getElementById('textarea'), {
-    lineNumbers: true,
-    mode: "htmlmixed",
-    theme: "base16-dark",
-    autoCloseTags: true,
+const editor = CodeMirror.fromTextArea(document.getElementById('textarea'), { // объект поля ввода пользовательского кода - редактор кода
+    lineNumbers: true, // отображение номеров строк 
+    mode: "htmlmixed", // синтаксис html + css 
+    theme: "base16-dark", // тема
+    autoCloseTags: true, // автоматическое закрытие тегов
     lineWrapping: true,
     tabSize: 2
 });
 
-let resultDom = document.getElementById('result-code');
+const resultDom = document.getElementById('result-code'); // объект для вывода результата пользовательского кода
 
-//проверка запущен ли уровень
-editor.setValue(`<style>\n\t.class {\n\t\tbackground-color: white;\n\t\twidth: 100px;\n\t\theight: 100px;\n\t}\n</style>\n<div class="class">\n\n</div>\n\n<!-- CSS CAIR EDU -->\n<!-- Это поле для вашего кода.\nПостарайтесь повторить заданную картинку.\nУдачи!\n(Скрипты и картинки запрещены, не смей читерить ;))-->`);
-// editor.setValue(`
-// <style>
-//   .class {
-//     background-color: #ffffff;
-//     width: 100px;
-//     height: 100px;
-//   }  
-// </style>
-// <div class="class">
-  
-// </div>`);
-resultDom.innerHTML = editor.getValue();
+//проверка запущен ли уровень в level.js!
+editor.setValue(`<style>\n\t.class {\n\t\tbackground-color: white;\n\t\twidth: 100px;\n\t\theight: 100px;\n\t}\n</style>\n<div class="class">\n\n</div>\n\n<!-- CSS CAIR EDU -->\n<!-- Это поле для вашего кода.\nПостарайтесь повторить заданную картинку.\nУдачи!\n(Скрипты и картинки запрещены, не смей читерить ;))-->`); // начальный код уровней
+resultDom.innerHTML = editor.getValue(); // отображение результата пользовательского кода
 
-editor.save();
-
-editor.on('change', () => {
-
-    let resCode = editor.getValue().split('\n');
-    let flagStyle = false;
-
-    for (const key in resCode) {
-        error.textContent = '';
-        // console.log(error);
-        if (resCode[key].includes('<style>') || resCode[key].includes('</style>')) {
+editor.on('change', () => { // событие изменения в редакторе кода
+    let resCode = editor.getValue().split('\n'); // массив кода пользователя по строкам
+    let flagStyle = false; // флаг, отображающий, находится ли строчка кода в тегах <style></style>
+    for (const key in resCode) { 
+        error.textContent = ''; // очищение строки с ошибкой
+        if (resCode[key].includes('<style>') || resCode[key].includes('</style>')) { 
             flagStyle = !flagStyle;
         }
         if (flagStyle) {
             if (resCode[key].includes('{')) {
-                resCode[key] = '.result-conteiner ' + resCode[key];
+                resCode[key] = '.result-conteiner ' + resCode[key]; // добавление общего класса для всех селекторов, чтобы они не применялись вне объекта для вывода результата
             }
         }
-        else if (resCode[key].includes('url')) {
+        else if (resCode[key].includes('url')) { // запреты
             error.textContent = 'WARNING! url является запрещенным.';
             return;
         }
@@ -74,9 +58,6 @@ editor.on('change', () => {
             error.textContent = 'WARNING! onerror является запрещенным.';
             return;
         }
-
-        
-        
     }
-    resultDom.innerHTML = resCode.join(' ');
+    resultDom.innerHTML = resCode.join(' '); // отображение результата пользовательского кода
 });

@@ -1,26 +1,16 @@
-const favorite = document.getElementsByClassName("favorite");
-const buttonsDeleteLevel = document.getElementsByClassName('button-delete-level');
+const buttonsDeleteLevel = document.getElementsByClassName('button-delete-level'); // кнопка удаления уровня
+const levelContainer = document.getElementById("levels-container"); // объект для вывода уровней
 
-// данные
+let levels = [ // массив объектов уровней
+    {"id": 5, "name": "Цветок", "thumbnail": "../img/levels/5.png", "checked": true, dateDelete: "24-03-21", "favorite": false, "author": "Имя Пользователя", idAuthor: 4},
+    {"id": 2, "name": "Кружок", "thumbnail": "../img/levels/2.png", "checked": false, dateDelete: "", "favorite": true, "author": "Имя Пользователя", idAuthor: 1},
+    {"id": 1, "name": "Смайлик", "thumbnail": "../img/levels/1.png", "checked": true, dateDelete: "24-03-21", "favorite": true, "author": "Тася Тесля", idAuthor: 1},
+    {"id": 3, "name": "Лампа", "thumbnail": "../img/levels/3.png", "checked": true, dateDelete: "", "favorite": false, "author": "Имя Пользователя", idAuthor: 0}
+];
 
-const username = document.getElementById("username");
-const levelContainer = document.getElementById("levels-container");
-
-let userInfo = JSON.parse(localStorage.getItem("user"));
-username.textContent = userInfo.username;
-let levels = [
-    {"id": 5, "name": "Цветок", "thumbnail": "../img/levels/5.png", "checked": true, dateDelete: "24-03-21", "favorite": false, "author": "Имя Пользователя"},
-    {"id": 2, "name": "Кружок", "thumbnail": "../img/levels/2.png", "checked": false, dateDelete: "", "favorite": true, "author": "Имя Пользователя"},
-    {"id": 1, "name": "Смайлик", "thumbnail": "../img/levels/1.png", "checked": true, dateDelete: "24-03-21", "favorite": true, "author": "Имя Пользователя"},
-    {"id": 3, "name": "Лампа", "thumbnail": "../img/levels/3.png", "checked": true, dateDelete: "", "favorite": false, "author": "Имя Пользователя"}
-            ]
-
-let favoriteThumbnail;
-let statusThumbnail;
-let authorLevel;
-let checked;
+let checked; // флаг проверки уровня
 for (const level of levels) {
-    if (level["author"] === userInfo["username"]) {
+    if (level.idAuthor === userInfo.id) { // если уровень создал авторизованный пользователь
         if (level.checked) {
             if (level.dateDelete) {
                 checked = "Отклонён";
@@ -48,24 +38,10 @@ for (const level of levels) {
         </div>`;
     }  
 }
-// данные
-
-for (let i = 0; i < favorite.length; i++) {
-    favorite[i].addEventListener('click', (event) => { // изменение иконки "избранное" при нажатии
-        event.preventDefault(); //отключение стандартного поведение ссылки (родителя избранного)
-        if (favorite[i].children[0].src.includes('/img/icons/not_favorite_icon.png')) {
-            favorite[i].children[0].src = favorite[i].children[0].src.replace('not_favorite', 'favorite');
-        }
-        else {
-            favorite[i].children[0].src = favorite[i].children[0].src.replace('favorite', 'not_favorite');
-        }
-        //вытаскивать айди, делать запрос на добавление в таблицу "избранное"
-    });
-}
 
 for (const buttonDeleteLevel of buttonsDeleteLevel) {
-    buttonDeleteLevel.addEventListener('click', (event) => {
+    buttonDeleteLevel.addEventListener('click', (event) => { // событие клика по кнопке 
         event.preventDefault(); //отключение стандартного поведение ссылки (родителя избранного)
-        console.log(confirm('Вы действительно хотите удалить уровень? Данное действие отменить нельзя.'));
+        console.log(confirm('Вы действительно хотите удалить уровень? Данное действие отменить нельзя.')); 
     });
 }
