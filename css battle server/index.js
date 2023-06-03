@@ -30,8 +30,10 @@ app.all('*', function(req, res, next) {  // настройки Core для за�
     next(); // промежуточная проверка
 });
 
+// GET
+
 app.get('/api/user', (req, res) => { // req - запрос - то, что мы передаем при отправке запроса на сервер, res - результат, который сервер отправляет
-    connection.query(
+    connection.query( // информация о авторизованном пользователе - для всех страниц
         `select * from user where id = ${req.query.idUser}`, (error, results, fields) => {
             res.send({
                 id: results[0].id,
@@ -43,16 +45,28 @@ app.get('/api/user', (req, res) => { // req - запрос - то, что мы �
     );
 });
 
-app.get('/api/levels', (req, res) => { // req - запрос - то, что мы передаем при отправке запроса на сервер, res - результат, который сервер отправляет
+app.get('/api/levels', (req, res) => {  // index.html и statistics.html - все доступные пользователю уровни
     connection.query(
         `SELECT level.id, name, thumbnail, is_checked as isChecked, level.max_score as maxScore, (select username from user where user.id = level.id_user) as author, (select favorite.id from favorite where favorite.id_level = level.id) as favorite, (select max_score from progress_level where progress_level.id_user = ${req.query.idUser} and progress_level.id_level = level.id) as maxScoreUser from level`, 
         (error, results, fields) => {
-            res.send(results);
+            if (req.query.isStatistic) {
+                getRatingUser(req.query.idUser).then((statisticUser) => {
+                    res.send({
+                        results, 
+                        statisticUser
+                    });
+                }).catch((error) => {
+                    console.log(error);
+                });
+            } 
+            else {
+                res.send(results);
+            }
         }
     );
 });
 
-app.get('/api/mylevels', (req, res) => { 
+app.get('/api/mylevels', (req, res) => { //mylevels.html
     connection.query(
         `select id, name, thumbnail, is_checked as isChecked, date_delete as dateDelete, reason from level where id_user = ${req.query.idUser}`, 
         (error, results, fields) => {
@@ -61,11 +75,11 @@ app.get('/api/mylevels', (req, res) => {
     );
 });
 
-app.get('/api/rating', (req, res) => { 
+app.get('/api/rating', (req, res) => { // rating.html
     connection.query(
         `select user.id, (select sum(max_score) from progress_level where id_user = user.id) as sumMaxScores, avatar_path as avatarPath, username from user where is_staff = 0 group by user.id order by sumMaxScores desc limit 100`,
         (error, results, fields) => {
-            getRatingUser(req.query.idUser).then((ratingUser) => {
+            getRatingUser(req.query.idUser).then((ratingUser) => { // рейтинг пользователя и количество очков
                 res.send({ratingList: results, 
                     ratingUser});
             }).catch((error) => {
@@ -75,29 +89,9 @@ app.get('/api/rating', (req, res) => {
     );
 });
 
-function getRatingUser(idUser) { // формирование строки рейтинга "Рейтинг - 124/3254"
-    let response = new Promise((resolve, reject) => { // асинхронная ф-ция
-        connection.query(
-            `select user.id, (select sum(max_score) from progress_level where id_user = user.id) as sumScores from user where is_staff = 0 group by user.id order by sumScores desc`,
-            (error, results, fields) => {
-                if (error) { // ошибка
-                    reject(error);
-                }
-                else { // результат
-                    resolve({
-                        rating: results.indexOf(results.find((element) => element.id === Number(idUser))) + 1, 
-                        count: results.length,
-                        scores: results.find((element) => element.id === Number(idUser)).sumScores
-                    });
-                }
-            }
-        );
-    });
-    return response;
-}
+// POST
 
-
-app.post('/api/favorite', (req, res) => {
+app.post('/api/favorite', (req, res) => { // добавление в избранное
     connection.query(
         `insert into favorite (id_user, id_level) values (${req.body.idUser}, ${req.body.idLevel})`, 
         (error, results, fields) => {
@@ -107,7 +101,9 @@ app.post('/api/favorite', (req, res) => {
     );
 });
 
-app.delete('/api/favorite', (req, res) => {
+// DELETE
+
+app.delete('/api/favorite', (req, res) => { // удаление из избранное
     connection.query(
         `delete from favorite where id_level = ${req.body.idLevel} and id_user = ${req.body.idUser}`, 
         (error, results, fields) => {
@@ -117,7 +113,7 @@ app.delete('/api/favorite', (req, res) => {
     );
 });
 
-app.delete('/api/deletelevels', (req, res) => {
+app.delete('/api/deletelevels', (req, res) => { // автоматическое удаление уровней (при заходе на страницу mylevels.html)
     connection.query(
         `delete from level where date_delete <= CURRENT_DATE()`, 
         (error, results, fields) => {
@@ -127,7 +123,7 @@ app.delete('/api/deletelevels', (req, res) => {
     );
 });
 
-app.delete('/api/mylevels', (req, res) => { 
+app.delete('/api/mylevels', (req, res) => {  // удаление уровней по кнопке на странице mylevels.html
     connection.query(
         `delete from level where id = ${req.body.idLevel}`, 
         (error, results, fields) => {
@@ -138,7 +134,33 @@ app.delete('/api/mylevels', (req, res) => {
     );
 });
 
-app.listen('3001', () => {
+// FUNCTIONS
+
+
+function getRatingUser(idUser) { // формирование строки рейтинга "Рейтинг - 124/3254" и "Очки - 5345"
+    let response = new Promise((resolve, reject) => { // асинхронная ф-ция
+        connection.query(
+            `select user.id, (select sum(max_score) from progress_level where id_user = user.id) as sumScores, (select count(level.id) from level) as countLevels, (select count(progress_level.id) from progress_level, level where progress_level.id_user = user.id and progress_level.max_score = level.max_score and id_level = level.id) as countProgressLevels from user where is_staff = 0 group by user.id order by sumScores desc`,
+            (error, results, fields) => {
+                if (error) { // ошибка
+                    reject(error);
+                }
+                else { // результат
+                    resolve({
+                        rating: results.indexOf(results.find((element) => element.id === Number(idUser))) + 1, 
+                        count: results.length,
+                        scores: results.find((element) => element.id === Number(idUser)).sumScores,
+                        levels: results.find((element) => element.id === Number(idUser)).countLevels,
+                        done: results.find((element) => element.id === Number(idUser)).countProgressLevels
+                    });
+                }
+            }
+        );
+    });
+    return response;
+}
+
+app.listen('3001', () => { // запуск сервера
     console.log('server started');
 });
 

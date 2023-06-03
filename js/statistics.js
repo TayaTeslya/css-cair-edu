@@ -3,37 +3,39 @@ const scores = document.getElementById("scores"); // объект для выв�
 const levelsDone = document.getElementById("levels-done"); // объект для вывода количества пройденных уровней
 const levelsStatistic = document.getElementById("levels-statistic"); // объект для вывода статистики по уровням
 
-let userJSON = { // объект с информацией о пользователе
-    "rating": 143, // место в рейтинге
-    "usersLength": 894, // всего пользователей (для рейтинга)
-    "scores": 5746, // собрано очков за все уровни (максимальных)
-    "levelsDone": 324, // сколько уровеней пройдено
-    "levelsLength": 5534, //сколько всего уровней
-    "github": "github", // ссылка на гитхаб
-    "description": "Я Тася!" // описание
-}
+let levels;
+let searchLevel = false;
 
-rating.textContent = `Рейтинг - ${userJSON.rating}/${userJSON.usersLength}`;
-scores.textContent = `Собрано очков - ${userJSON.scores}`;
-levelsDone.textContent = `Пройдено уровней - ${userJSON.levelsDone}/${userJSON.levelsLength}`;
+fetch(`http://localhost:3001/api/levels?idUser=${userInfo.id}&isStatistic=true`).then((res) => res.json())
+.then(({results, statisticUser}) => {
 
-let levels = [ // объект с уровнями
-    {"id": 5, "name": "Цветок", "thumbnail": "../img/levels/5.png", "status": "Пройден", checked: true, "favorite": false, "author": "", maxSore: 4314, score: 234},
-    {"id": 2, "name": "Кружок", "thumbnail": "../img/levels/2.png", "status": "Начат", checked: true, "favorite": true, "author": "", maxSore: 434, score: 24},
-    {"id": 1, "name": "Смайликfsdfsdfsdfsdfsdfsdfd", "thumbnail": "../img/levels/1.png", checked: true, "status": "Не пройден", "favorite": true, "author": "Имя Пользователя", maxSore: 464, score: 67},
-    {"id": 3, "name": "Лампа", "thumbnail": "../img/levels/3.png", checked: true, "status": "Не пройден", "favorite": false, "author": "Имя Пользователя", maxSore: 776, score: 775}
-]
+    levels = results;
 
-setLevels((element) => true); // вывод всех уровней
+    rating.textContent = `Рейтинг - ${statisticUser.rating}/${statisticUser.count}`;
+    scores.textContent = `Собрано очков - ${statisticUser.scores}`;
+    levelsDone.textContent = `Пройдено уровней - ${statisticUser.done}/${statisticUser.levels}`;
+
+    // let levels = [ // объект с уровнями
+    //     {"id": 5, "name": "Цветок", "thumbnail": "../img/levels/5.png", "status": "Пройден", checked: true, "favorite": false, "author": "", maxSore: 4314, score: 234},
+    //     {"id": 2, "name": "Кружок", "thumbnail": "../img/levels/2.png", "status": "Начат", checked: true, "favorite": true, "author": "", maxSore: 434, score: 24},
+    //     {"id": 1, "name": "Смайликfsdfsdfsdfsdfsdfsdfd", "thumbnail": "../img/levels/1.png", checked: true, "status": "Не пройден", "favorite": true, "author": "Имя Пользователя", maxSore: 464, score: 67},
+    //     {"id": 3, "name": "Лампа", "thumbnail": "../img/levels/3.png", checked: true, "status": "Не пройден", "favorite": false, "author": "Имя Пользователя", maxSore: 776, score: 775}
+    // ]
+    setLevels((element) => true); // вывод всех уровней
+
+
+}).catch((error) => {
+    console.log(error);
+});
 
 /**
- * функция вывода уровней в зависимости от выбранной категории
- * @param {function object} condition - функция, возвращающая true/false
- */
+     * функция вывода уровней в зависимости от выбранной категории
+     * @param {function object} condition - функция, возвращающая true/false
+     */
 function setLevels(condition) {
     levelsStatistic.innerHTML = ''; // очищение объекта для вывода уровней
     for (const level of levels.filter(condition)) { // цикл, проходящий по отфильтрованным по категориям уровням
-        if (!userInfo.isStaff && level.checked) { // вывод доступных для учеников уровней
+        if (!userInfo.isStaff && level.isChecked) { // вывод доступных для учеников уровней
             levelsStatistic.innerHTML += 
             `<div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4">
                 <a id="${level.id}" href="../pages/level.html#${level.id}" class="d-flex w-100 align-items-center justify-content-center gap-3">
@@ -48,11 +50,11 @@ function setLevels(condition) {
                     <img src="${ 
                         (() => 
                             {
-                                if (level.status === 'Пройден') {
+                                if (level.maxScore === level.maxScoreUser) { // Пройден
                                     return '../img/icons/done_icon.png';
-                                } else if (level.status === 'Начат') {
+                                } else if (level.maxScoreUser > 0) { // Начат
                                     return '../img/icons/pause_icon.png';
-                                } else {
+                                } else { // Не начат
                                     return '../img/icons/start_icon.png';
                                 }
                             }
@@ -61,7 +63,7 @@ function setLevels(condition) {
                 </div>
             </div>
             <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
-                <span>${level.score} из ${level.maxSore} (${Math.floor(100 / level.maxSore * level.score)}%)</span>
+                <span>${level.maxScoreUser ? `${level.maxScoreUser} из ${level.maxScore} (${Math.floor(100 / level.maxScoreUser * level.maxScore)}%)` : `0 из ${level.maxScore} (0%)`}</span>
             </div>`;
         }
     }

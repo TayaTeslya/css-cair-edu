@@ -4,28 +4,7 @@ const levelsDone = document.getElementById("levels-done"); // объект дл�
 const userRating = document.getElementById("levels-statistic"); // объект для вывода рейтинга пользователей
 
 fetch(`http://localhost:3001/api/rating?idUser=${userInfo.id}`).then((res) => res.json())
-.then((res) => {
-    let ratingList = res.ratingList;
-    let ratingUser = res.ratingUser;
-    let userJSON = { // информация о пользователе
-        "rating": "3", // место в рейтинге
-        "scores": 46554, // собрано очков за все уровни (максимальных)
-    }
-
-    // let ratingJSON = [ // объект с первой сотней пользователей в рейтинге
-    //     {idUser: 4, sumMaxScore: 67548, username: 'Игнат Суханов', avatar: '../img/avatars/av1.png'},
-    //     {idUser: 6, sumMaxScore: 56346, username: 'Никита Беломестных', avatar: '../img/avatars/av1.png'},
-    //     {idUser: 1, sumMaxScore: 46554, username: 'Тася Тесля', avatar: '../img/avatars/av1.png'},
-    //     {idUser: 6, sumMaxScore: 37346, username: 'Дима Певень', avatar: '../img/avatars/av1.png'},
-    //     {idUser: 6, sumMaxScore: 15636, username: 'Лиза Хрюкина', avatar: '../img/avatars/av1.png'},
-    //     {idUser: 6, sumMaxScore: 11245, username: 'Эмиль Куртаметов', avatar: '../img/avatars/av1.png'},
-    //     {idUser: 6, sumMaxScore: 9765, username: 'Настя Каренова', avatar: '../img/avatars/av1.png'},
-    //     {idUser: 6, sumMaxScore: 679, username: 'четвертое место ебать', avatar: '../img/avatars/av1.png'},
-    //     {idUser: 6, sumMaxScore: 679, username: 'четвертое место ебать', avatar: '../img/avatars/av1.png'},
-    //     {idUser: 6, sumMaxScore: 679, username: 'четвертое место ебать', avatar: '../img/avatars/av1.png'},
-    //     {idUser: 5, sumMaxScore: 679, username: 'четвертое место ебать', avatar: '../img/avatars/av1.png'},
-    //     {idUser: 6, sumMaxScore: 679, username: 'четвертое место ебать', avatar: '../img/avatars/av1.png'},
-    // ];
+.then(({ratingList, ratingUser}) => { // деструктуризация по названию в объекте, возвращаемом сервером
 
     rating.textContent = `Рейтинг - ${ratingUser.rating}/${ratingUser.count}`;
     scores.textContent = `Собрано очков - ${ratingUser.scores}`;

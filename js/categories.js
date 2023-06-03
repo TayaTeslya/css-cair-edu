@@ -18,8 +18,12 @@ else { // категории для ученика
         Пройденные
     </p>
     <p>
-        Непройденные
-    </p>`;
+        Начатые
+    </p>
+    <p>
+        Не начатые
+    </p>
+    `;
 }
 
 categoriesButton.addEventListener('click', (event) => { // событие клика по кнопке категорий
@@ -55,7 +59,9 @@ categoriesList.addEventListener('mouseleave', (event) => { // добавлени
  * функция формирования условия для вывода уровней с определенной категорией
  */
 function changeCategory() {
-    searchLevel.value = '';
+    if (searchLevel) {
+        searchLevel.value = '';
+    }
     currentLevels = levels;
     switch (selectedCategory) {
         case 1: setLevels((element) => !element.author); break; // "Основные"
@@ -65,6 +71,7 @@ function changeCategory() {
             else setLevels((element) => element.favorite); 
             break;
         case 4: setLevels((element) => element.maxScore === element.maxScoreUser); break; // "Пройденные"
-        case 5: setLevels((element) => element.maxScore !== element.maxScoreUser); break;  // "Непройденные"
+        case 5: setLevels((element) => element.maxScoreUser > 0 && element.maxScoreUser < element.maxScore); break;  // "Начатые"
+        case 6: setLevels((element) => !element.maxScoreUser); break;  // "Не начатые"
     }
 }
