@@ -61,6 +61,42 @@ app.get('/api/mylevels', (req, res) => {
     );
 });
 
+app.get('/api/rating', (req, res) => { 
+    connection.query(
+        `select user.id, (select sum(max_score) from progress_level where id_user = user.id) as sumMaxScores, avatar_path as avatarPath, username from user where is_staff = 0 group by user.id order by sumMaxScores desc limit 100`,
+        (error, results, fields) => {
+            getRatingUser(req.query.idUser).then((ratingUser) => {
+                res.send({ratingList: results, 
+                    ratingUser});
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+    );
+});
+
+function getRatingUser(idUser) { // формирование строки рейтинга "Рейтинг - 124/3254"
+    let response = new Promise((resolve, reject) => { // асинхронная ф-ция
+        connection.query(
+            `select user.id, (select sum(max_score) from progress_level where id_user = user.id) as sumScores from user where is_staff = 0 group by user.id order by sumScores desc`,
+            (error, results, fields) => {
+                if (error) { // ошибка
+                    reject(error);
+                }
+                else { // результат
+                    resolve({
+                        rating: results.indexOf(results.find((element) => element.id === Number(idUser))) + 1, 
+                        count: results.length,
+                        scores: results.find((element) => element.id === Number(idUser)).sumScores
+                    });
+                }
+            }
+        );
+    });
+    return response;
+}
+
+
 app.post('/api/favorite', (req, res) => {
     connection.query(
         `insert into favorite (id_user, id_level) values (${req.body.idUser}, ${req.body.idLevel})`, 
