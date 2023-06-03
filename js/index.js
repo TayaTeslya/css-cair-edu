@@ -1,6 +1,5 @@
 const favorite = document.getElementsByClassName("favorite"); // кнопка добавления в/удаления из избранного
 const levelContainer = document.getElementById("levels-container"); // объект для вывода уровней
-const searchLevel = document.getElementById('search-level'); // кнопка поиска уровней
 
 let levels;
 let currentLevels;
@@ -113,16 +112,7 @@ function setLevels(condition) {
     }
 }
 
-searchLevel.addEventListener('keyup', (event) => { // событие ввода данных в поле поиска
-    let searchValue = searchLevel.value.trim().toLowerCase(); // переменная с искомой строкой
-    if (searchValue) { // если поле ввода не пустое
-        setLevels((element) => element.author?.toLowerCase().includes(searchValue) || element.name.toLowerCase().includes(searchValue) || (element.id === Number(searchValue)));
-    }
-    else {
-        currentLevels = levels;
-        changeCategory();
-    }
-});
+
 
 
         

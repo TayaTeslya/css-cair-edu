@@ -1,5 +1,7 @@
 const categoriesButton = document.getElementById("categories"); // кнопка вывода списка категорий
 const categoriesList = document.getElementById("categories-list"); // объект списка категорий
+const searchLevel = document.getElementById('search-level'); // кнопка поиска уровней
+
 
 let selectedCategory = 0; // выбранная категория игр (по умолчанию - все)
 
@@ -37,7 +39,7 @@ for (let i = 0; i < categoriesList.children.length; i++) { // добавлени
             categoriesButton.children[0].textContent = 'Категории';
             categoriesButton.classList.remove('white-category');
             currentLevels = levels;
-            setLevels((element) => true); // отображение всех уровней
+            changeCategory();
         } else {
             categoriesButton.children[0].textContent = categoriesList.children[i].textContent.trim();
             categoriesButton.classList.add('white-category');
@@ -59,9 +61,7 @@ categoriesList.addEventListener('mouseleave', (event) => { // добавлени
  * функция формирования условия для вывода уровней с определенной категорией
  */
 function changeCategory() {
-    if (searchLevel) {
-        searchLevel.value = '';
-    }
+    searchLevel.value = '';
     currentLevels = levels;
     switch (selectedCategory) {
         case 1: setLevels((element) => !element.author); break; // "Основные"
@@ -73,5 +73,17 @@ function changeCategory() {
         case 4: setLevels((element) => element.maxScore === element.maxScoreUser); break; // "Пройденные"
         case 5: setLevels((element) => element.maxScoreUser > 0 && element.maxScoreUser < element.maxScore); break;  // "Начатые"
         case 6: setLevels((element) => !element.maxScoreUser); break;  // "Не начатые"
+        default: setLevels((element) => true); break; 
     }
 }
+
+searchLevel.addEventListener('keyup', (event) => { // событие ввода данных в поле поиска
+    let searchValue = searchLevel.value.trim().toLowerCase(); // переменная с искомой строкой
+    if (searchValue) { // если поле ввода не пустое
+        setLevels((element) => element.author?.toLowerCase().includes(searchValue) || element.name.toLowerCase().includes(searchValue) || (element.id === Number(searchValue)));
+    }
+    else {
+        currentLevels = levels;
+        changeCategory();
+    }
+});

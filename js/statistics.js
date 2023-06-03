@@ -4,12 +4,13 @@ const levelsDone = document.getElementById("levels-done"); // объект дл�
 const levelsStatistic = document.getElementById("levels-statistic"); // объект для вывода статистики по уровням
 
 let levels;
-let searchLevel = false;
+let currentLevels;
 
 fetch(`http://localhost:3001/api/levels?idUser=${userInfo.id}&isStatistic=true`).then((res) => res.json())
 .then(({results, statisticUser}) => {
 
     levels = results;
+    currentLevels = results; 
 
     rating.textContent = `Рейтинг - ${statisticUser.rating}/${statisticUser.count}`;
     scores.textContent = `Собрано очков - ${statisticUser.scores}`;
@@ -34,7 +35,7 @@ fetch(`http://localhost:3001/api/levels?idUser=${userInfo.id}&isStatistic=true`)
      */
 function setLevels(condition) {
     levelsStatistic.innerHTML = ''; // очищение объекта для вывода уровней
-    for (const level of levels.filter(condition)) { // цикл, проходящий по отфильтрованным по категориям уровням
+    for (const level of currentLevels.filter(condition)) { // цикл, проходящий по отфильтрованным по категориям уровням
         if (!userInfo.isStaff && level.isChecked) { // вывод доступных для учеников уровней
             levelsStatistic.innerHTML += 
             `<div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4">
