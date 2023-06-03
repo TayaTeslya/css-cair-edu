@@ -32,6 +32,7 @@ for (let i = 0; i < categoriesList.children.length; i++) { // добавлени
         if (categoriesList.children[i].textContent.trim() === 'Все') {
             categoriesButton.children[0].textContent = 'Категории';
             categoriesButton.classList.remove('white-category');
+            currentLevels = levels;
             setLevels((element) => true); // отображение всех уровней
         } else {
             categoriesButton.children[0].textContent = categoriesList.children[i].textContent.trim();
@@ -54,6 +55,8 @@ categoriesList.addEventListener('mouseleave', (event) => { // добавлени
  * функция формирования условия для вывода уровней с определенной категорией
  */
 function changeCategory() {
+    searchLevel.value = '';
+    currentLevels = levels;
     switch (selectedCategory) {
         case 1: setLevels((element) => !element.author); break; // "Основные"
         case 2: setLevels((element) => element.author); break; // "Пользовательские"
@@ -61,7 +64,7 @@ function changeCategory() {
             if (userInfo.isStaff) setLevels((element) => !element.checked); 
             else setLevels((element) => element.favorite); 
             break;
-        case 4: setLevels((element) => element.status === "Пройден"); break; // "Пройденные"
-        case 5: setLevels((element) => element.status !== 'Пройден'); break;  // "Непройденные"
+        case 4: setLevels((element) => element.maxScore === element.maxScoreUser); break; // "Пройденные"
+        case 5: setLevels((element) => element.maxScore !== element.maxScoreUser); break;  // "Непройденные"
     }
 }
