@@ -45,7 +45,16 @@ app.get('/api/user', (req, res) => { // req - запрос - то, что мы �
 
 app.get('/api/levels', (req, res) => { // req - запрос - то, что мы передаем при отправке запроса на сервер, res - результат, который сервер отправляет
     connection.query(
-        `SELECT level.id, name, thumbnail, is_published as isPublished, level.max_score as maxScore, (select username from user where user.id = level.id_user) as author, (select favorite.id from favorite where favorite.id_level = level.id) as favorite, (select max_score from progress_level where progress_level.id_user = ${req.query.idUser} and progress_level.id_level = level.id) as maxScoreUser from level`, 
+        `SELECT level.id, name, thumbnail, is_checked as isChecked, level.max_score as maxScore, (select username from user where user.id = level.id_user) as author, (select favorite.id from favorite where favorite.id_level = level.id) as favorite, (select max_score from progress_level where progress_level.id_user = ${req.query.idUser} and progress_level.id_level = level.id) as maxScoreUser from level`, 
+        (error, results, fields) => {
+            res.send(results);
+        }
+    );
+});
+
+app.get('/api/mylevels', (req, res) => { 
+    connection.query(
+        `select id, name, thumbnail, is_checked as isChecked, date_delete as dateDelete, reason from level where id_user = ${req.query.idUser}`, 
         (error, results, fields) => {
             res.send(results);
         }
@@ -66,10 +75,29 @@ app.delete('/api/favorite', (req, res) => {
     connection.query(
         `delete from favorite where id_level = ${req.body.idLevel} and id_user = ${req.body.idUser}`, 
         (error, results, fields) => {
-            console.log(error);
-            console.log(req.body);
             if (!error) res.send(true);
             else res.send(false);
+        }
+    );
+});
+
+app.delete('/api/deletelevels', (req, res) => {
+    connection.query(
+        `delete from level where date_delete <= CURRENT_DATE()`, 
+        (error, results, fields) => {
+            if (!error) res.send(true);
+            else res.send(false);
+        }
+    );
+});
+
+app.delete('/api/mylevels', (req, res) => { 
+    connection.query(
+        `delete from level where id = ${req.body.idLevel}`, 
+        (error, results, fields) => {
+            if (!error) res.send(true);
+            else res.send(false);
+            console.log(error);
         }
     );
 });

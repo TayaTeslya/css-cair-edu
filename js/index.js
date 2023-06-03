@@ -22,7 +22,6 @@ fetch(`http://localhost:3001/api/levels?idUser=${userInfo.id}`).then((res) => re
         favorite[i].addEventListener('click', (event) => { // событие клика по объекту избранное
             event.preventDefault(); //отключение стандартного поведение ссылки (родителя избранного)
             if (favorite[i].children[0].src.includes('/img/icons/not_favorite_icon.png')) { // изменение картинки избранного
-                console.log('post');
                 fetch(`http://localhost:3001/api/favorite`, { 
                         method: 'POST', 
                         headers: {'Content-Type' : 'application/json'}, 
@@ -37,7 +36,6 @@ fetch(`http://localhost:3001/api/levels?idUser=${userInfo.id}`).then((res) => re
                 });
             }
             else {
-                console.log('delete');
                 fetch(`http://localhost:3001/api/favorite`, { 
                         method: 'DELETE', 
                         headers: {'Content-Type' : 'application/json'}, 
@@ -62,7 +60,7 @@ function setLevels(condition) {
     levelContainer.innerHTML = ''; // очищение объекта для вывода уровней
     currentLevels = currentLevels.filter(condition);
     for (const level of currentLevels) { // цикл, проходящий по отфильтрованным по категориям уровням
-        if (!userInfo.isStaff && level.isPublished) { // вывод доступных для учеников уровней
+        if (!userInfo.isStaff && level.isChecked) { // вывод доступных для учеников уровней
             levelContainer.innerHTML += 
             `<div class="d-flex py-0 px-0">
                 <a id="${level.id}" href="../pages/level.html#${level.id}" class="d-flex card justify-content-between flex-column gap-2">
@@ -106,7 +104,7 @@ function setLevels(condition) {
                     <div class="d-flex card-description justify-content-between mx-3 my-2">
                         <div class="d-flex flex-column col-10 col-sm-10 col-lg-10 col-md-10">
                             <p class="card-title ov-text">${level.author ? "~" : "#"}<span>${level.id}</span> - ${level.name}</p>
-                            <p class="card-author ov-text">${level.author}${!level.isPublished ? `<span class="error"> - На проверке</span>` : ""}</p>
+                            <p class="card-author ov-text">${level.author}${!level.isChecked ? `<span class="error"> - На проверке</span>` : ""}</p>
                         </div>
                     </div>
                 </a>
