@@ -75,6 +75,29 @@ app.get('/api/mylevels', (req, res) => { //mylevels.html
     );
 });
 
+app.get('/api/level', (req, res) => { //level.html
+    connection.query( // информация уровня
+        `select max_score as maxScore, name, thumbnail, is_checked as isChecked, date_delete as dateDelete, reason, (select username from user where user.id = id_user) as author from level where id = ${req.query.idLevel}`, 
+        (errorLevel, resultsLevel, fieldsLevel) => {
+            connection.query( // цвета уровня
+                `select hex_code as hexCode from color where id_level = ${req.query.idLevel}`, 
+                (errorHexCodes, resultsHexCodes, fieldsHexCodes) => {
+                    connection.query( // прогресс пользователя
+                        `select score, max_score as maxScore, code_level as codeLevel from progress_level where id_level = ${req.query.idLevel} and id_user = ${req.query.idUser}`, 
+                        (errorProgress, resultsProgress, fieldsProgress) => {
+                            res.send({
+                                level: resultsLevel[0],
+                                hexCodes: resultsHexCodes.map((element) => element.hexCode),
+                                progress: resultsProgress[0]
+                            });
+                        }
+                    );
+                }
+            );
+        }
+    );
+});
+
 app.get('/api/rating', (req, res) => { // rating.html
     connection.query(
         `select user.id, (select sum(max_score) from progress_level where id_user = user.id) as sumMaxScores, avatar_path as avatarPath, username from user where is_staff = 0 group by user.id order by sumMaxScores desc limit 100`,
@@ -119,11 +142,31 @@ app.post('/api/favorite', (req, res) => { // добавление в избра�
     );
 });
 
+app.post('/api/level', (req, res) => { // level.html - первое прохождение уровня
+    connection.query(
+        `insert into progress_level (id_level, id_user, score, max_score, code_level) values (${req.body.idLevel}, ${req.body.idUser}, ${req.body.score}, ${req.body.score}, '${req.body.codeLevel}');`, 
+        (error, results, fields) => {
+            if (!error) res.send(true);
+            else res.send(false);
+        }
+    );
+});
+
 // PUT
 
 app.put('/api/profile', (req, res) => { // добавление в избранное
     connection.query(
         `update user set description = '${req.body.description}', link_github = '${req.body.link}' where id = ${req.body.idUser}`, 
+        (error, results, fields) => {
+            if (!error) res.send(true);
+            else res.send(false);
+        }
+    );
+});
+
+app.put('/api/level', (req, res) => { // level.html - перепрохождение уровня
+    connection.query(
+        `update progress_level set score = ${req.body.score}, max_score = ${req.body.maxScore}, code_level = '${req.body.codeLevel}' where id_user = ${req.body.idUser} and id_level = ${req.body.idLevel}`, 
         (error, results, fields) => {
             if (!error) res.send(true);
             else res.send(false);

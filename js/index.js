@@ -79,10 +79,10 @@ function setLevels(condition) {
                                     {
                                         if (level.maxScore === level.maxScoreUser) { // Пройден
                                             return '../img/icons/done_icon.png';
-                                        } else if (level.maxScoreUser > 0) { // Начат
-                                            return '../img/icons/pause_icon.png';
-                                        } else { // Не начат
+                                        } else if (level.maxScoreUser === null) { // Не начат
                                             return '../img/icons/start_icon.png';
+                                        } else { // Начат
+                                            return '../img/icons/pause_icon.png';
                                         }
                                     }
                                 )() // () - вызов стрелочной ф-ции

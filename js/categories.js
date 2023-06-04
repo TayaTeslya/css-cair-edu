@@ -71,8 +71,8 @@ function changeCategory() {
             else setLevels((element) => element.favorite); 
             break;
         case 4: setLevels((element) => element.maxScore === element.maxScoreUser); break; // "Пройденные"
-        case 5: setLevels((element) => element.maxScoreUser > 0 && element.maxScoreUser < element.maxScore); break;  // "Начатые"
-        case 6: setLevels((element) => !element.maxScoreUser); break;  // "Не начатые"
+        case 5: setLevels((element) => element.maxScoreUser !== null && element.maxScoreUser < element.maxScore); break;  // "Начатые"
+        case 6: setLevels((element) => element.maxScoreUser === null); break;  // "Не начатые"
         default: setLevels((element) => true); break; 
     }
 }

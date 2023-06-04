@@ -5,66 +5,132 @@ const hexCodesContainer = document.getElementsByClassName('hex-codes-container')
 const author = document.getElementsByClassName("card-author"); // Объект для вывода автора уровня
 const nameLevel = document.getElementsByClassName("card-name-level"); // Объект для вывода номера и названия уровня
 const defaultImg = document.getElementsByClassName("img-default"); // Объект для вывода картинки уровня
+const idLevel = location.hash.replace('#', ''); // id уровня из пути в поисковой строке
 
-let level = {"id": 1, name: "Кружок", "thumbnail": "../img/levels/2.png", // Информация об уровне
-            "codeLevel": "", "maxScoreUser": 433, "maxScore": 654, "score": 432, 
-            "author": "Имя пользователя", "hexCodes": ["#aa759f", "#99648e"]}; 
+fetch(`http://localhost:3001/api/level?idUser=${userInfo.id}&idLevel=${idLevel}`).then((res) => res.json())
+.then(({level, hexCodes, progress}) => {
 
-if (level.codeLevel.trim()) { // если код пользователя не пустой
-    editor.setValue(level.codeLevel);
-}
+    if (progress?.codeLevel.trim()) { // если код пользователя не пустой
+        editor.setValue(progress.codeLevel);
+    }
 
-for (let i = 0; i < 2; i++) { // Заполнение данных для больших и средних экранов
-    defaultImg[i].src = level.thumbnail;
-    author[i].textContent = 'Автор - ' + level.author;
-    nameLevel[i].textContent = `~${level.id} - ${level.name}`;
-}
+    for (let i = 0; i < 2; i++) { // Заполнение данных для больших и средних экранов
+        defaultImg[i].src = level.thumbnail;
+        if (level.author) {
+            author[i].textContent = 'Автор - ' + level.author;
+            nameLevel[i].textContent = `~${idLevel} - ${level.name}`;
+        } 
+        else {
+            author[i].classList.add('d-none');
+            nameLevel[i].textContent = `#${idLevel} - ${level.name}`;
+        }
+    }
 
-resultScore.textContent = `${level.score} из ${level.maxScore} ( ${(Math.floor(100 / level.maxScore * level.score))} %)`; 
-maxScore.textContent = `${level.maxScoreUser} из ${level.maxScore} ( ${(Math.floor(100 / level.maxScore * level.maxScoreUser))} %)`;
+    if (progress) {
+        resultScore.textContent = `${progress.score} из ${level.maxScore} (${(Math.floor(100 / level.maxScore * progress.score))}%)`; 
+        maxScore.textContent = `${progress.maxScore} из ${level.maxScore} (${(Math.floor(100 / level.maxScore * progress.maxScore))}%)`;
+    }
+    else {
+        resultScore.textContent = `0 из ${level.maxScore} (0%)`; 
+        maxScore.textContent = `0 из ${level.maxScore} (0%)`;
+    }
 
-for (const hexCode of level.hexCodes) { // Отображение hex-кодов
-    hexCodesContainer[0].innerHTML += `
-    <div class="hex d-flex align-items-center">
-        <p class="circle-color" style="background-color:` + hexCode + `;"></p>
-        <p class="text-color" style="color: ` + hexCode + `">` + hexCode + `</p>
-    </div>`;
-    hexCodesContainer[1].innerHTML += `
-    <div class="hex d-flex align-items-center">
-        <p class="circle-color" style="background-color:` + hexCode + `;"></p>
-        <p class="text-color" style="color: ` + hexCode + `">` + hexCode + `</p>
-    </div>`;
-}
+    for (const hexCode of hexCodes) { // Отображение hex-кодов
+        hexCodesContainer[0].innerHTML += `
+        <div class="hex d-flex align-items-center">
+            <p class="circle-color" style="background-color:` + hexCode + `;"></p>
+            <p class="text-color" style="color: ` + hexCode + `">` + hexCode + `</p>
+        </div>`;
+        hexCodesContainer[1].innerHTML += `
+        <div class="hex d-flex align-items-center">
+            <p class="circle-color" style="background-color:` + hexCode + `;"></p>
+            <p class="text-color" style="color: ` + hexCode + `">` + hexCode + `</p>
+        </div>`;
+    }
 
-saveCodeToImg.addEventListener('click', () => { // событие клика по кнопке "Сохранить"
-    domtoimage.toPixelData(resultDom) // получение пикселей картинки из кода пользователя
-    .then(function (imgDataUser) { 
-        var canvas = document.createElement("canvas"); // создание канвы для отрисовки картинки уровня
-        var ctx = canvas.getContext('2d');
-        canvas.width = 300;
-        canvas.height = 200;
-        ctx.drawImage(document.getElementById('default-img'), 0, 0); // отрисовка картинки уровня
-        let imgDataDefault = ctx.getImageData(0, 0, document.getElementById('default-img').width, document.getElementById('default-img').height); // получение пикселей картинки уровня
-        let result = 0; // переменная количества совпавших пикселей 
-        for (let i = 0; i < imgDataDefault.data.length; i += 4) { // цикл попиксельного сравнения картинок
-            if (imgDataDefault.data[i] === imgDataUser[i]) {
-                if (imgDataDefault.data[i + 1] === imgDataUser[i + 1]) { // R
-                    if (imgDataDefault.data[i + 2] === imgDataUser[i + 2]) { // G
-                        if (imgDataDefault.data[i + 3] === imgDataUser[i + 3]) { // B
-                            result++;
+    saveCodeToImg.addEventListener('click', () => { // событие клика по кнопке "Сохранить"
+        console.log(isValid);
+        if (!isValid) return;
+        domtoimage.toPixelData(resultDom) // получение пикселей картинки из кода пользователя
+        .then(function (imgDataUser) { 
+            let canvas = document.createElement("canvas"); // создание канвы для отрисовки картинки уровня
+            let ctx = canvas.getContext('2d');
+            canvas.width = 300;
+            canvas.height = 200;
+            let imgDefault = new Image();
+            imgDefault.src = level.thumbnail;
+            imgDefault.setAttribute('crossOrigin', '');
+            
+            imgDefault.onload = function() { // после загрузки дефолтной картинки
+                ctx.drawImage(imgDefault, 0, 0); // отрисовка картинки уровня в канвасе
+                let imgDataDefault = ctx.getImageData(0, 0, document.getElementById('default-img').width, document.getElementById('default-img').height); // получение пикселей картинки уровня
+                imgDataDefault = imgDataDefault.data;
+                let result = 0; // переменная количества совпавших пикселей 
+                for (let i = 0; i < imgDataDefault.length; i += 4) { // цикл попиксельного сравнения картинок
+                    if (imgDataDefault[i] === imgDataUser[i]) {
+                        if (imgDataDefault[i + 1] === imgDataUser[i + 1]) { // R
+                            if (imgDataDefault[i + 2] === imgDataUser[i + 2]) { // G
+                                if (imgDataDefault[i + 3] === imgDataUser[i + 3]) { // B
+                                    result++;
+                                }
+                            }
                         }
                     }
                 }
+                result = (Math.floor(100 / (imgDataDefault.length / 4) * result)); // процент совпадения
+                result = (Math.floor(level.maxScore * result / 100)); // количество очков
+                if (progress) { // если пользователь ранее уже проходил уровень
+                    fetch(`http://localhost:3001/api/level`, { 
+                        method: 'PUT', 
+                        headers: {'Content-Type' : 'application/json'}, 
+                        body: JSON.stringify({
+                            idLevel,
+                            idUser: userInfo.id,
+                            score: result,
+                            maxScore: result > progress.maxScore ? result : progress.maxScore,
+                            codeLevel: editor.getValue().trim()
+                    })})
+                    .then((res) => res.json()).then((res) => {
+                    if (res) {
+                        location.reload();
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                });
+                }
+                else { // если пользователь на уровне впервые
+    
+                    if (!editor.getValue().trim()) return; // если код пустой
+                    if (editor.getValue() === defaultCode) return; // если код равен изначальному коду
+    
+                    fetch(`http://localhost:3001/api/level`, { 
+                            method: 'POST', 
+                            headers: {'Content-Type' : 'application/json'}, 
+                            body: JSON.stringify({
+                                idLevel,
+                                idUser: userInfo.id,
+                                score: result,
+                                codeLevel: editor.getValue().trim()
+                        })})
+                        .then((res) => res.json()).then((res) => {
+                        if (res) {
+                            location.reload();
+                        }
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                }
             }
-        }
-        result = (Math.floor(100 / (imgDataDefault.data.length / 4) * result)); // результат в очках
-        resultScore.textContent = `${(Math.floor((711 / 100) * result))} из ${level.maxScore} ( ${result} %`; // вывод результата в очках и в процентах
-    })
-    .catch(function (error) {
-        console.error('oops, something went wrong!', error);
+            
+            
+        })
+        .catch(function (error) {
+            console.error('oops, something went wrong!', error);
+        });
     });
+
+}).catch((error) => {
+    console.log(error);
 });
-
-
 
 
