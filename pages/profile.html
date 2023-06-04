@@ -48,7 +48,7 @@
     <main>
         <section class="container h-100 mh-100">
             <div class="h-100 mh-100 py-4 w-100">  <!--  стандартный шаблон - с чего начинается любая секция -->
-                <div class="profile-container h-100 mh-100 d-flex justify-content-center align-items-center w-100 flex-column gap-5">
+                <div class="profile-container h-100 mh-100 d-flex w-100 flex-column gap-5">
                     <div class="d-flex w-100 justify-content-between">
                         <div class="info statystic d-flex justify-content-center">
                             <p id="rating"></p>
@@ -63,7 +63,7 @@
                     <div class="d-flex w-100 justify-content-between align-items-center">
                         <div class="avatar-container d-flex justify-content-center">
                             <div class="avatar d-flex justify-content-center">
-                                <img src="../img/avatars/av1.png" alt="">
+                                <img id="photo-user" src="" alt="">
                             </div>
                         </div>
                         <div class="info-1 d-flex flex-column justify-content-around h-100">
@@ -76,14 +76,14 @@
                         </div>
                     </div>
                     <div class="d-flex w-100">
-                        <textarea class="info name" placeholder="Описание" id="description" cols="30" rows="10"></textarea>
+                        <textarea class="info name" placeholder="Описание" id="description" cols="30" rows="7"></textarea>
                     </div>
                     <div class="d-flex w-100 align-items-center">
                         <div class="d-flex w-75 align-items-center justify-content-center">
-                            <p class="error h-100">Должна быть ссылка на гитхаб. Сторонние ресурсы запрещены.</p>
+                            <p class="error h-100" id="error"></p>
                         </div>
                         <div class="d-flex align-items-center">
-                            <button class="level-button">Сохранить</button>
+                            <button id="button-save" class="level-button">Сохранить</button>
                         </div>
                     </div>
                 </div>

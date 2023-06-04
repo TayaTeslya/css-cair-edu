@@ -405,3 +405,7 @@ p {
 .error {
     color: #8F4C48;
 }
+
+.success {
+    color: #3C90B8;
+}

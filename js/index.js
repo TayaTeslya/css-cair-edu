@@ -9,7 +9,6 @@ fetch(`http://localhost:3001/api/levels?idUser=${userInfo.id}`).then((res) => re
 .then((res) => {
     levels = res;
     currentLevels = res;
-    console.log(levels);
 
     setLevels((element) => true); // вывод всех уровней
 

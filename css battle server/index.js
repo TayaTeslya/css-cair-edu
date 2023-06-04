@@ -80,8 +80,26 @@ app.get('/api/rating', (req, res) => { // rating.html
         `select user.id, (select sum(max_score) from progress_level where id_user = user.id) as sumMaxScores, avatar_path as avatarPath, username from user where is_staff = 0 group by user.id order by sumMaxScores desc limit 100`,
         (error, results, fields) => {
             getRatingUser(req.query.idUser).then((ratingUser) => { // рейтинг пользователя и количество очков
-                res.send({ratingList: results, 
-                    ratingUser});
+                res.send({
+                    ratingList: results, 
+                    ratingUser
+                });
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+    );
+});
+
+app.get('/api/profile', (req, res) => { // profile.html
+    connection.query(
+        `select id, link_github as github, description, username, avatar_path as avatarPath  from user where id=${req.query.idUser}`,
+        (error, results, fields) => {
+            getRatingUser(req.query.idUser).then((ratingUser) => { // рейтинг пользователя и количество очков
+                res.send({
+                    infoUser: results[0], 
+                    ratingUser
+                });
             }).catch((error) => {
                 console.log(error);
             });
@@ -94,6 +112,18 @@ app.get('/api/rating', (req, res) => { // rating.html
 app.post('/api/favorite', (req, res) => { // добавление в избранное
     connection.query(
         `insert into favorite (id_user, id_level) values (${req.body.idUser}, ${req.body.idLevel})`, 
+        (error, results, fields) => {
+            if (!error) res.send(true);
+            else res.send(false);
+        }
+    );
+});
+
+// PUT
+
+app.put('/api/profile', (req, res) => { // добавление в избранное
+    connection.query(
+        `update user set description = '${req.body.description}', link_github = '${req.body.link}' where id = ${req.body.idUser}`, 
         (error, results, fields) => {
             if (!error) res.send(true);
             else res.send(false);
