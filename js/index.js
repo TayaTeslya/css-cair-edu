@@ -1,9 +1,16 @@
 const favorite = document.getElementsByClassName("favorite"); // кнопка добавления в/удаления из избранного
 const levelContainer = document.getElementById("levels-container"); // объект для вывода уровней
+const userButton = document.getElementById("user-button");
+const adminButton = document.getElementById("admin-button");
 
 let levels;
 let currentLevels;
 // let options = {author: '', name: '', }
+
+if (userInfo.isStaff) {
+    userButton.classList.add('d-none');
+    adminButton.classList.remove('d-none');
+}
 
 fetch(`http://localhost:3001/api/levels?idUser=${userInfo.id}`).then((res) => res.json())
 .then((res) => {
@@ -102,7 +109,7 @@ function setLevels(condition) {
                     <div class="d-flex card-description justify-content-between mx-3 my-2">
                         <div class="d-flex flex-column col-10 col-sm-10 col-lg-10 col-md-10">
                             <p class="card-title ov-text">${level.author ? "~" : "#"}<span>${level.id}</span> - ${level.name}</p>
-                            <p class="card-author ov-text">${level.author}${!level.isChecked ? `<span class="error"> - На проверке</span>` : ""}</p>
+                            <p class="card-author ov-text">${level.author || ''}${!level.isChecked ? `<span class="error"> - На проверке</span>` : ""}</p>
                         </div>
                     </div>
                 </a>

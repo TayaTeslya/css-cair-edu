@@ -9,3 +9,8 @@
     overflow: hidden;
     border: 8px solid #242038;
 }
+
+.info {
+    width: 100%;
+    padding: 10px;
+}

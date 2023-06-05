@@ -63,7 +63,7 @@ function setLevels(condition) {
         }
         levelContainer.innerHTML += 
         `<div class="d-flex py-0 px-0">
-            <a title="${getDateDelete(level.reason, level.dateDelete) || ''}" id="${level.id}" href="${checked === "Выложен" ? `../pages/level.html#${level.id}` : `../pages/newlevel.html#${level.id}`}" class="d-flex card justify-content-between flex-column gap-2">
+            <a title="${getDateDelete(level.reason, level.dateDelete)}" id="${level.id}" href="${checked === "Выложен" ? `../pages/level.html#${level.id}` : `../pages/newlevel.html#${level.id}`}" class="d-flex card justify-content-between flex-column gap-2">
                 <div class="card-img col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-center">
                     <img src="${level.thumbnail}" alt="">
                 </div>
@@ -85,7 +85,7 @@ function setLevels(condition) {
 }
 
 function getDateDelete(reason, dateDelete) {
-    return `${reason}. Уровень автоматически удалится через ${getNumberOfDays(dateDelete)}.`; 
+    return dateDelete ? `${reason}. Уровень автоматически удалится через ${getNumberOfDays(dateDelete)}.` : '';
 }
 
 function getNumberOfDays(end) {
@@ -100,7 +100,7 @@ function getNumberOfDays(end) {
     const diffInTime = date2.getTime() - date1.getTime();
 
     // Calculating the no. of days between two dates
-    const diffInDays = Math.round(diffInTime / oneDay);
+    const diffInDays = Math.ceil(diffInTime / oneDay);
 
     if (diffInDays === 1) {
         return `${diffInDays} день`;

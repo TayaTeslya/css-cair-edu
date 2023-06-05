@@ -65,7 +65,7 @@
                         <div class="d-flex justify-content-end">
                             <input type="text" placeholder="Название уровня" class="name-level" id="name-level">
                             <button class="level-button d-none" id="delete-button">Удалить</button> <!-- ДЛЯ АДМИНОВ -->
-                            <button class="level-button" id="save-code-to-img">Опубликовать</button>
+                            <button type="button" class="level-button" id="save-code-to-img">Опубликовать</button>
                         </div> 
                     </div>
                     <div class="h-100 mh-100 level-res d-flex">
@@ -74,9 +74,15 @@
                                 <div class="img-container result-conteiner" id="result-code"> 
                                 </div>
                             </div>
-                            <div class="information flex-column gap-3 d-flex hex-codes">
-                                <p class="hex-title">HEX-коды:</p>
-                                <div class="hex-codes-container d-flex flex-row gap-3 flex-wrap justify-content-between" id="hex-codes">
+                            <div class="flex-column gap-3 d-flex">
+                                <div class="flex-column gap-3 d-flex align-items-center">
+                                    <input id="scores" type="text" placeholder="Кол-во очков" class="name-level info"/>
+                                    <input id="reason" type="text" placeholder="Причина удаления" class="name-level info"/>
+                                </div>
+                                <div class="information flex-column gap-3 d-flex hex-codes">
+                                    <p class="hex-title">HEX-коды:</p>
+                                    <div class="hex-codes-container d-flex flex-row gap-3 flex-wrap justify-content-between" id="hex-codes">
+                                    </div>
                                 </div>
                             </div>
                         </div>

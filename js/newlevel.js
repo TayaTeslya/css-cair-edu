@@ -2,92 +2,195 @@ const deleteButton = document.getElementById("delete-button"); // кнопка �
 const saveCodeToImg = document.getElementById('save-code-to-img'); // кнопка "Сохранить"
 const nameLevel = document.getElementById('name-level'); // поле ввода названия уровня
 const hexCodesContainer = document.getElementById("hex-codes"); // объект для вывода hex-кодов
+const idLevel = location.hash.replace('#', ''); // id уровня из пути в поисковой строке
+const scores = document.getElementById("scores"); // кол-во очков
+const reason = document.getElementById("reason"); // причина удаления
+
+let hexCodes = []; // массив для хранения всех hex-кодов
 
 if (userInfo.isStaff) { // кнопка "Отклонить" для администратора
     deleteButton.classList.remove('d-none');
+    scores.classList.remove('d-none');
+    reason.classList.remove('d-none');
+    // вывод уровня редактирования администатором
+}
+else {
+    error.classList.remove('error');
+    error.classList.add('success');
+    error.textContent = 'Уровень успешно отправлен на проверку';
+}
+
+if (idLevel) {
+    fetch(`http://localhost:3001/api/newlevel?idLevel=${idLevel}`).then((res) => res.json())
+    .then(({level, hexCodes}) => {
+        hexCodesContainer.innerHTML = '';
+        for (const code of hexCodes) { // Отображение hex-кодов
+            hexCodesContainer.innerHTML += `
+            <div class="hex d-flex align-items-center">
+                <p class="circle-color" style="background-color:` + code.hexCode + `;"></p>
+                <p class="text-color" style="color: ` + code.hexCode + `">` + code.hexCode + `</p>
+            </div>`;
+        };
+        nameLevel.value = level.name;
+        editor.setValue(level.codeLevel);
+        scores.value = level.maxScore;
+    }).catch((error) => {
+        console.log(error);
+    });
 }
 
 saveCodeToImg.addEventListener('click', () => { // событие клика на кнопку сохранения
-    if (nameLevel.value.trim().length > 2) { // проверка на длину названия
-        if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g.test(nameLevel.value)) { // в названии можно использовать только буквы и цифры
-            error.textContent = ''; // обнуление строки ошибок
-            
 
+    // ПРИ УДАЛЕНИИИ КНОПКА ДЖЫЛПЖ ВКАЖРИВАЖТ
+    // if (userInfo.isStaff && !reason.value.trim()) {
+    //     error.classList.add('error');
+    //     error.classList.remove('success');
+    //     error.textContent = 'Напишите причину удаления';
+    // }
 
+    if (userInfo.isStaff) {
+        if (!scores.value.trim()) {
+            error.classList.add('error');
+            error.classList.remove('success');
+            error.textContent = 'Введите количество очков';
+            return;
+        }
+        if (!/^[0-9]+$/.test(scores.value.trim())) {
+            error.classList.add('error');
+            error.classList.remove('success');
+            error.textContent = 'Количество очков должно быть целым числом';
+            return;
+        }
+        if (scores.value.trim().length > 5) {
+            error.classList.add('error');
+            error.classList.remove('success');
+            error.textContent = 'Количество очков не должно превышать 5 символов';
+            return;
+        }
+    }
+
+    if (nameLevel.value.trim().length === 0) {
+        error.classList.add('error');
+        error.classList.remove('success');
+        error.textContent = 'Введите название уровня';
+        return;
+    }
+    if (nameLevel.value.trim().length < 3) { // проверка на длину названия
+        error.classList.add('error');
+        error.classList.remove('success');
+        error.textContent = 'Название должно содержать минимум 3 символа';
+        return;
+    }
+    if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g.test(nameLevel.value)) { // в названии можно использовать только буквы и цифры
+        error.classList.add('error');
+        error.classList.remove('success');
+        error.textContent = 'Название должно содержать только буквы и цифры';
+        return;
+    }
+    error.textContent = ''; // обнуление строки ошибок
+
+    // проверка введения количества очков для админа !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             
-            let resCode = editor.getValue().split('\n'); // массив строк када пользователя
-            let property; // переменная значения свойства
-            let hexCodes = []; // массив для хранения всех hex-кодов
-            let hexCode; // переменная для преобразования цвета в hex-code
-            for (const str of resCode) {
-                if (str.includes('color')) {
-                    property = str.split(':')[1]; // сохранение значения свойства
-                    if (property) {
-                        property = property.replaceAll(' ', '');
-                        property = property.slice(0, property.length - 1); // убираем ";" из свойства
-                        hexCode = getHexCode(property); // получаем hex-code цвета
-                        if (hexCode) hexCodes.push(hexCode); // если пустой, значит лежал не цвет
-                    }
-                }
-                else if (str.includes('border') || str.includes('background')) {
-                    property = str.split(':')[1].trim(); // сохранение значения свойства
-                    property = property.slice(0, property.length - 1); // убираем точку с запятой
-                    if (property.includes('#')) {
-                        property = property.slice(property.indexOf('#'), property.indexOf('#') + 7);
-                        hexCode = getHexCode(property); // получаем hex-code цвета
-                        if (hexCode) hexCodes.push(hexCode); // если пустой, значит лежал не цвет
-                    }
-                    else if (property.includes('rgb')) {
-                        property = property.slice(property.indexOf('rgb'), property.indexOf(')'));
-                        hexCode = getHexCode(property); // получаем hex-code цвета
-                        if (hexCode) hexCodes.push(hexCode); // если пустой, значит лежал не цвет
-                    }
-                    else {
-                        let properties = property.split(' ');
-                        for (const prop of properties) {
-                            hexCode = getHexCode(prop.trim()); // получаем hex-code цвета
-                            if (hexCode) hexCodes.push(hexCode); // если пустой, значит лежал не цвет
-                        }
-                    }
+    let resCode = editor.getValue().split('\n'); // массив строк када пользователя
+    let property; // переменная значения свойства
+    let hexCode; // переменная для преобразования цвета в hex-code
+
+    for (const str of resCode) { // сохранение массива hex-кодов
+        if (str.includes('color')) {
+            property = str.split(':')[1]; // сохранение значения свойства
+            if (property) {
+                property = property.replaceAll(' ', '');
+                property = property.slice(0, property.length - 1); // убираем ";" из свойства
+                hexCode = getHexCode(property); // получаем hex-code цвета
+                if (hexCode) hexCodes.push(hexCode); // если пустой, значит лежал не цвет
+            }
+        }
+        else if (str.includes('border') || str.includes('background')) {
+            property = str.split(':')[1].trim(); // сохранение значения свойства
+            property = property.slice(0, property.length - 1); // убираем точку с запятой
+            if (property.includes('#')) {
+                property = property.slice(property.indexOf('#'), property.indexOf('#') + 7);
+                hexCode = getHexCode(property); // получаем hex-code цвета
+                if (hexCode) hexCodes.push(hexCode); // если пустой, значит лежал не цвет
+            }
+            else if (property.includes('rgb')) {
+                property = property.slice(property.indexOf('rgb'), property.indexOf(')'));
+                hexCode = getHexCode(property); // получаем hex-code цвета
+                if (hexCode) hexCodes.push(hexCode); // если пустой, значит лежал не цвет
+            }
+            else {
+                let properties = property.split(' ');
+                for (const prop of properties) {
+                    hexCode = getHexCode(prop.trim()); // получаем hex-code цвета
+                    if (hexCode) hexCodes.push(hexCode); // если пустой, значит лежал не цвет
                 }
             }
-            hexCodesContainer.innerHTML = '';
-            for (const code of hexCodes) { // Отображение hex-кодов
-                hexCodesContainer.innerHTML += `
-                <div class="hex d-flex align-items-center">
-                    <p class="circle-color" style="background-color:` + code + `;"></p>
-                    <p class="text-color" style="color: ` + code + `">` + code + `</p>
-                </div>`;
-            };
-
-
-
-
-            domtoimage.toPng(resultDom) 
-            .then(function (dataUrl) { // сохранение base64 картинки из пользовательского кода
-                var img = new Image();
-                img.width = 300;
-                img.height = 200;
-                img.src = dataUrl;
-                document.body.appendChild(img);
-            })
-            .catch(function (error) {
-                console.error('oops, something went wrong!', error);
-            });
-        }
-        else {
-            error.textContent = 'Название должно содержать только буквы и цифры';
         }
     }
-    else {
-        if (nameLevel.value.trim().length === 0) {
-            error.textContent = 'Введите название уровня';
-        }
-        else {
-            error.textContent = 'Название должно содержать минимум 3 символа';
-        }
-    }
+    hexCodes = [...new Set(hexCodes)];
+    domtoimage.toPng(resultDom) 
+    .then(function (dataUrl) { // сохранение base64 картинки из пользовательского кода
+        idLevel ? editLevel(dataUrl) : addLevel(dataUrl); // запрос на редактирование/добавление уровня
+    })
+    .catch(function (error) {
+        console.error('oops, something went wrong!', error);
+    });
+
 });
+
+function editLevel(dataUrl) { // редактирование уровня
+
+    let img = dataURLtoFile(dataUrl);
+    const formData = new FormData(); // объект для хранения данных отправляемой формы
+    formData.append('idLevel', idLevel);
+    formData.append('file', img);
+    formData.append('name', nameLevel.value.trim());
+    formData.append('codeLevel', editor.getValue().trim());
+    formData.append('isChecked', userInfo.isStaff ? 1 : 0);
+    formData.append('maxScore', userInfo.isStaff ? scores.value.trim() : 0); // ! ПОЛЕ ДЛЯ ВВОДА КОЛ-ВА ОЧКОВ !!!
+    for (const hexCode of hexCodes) {
+        formData.append('hexCodes', hexCode);
+    }
+    fetch(`http://localhost:3001/api/editlevel`, { 
+        method: 'PUT', 
+        body: formData
+    })
+    .then((res) => res.json()).then((res) => {
+        if (res) {
+            console.log('sefs');
+            console.log(res.id);
+            location.reload();
+        }
+    });
+
+}
+
+function addLevel(dataUrl) { // добавление нового уровня
+
+    let img = dataURLtoFile(dataUrl);
+    const formData = new FormData(); // объект для хранения данных отправляемой формы
+    formData.append('file', img);
+    formData.append('idUser', userInfo.id);
+    formData.append('name', nameLevel.value.trim());
+    formData.append('codeLevel', editor.getValue().trim());
+    formData.append('isChecked', userInfo.isStaff ? 1 : 0);
+    formData.append('maxScore', userInfo.isStaff ? 0 : 0); // ! ПОЛЕ ДЛЯ ВВОДА КОЛ-ВА ОЧКОВ !!!
+    for (const hexCode of hexCodes) {
+        formData.append('hexCodes', hexCode);
+    }
+    fetch(`http://localhost:3001/api/newlevel`, { 
+        method: 'POST', 
+        body: formData
+    })
+    .then((res) => res.json()).then((res) => {
+        if (res) {
+            console.log('sefs');
+            console.log(res.id);
+            location = `${location}#${res.id}`;
+        }
+    });
+
+}
 
  /**
   * Функция, возвращающая hex-код цвета
@@ -156,4 +259,16 @@ function colorNameToHex(color) {
     "wheat":"#f5deb3", "white":"#ffffff", "whitesmoke":"#f5f5f5", "yellow":"#ffff00", "yellowgreen":"#9acd32"};
     if (typeof colors[color.toLowerCase()] != 'undefined') return colors[color.toLowerCase()];
     return false;
+}
+
+function dataURLtoFile(dataurl) { // преобразование base64 в файл
+    var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[arr.length - 1]), 
+        n = bstr.length, 
+        u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], 'filename', {type:mime});
 }
