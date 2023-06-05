@@ -48,7 +48,7 @@ app.get('/api/user', (req, res) => { // req - запрос - то, что мы �
 
 app.get('/api/levels', (req, res) => {  // index.html и statistics.html - все доступные пользователю уровни
     connection.query(
-        `SELECT level.id, name, thumbnail, is_checked as isChecked, level.max_score as maxScore, (select username from user where user.id = level.id_user) as author, (select favorite.id from favorite where favorite.id_level = level.id) as favorite, (select max_score from progress_level where progress_level.id_user = ${req.query.idUser} and progress_level.id_level = level.id) as maxScoreUser from level`, 
+        `SELECT level.id, name, thumbnail, is_checked as isChecked, date_delete as dateDelete, level.max_score as maxScore, (select username from user where user.id = level.id_user) as author, (select favorite.id from favorite where favorite.id_level = level.id) as favorite, (select max_score from progress_level where progress_level.id_user = ${req.query.idUser} and progress_level.id_level = level.id) as maxScoreUser from level`, 
         (error, results, fields) => {
             if (req.query.isStatistic) {
                 getRatingUser(req.query.idUser).then((statisticUser) => {
@@ -130,7 +130,7 @@ app.get('/api/profile', (req, res) => { // profile.html
 
 app.get('/api/newlevel', (req, res) => { // newlevel.html - вывод информации об уровне при редактировании
     connection.query(
-        `select name, code_level as codeLevel, max_score as maxScore from level where id = ${req.query.idLevel}`,
+        `select name, code_level as codeLevel, id_user as idUser, max_score as maxScore from level where id = ${req.query.idLevel}`,
         (error, level, fields) => {
             getHexCodes(req.query.idLevel).then((hexCodes) => {
                 res.send({
@@ -216,7 +216,7 @@ app.put('/api/level', (req, res) => { // level.html - перепрохожден
 
 app.put('/api/editlevel', (req, res) => { // newlevel.html - редактирование уровня 
     connection.query( // добавление уровня
-        `update level set name = '${req.body.name}', code_level = '${req.body.codeLevel}', is_checked = ${req.body.isChecked}, max_score = ${req.body.maxScore} where id = ${req.body.idLevel}`, 
+        `update level set reason = null, date_delete = null, name = '${req.body.name}', code_level = '${req.body.codeLevel}', is_checked = ${req.body.isChecked}, max_score = ${req.body.maxScore} where id = ${req.body.idLevel}`, 
         (error, results, fields) => { // добавление hex-кодов
             console.log(req.files.file);
             req.files.file.mv(`./img/levels/${req.body.idLevel}.png`);
@@ -226,6 +226,17 @@ app.put('/api/editlevel', (req, res) => { // newlevel.html - редактиро�
                     else res.send(false);
                 });
             });
+        }
+    );
+});
+
+app.put('/api/deletelevel', (req, res) => { // newlevel.html - удаление уровня админом
+    let today = new Date();
+    connection.query( 
+        `update level set reason = '${req.body.reason}', date_delete = '${today.getFullYear()}-${today.getMonth()}-${today.getDate()}' where id = ${req.body.idLevel}`, 
+        (error, results, fields) => { 
+            if (!error) res.send({id: req.body.idLevel});
+            else res.send(false);
         }
     );
 });
@@ -309,14 +320,16 @@ app.delete('/api/deletelevels', (req, res) => { // автоматическое 
 });
 
 app.delete('/api/mylevels', (req, res) => {  // удаление уровней по кнопке на странице mylevels.html
-    connection.query(
-        `delete from level where id = ${req.body.idLevel}`, 
-        (error, results, fields) => {
-            if (!error) res.send(true);
-            else res.send(false);
-            console.log(error);
-        }
-    );
+    deleteHexCodes(req.body.idLevel).then((del) => {
+        connection.query(
+            `delete from level where id = ${req.body.idLevel}`, 
+            (error, results, fields) => {
+                if (!error) res.send(true);
+                else res.send(false);
+                console.log(error);
+            }
+        );
+     });
 });
 
 // FUNCTIONS

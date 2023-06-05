@@ -7,11 +7,14 @@ const scores = document.getElementById("scores"); // кол-во очков
 const reason = document.getElementById("reason"); // причина удаления
 
 let hexCodes = []; // массив для хранения всех hex-кодов
+let idUser;
 
 if (userInfo.isStaff) { // кнопка "Отклонить" для администратора
-    deleteButton.classList.remove('d-none');
+    if (idLevel) {
+        deleteButton.classList.remove('d-none');
+        reason.classList.remove('d-none');
+    }
     scores.classList.remove('d-none');
-    reason.classList.remove('d-none');
     // вывод уровня редактирования администатором
 }
 else {
@@ -23,6 +26,7 @@ else {
 if (idLevel) {
     fetch(`http://localhost:3001/api/newlevel?idLevel=${idLevel}`).then((res) => res.json())
     .then(({level, hexCodes}) => {
+        idUser = level.idUser;
         hexCodesContainer.innerHTML = '';
         for (const code of hexCodes) { // Отображение hex-кодов
             hexCodesContainer.innerHTML += `
@@ -40,13 +44,6 @@ if (idLevel) {
 }
 
 saveCodeToImg.addEventListener('click', () => { // событие клика на кнопку сохранения
-
-    // ПРИ УДАЛЕНИИИ КНОПКА ДЖЫЛПЖ ВКАЖРИВАЖТ
-    // if (userInfo.isStaff && !reason.value.trim()) {
-    //     error.classList.add('error');
-    //     error.classList.remove('success');
-    //     error.textContent = 'Напишите причину удаления';
-    // }
 
     if (userInfo.isStaff) {
         if (!scores.value.trim()) {
@@ -138,6 +135,51 @@ saveCodeToImg.addEventListener('click', () => { // событие клика н�
 
 });
 
+
+deleteButton.addEventListener('click', (event) => {
+    if (userInfo.isStaff && !reason.value.trim()) {
+        error.classList.add('error');
+        error.classList.remove('success');
+        error.textContent = 'Напишите причину удаления';
+        return;
+    }
+    deleteLevel();
+});
+
+function deleteLevel() {
+    if (idUser) {
+        const formData = new FormData(); // объект для хранения данных отправляемой формы
+        formData.append('idLevel', idLevel);
+        formData.append('reason', reason.value.trim());
+        fetch(`http://localhost:3001/api/deletelevel`, { 
+            method: 'PUT', 
+            body: formData
+        })
+        .then((res) => res.json()).then((res) => {
+            if (res) {
+                location.reload();
+            }
+        });
+    }
+    else {
+        if (confirm('Вы действительно хотите удалить уровень? Данное действие отменить нельзя.')) {
+            console.log('sdf');
+            fetch(`http://localhost:3001/api/mylevels`, { 
+                method: 'DELETE', 
+                headers: {'Content-Type' : 'application/json'},
+                body: JSON.stringify({
+                    idLevel
+                })
+            }).then((res) => {
+                if (res) location = '../index.html';
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+    }
+}
+
+
 function editLevel(dataUrl) { // редактирование уровня
 
     let img = dataURLtoFile(dataUrl);
@@ -157,8 +199,6 @@ function editLevel(dataUrl) { // редактирование уровня
     })
     .then((res) => res.json()).then((res) => {
         if (res) {
-            console.log('sefs');
-            console.log(res.id);
             location.reload();
         }
     });
@@ -170,11 +210,11 @@ function addLevel(dataUrl) { // добавление нового уровня
     let img = dataURLtoFile(dataUrl);
     const formData = new FormData(); // объект для хранения данных отправляемой формы
     formData.append('file', img);
-    formData.append('idUser', userInfo.id);
+    formData.append('idUser', userInfo.isStaff ? null : userInfo.id);
     formData.append('name', nameLevel.value.trim());
     formData.append('codeLevel', editor.getValue().trim());
     formData.append('isChecked', userInfo.isStaff ? 1 : 0);
-    formData.append('maxScore', userInfo.isStaff ? 0 : 0); // ! ПОЛЕ ДЛЯ ВВОДА КОЛ-ВА ОЧКОВ !!!
+    formData.append('maxScore', userInfo.isStaff ? scores.value.trim() : 0); // ! ПОЛЕ ДЛЯ ВВОДА КОЛ-ВА ОЧКОВ !!!
     for (const hexCode of hexCodes) {
         formData.append('hexCodes', hexCode);
     }
@@ -184,8 +224,6 @@ function addLevel(dataUrl) { // добавление нового уровня
     })
     .then((res) => res.json()).then((res) => {
         if (res) {
-            console.log('sefs');
-            console.log(res.id);
             location = `${location}#${res.id}`;
         }
     });

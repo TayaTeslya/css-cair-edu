@@ -100,6 +100,18 @@ function setLevels(condition) {
             </div>`;
         }
         else if (userInfo.isStaff) { // вывод всех уровней для администраторов
+            console.log(level.dateDelete);
+            if (level.isChecked) {
+                if (level.dateDelete) {
+                    checked = ' - Отклонён';
+                }
+                else {
+                    checked = '';
+                }
+            }
+            else {
+                checked = ' - Не проверен';
+            }
             levelContainer.innerHTML += 
             `<div class="d-flex py-0 px-0">
                 <a id="${level.id}" href="../pages/newlevel.html#${level.id}" class="d-flex card justify-content-between flex-column gap-2">
@@ -109,7 +121,7 @@ function setLevels(condition) {
                     <div class="d-flex card-description justify-content-between mx-3 my-2">
                         <div class="d-flex flex-column col-10 col-sm-10 col-lg-10 col-md-10">
                             <p class="card-title ov-text">${level.author ? "~" : "#"}<span>${level.id}</span> - ${level.name}</p>
-                            <p class="card-author ov-text">${level.author || ''}${!level.isChecked ? `<span class="error"> - На проверке</span>` : ""}</p>
+                            <p class="card-author ov-text">${level.author || ''}<span class="error">${checked}</span></p>
                         </div>
                     </div>
                 </a>
