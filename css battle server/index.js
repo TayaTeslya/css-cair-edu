@@ -33,19 +33,6 @@ app.all('*', function(req, res, next) {  // настройки Core для за�
 
 // GET
 
-app.get('/api/user', (req, res) => { // req - запрос - то, что мы передаем при отправке запроса на сервер, res - результат, который сервер отправляет
-    connection.query( // информация о авторизованном пользователе - для всех страниц
-        `select * from user where id = ${req.query.idUser}`, (error, results, fields) => {
-            res.send({
-                id: results[0].id,
-                username: results[0].username,
-                avatarPath: results[0].avatar_path,
-                isStaff: results[0].is_staff,
-            });
-        }
-    );
-});
-
 app.get('/api/levels', (req, res) => {  // index.html и statistics.html - все доступные пользователю уровни
     connection.query(
         `SELECT level.id, name, thumbnail, is_checked as isChecked, date_delete as dateDelete, level.max_score as maxScore, (select username from user where user.id = level.id_user) as author, (select favorite.id from favorite where favorite.id_level = level.id) as favorite, (select max_score from progress_level where progress_level.id_user = ${req.query.idUser} and progress_level.id_level = level.id) as maxScoreUser from level`, 
@@ -151,6 +138,16 @@ app.get('/api/newlevel', (req, res) => { // newlevel.html - вывод инфо�
 
 
 // POST
+
+app.post('/api/auth', (req, res) => { // req - запрос - то, что мы передаем при отправке запроса на сервер, res - результат, который сервер отправляет
+    connection.query( // информация о авторизованном пользователе - для всех страниц
+        `select id, username, avatar_path as avatarPath, is_staff as isStaff from user where login = '${req.body.login}' and password = '${req.body.password}'`, (error, results, fields) => {
+           if (results.length > 0) res.send(results[0]);
+           else res.send(false);
+        }
+        
+    );
+});
 
 app.post('/api/favorite', (req, res) => { // добавление в избранное
     connection.query(
@@ -283,13 +280,22 @@ app.delete('/api/favorite', (req, res) => { // удаление из избра�
 });
 
 app.delete('/api/deletelevels', (req, res) => { // автоматическое удаление уровней (при заходе на страницу mylevels.html)
-    connection.query(
-        `delete from level where date_delete <= CURRENT_DATE()`, 
-        (error, results, fields) => {
-            if (!error) res.send(true);
-            else res.send(false);
-        }
-    );
+    deleteHexCodes(idLevel).then((delHexCodes) => {
+        connection.query(
+            `delete from color where id = ${req.body.idLevel}`, 
+            (errorUpdate, resultsUpdate, fieldsUpdate) => {
+                connection.query(
+                    `delete from level where date_delete <= CURRENT_DATE()`, 
+                    (error, results, fields) => {
+                        if (!error) res.send(true);
+                        else res.send(false);
+                    }
+                );
+            }
+        );
+    }).catch((error) => {
+        console.log(error);
+    })
 });
 
 app.delete('/api/mylevels', (req, res) => {  // удаление уровней по кнопке на странице mylevels.html

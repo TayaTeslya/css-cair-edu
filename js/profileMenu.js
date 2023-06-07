@@ -11,6 +11,9 @@ if (userInfo.isStaff) { // список навигации для админис
     profileMenu.innerHTML = `
     <a href="../pages/rating.html" class="category-bottom">
         Рейтинг
+    </a>
+    <a href="../pages/auth.html" class="category-bottom">
+        Выйти из аккаунта
     </a>`;
 }
 else { // список навигации для учеников
@@ -23,6 +26,9 @@ else { // список навигации для учеников
     </a>
     <a href="../pages/rating.html" class="category-bottom">
         Рейтинг
+    </a>
+    <a href="../pages/auth.html" class="category-bottom">
+        Выйти из аккаунта
     </a>`;
 }
 

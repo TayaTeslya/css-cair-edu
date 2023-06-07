@@ -83,6 +83,12 @@ saveCodeToImg.addEventListener('click', () => { // событие клика н�
         error.textContent = 'Название должно содержать минимум 3 символа';
         return;
     }
+    if (nameLevel.value.trim().length > 50) { // проверка на длину названия
+        error.classList.add('error');
+        error.classList.remove('success');
+        error.textContent = 'Название должно содержать максимум 50 символов';
+        return;
+    }
     if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g.test(nameLevel.value)) { // в названии можно использовать только буквы и цифры
         error.classList.add('error');
         error.classList.remove('success');

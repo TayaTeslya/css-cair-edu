@@ -1,0 +1,43 @@
+.form-container {
+    background-color: #242038;
+}
+
+.form-container form {
+    width: 20%;
+}
+
+.form-container h2 {
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.auth-reg-button {
+    min-width: 150px;
+    background-color: #8F4C48;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-family: 'Inter';
+    font-style: Italic;
+    font-weight: 800;
+    color: #FFFFFF;
+    transition: 0.3s;
+}
+
+.auth-reg-button:hover {
+    background-color: #663431;
+}
+
+.auth-reg-button:active {
+    transform: scale(0.9);
+}
+
+.profile {
+    padding: 15px 25px;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.error {
+    text-align: center;
+}
