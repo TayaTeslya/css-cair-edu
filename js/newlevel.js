@@ -17,16 +17,15 @@ if (userInfo.isStaff) { // кнопка "Отклонить" для админи
     scores.classList.remove('d-none');
     // вывод уровня редактирования администатором
 }
-else {
-    error.classList.remove('error');
-    error.classList.add('success');
-    error.textContent = 'Уровень успешно отправлен на проверку';
-}
 
 if (idLevel) {
     fetch(`http://localhost:3001/api/newlevel?idLevel=${idLevel}`).then((res) => res.json())
     .then(({level, hexCodes}) => {
         idUser = level.idUser;
+        if ((idUser !== userInfo.id || level.isChecked) && !userInfo.isStaff) {
+            location = `../index.html`;
+            return;
+        }
         hexCodesContainer.innerHTML = '';
         for (const code of hexCodes) { // Отображение hex-кодов
             hexCodesContainer.innerHTML += `
@@ -64,6 +63,12 @@ saveCodeToImg.addEventListener('click', () => { // событие клика н�
             error.textContent = 'Количество очков не должно превышать 5 символов';
             return;
         }
+        if (Number(scores.value.trim()) < 10) {
+            error.classList.add('error');
+            error.classList.remove('success');
+            error.textContent = 'Количество очков должно быть не менее 10';
+            return;
+        }
     }
 
     if (nameLevel.value.trim().length === 0) {
@@ -84,7 +89,6 @@ saveCodeToImg.addEventListener('click', () => { // событие клика н�
         error.textContent = 'Название должно содержать только буквы и цифры';
         return;
     }
-    error.textContent = ''; // обнуление строки ошибок
 
     // проверка введения количества очков для админа !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             
@@ -137,7 +141,7 @@ saveCodeToImg.addEventListener('click', () => { // событие клика н�
 
 
 deleteButton.addEventListener('click', (event) => {
-    if (userInfo.isStaff && !reason.value.trim()) {
+    if (userInfo.isStaff && !reason.value.trim() && idUser) {
         error.classList.add('error');
         error.classList.remove('success');
         error.textContent = 'Напишите причину удаления';

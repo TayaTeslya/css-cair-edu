@@ -13,15 +13,9 @@ fetch(`http://localhost:3001/api/levels?idUser=${userInfo.id}&isStatistic=true`)
     currentLevels = results; 
 
     rating.textContent = `Рейтинг - ${statisticUser.rating}/${statisticUser.count}`;
-    scores.textContent = `Собрано очков - ${statisticUser.scores}`;
+    scores.textContent = `Собрано очков - ${statisticUser.scores || 0}`;
     levelsDone.textContent = `Пройдено уровней - ${statisticUser.done}/${statisticUser.levels}`;
 
-    // let levels = [ // объект с уровнями
-    //     {"id": 5, "name": "Цветок", "thumbnail": "../img/levels/5.png", "status": "Пройден", checked: true, "favorite": false, "author": "", maxSore: 4314, score: 234},
-    //     {"id": 2, "name": "Кружок", "thumbnail": "../img/levels/2.png", "status": "Начат", checked: true, "favorite": true, "author": "", maxSore: 434, score: 24},
-    //     {"id": 1, "name": "Смайликfsdfsdfsdfsdfsdfsdfd", "thumbnail": "../img/levels/1.png", checked: true, "status": "Не пройден", "favorite": true, "author": "Имя Пользователя", maxSore: 464, score: 67},
-    //     {"id": 3, "name": "Лампа", "thumbnail": "../img/levels/3.png", checked: true, "status": "Не пройден", "favorite": false, "author": "Имя Пользователя", maxSore: 776, score: 775}
-    // ]
     setLevels((element) => true); // вывод всех уровней
 
 

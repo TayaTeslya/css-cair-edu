@@ -6,6 +6,7 @@ const author = document.getElementsByClassName("card-author"); // Объект �
 const nameLevel = document.getElementsByClassName("card-name-level"); // Объект для вывода номера и названия уровня
 const defaultImg = document.getElementsByClassName("img-default"); // Объект для вывода картинки уровня
 const idLevel = location.hash.replace('#', ''); // id уровня из пути в поисковой строке
+const reTryLevel = document.getElementById('re-try-level'); // кнопка "перепройти"
 
 fetch(`http://localhost:3001/api/level?idUser=${userInfo.id}&idLevel=${idLevel}`).then((res) => res.json())
 .then(({level, hexCodes, progress}) => {
@@ -27,6 +28,7 @@ fetch(`http://localhost:3001/api/level?idUser=${userInfo.id}&idLevel=${idLevel}`
     }
 
     if (progress) {
+        reTryLevel.classList.remove('d-none');
         resultScore.textContent = `${progress.score} из ${level.maxScore} (${(Math.floor(100 / level.maxScore * progress.score))}%)`; 
         maxScore.textContent = `${progress.maxScore} из ${level.maxScore} (${(Math.floor(100 / level.maxScore * progress.maxScore))}%)`;
     }
@@ -131,6 +133,21 @@ fetch(`http://localhost:3001/api/level?idUser=${userInfo.id}&idLevel=${idLevel}`
 
 }).catch((error) => {
     console.log(error);
+});
+
+reTryLevel.addEventListener('click', (event) => {
+    fetch('http://localhost:3001/api/retrylevel', { 
+        method: 'PUT', 
+        headers: {'Content-Type' : 'application/json'}, 
+        body: JSON.stringify({
+            idLevel,
+            idUser: userInfo.id
+    })})
+    .then((res) => {
+        location.reload();
+    }).catch((error) => {
+        console.log(error);
+    });
 });
 
 

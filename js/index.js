@@ -65,7 +65,7 @@ function setLevels(condition) {
     levelContainer.innerHTML = ''; // очищение объекта для вывода уровней
     currentLevels = currentLevels.filter(condition);
     for (const level of currentLevels) { // цикл, проходящий по отфильтрованным по категориям уровням
-        if (!userInfo.isStaff && level.isChecked) { // вывод доступных для учеников уровней
+        if (!userInfo.isStaff && level.isChecked && !level.dateDelete) { // вывод доступных для учеников уровней
             levelContainer.innerHTML += 
             `<div class="d-flex py-0 px-0">
                 <a id="${level.id}" href="../pages/level.html#${level.id}" class="d-flex card justify-content-between flex-column gap-2">
@@ -100,7 +100,6 @@ function setLevels(condition) {
             </div>`;
         }
         else if (userInfo.isStaff) { // вывод всех уровней для администраторов
-            console.log(level.dateDelete);
             if (level.isChecked) {
                 if (level.dateDelete) {
                     checked = ' - Отклонён';

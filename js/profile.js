@@ -7,19 +7,22 @@ const description = document.getElementById("description"); // поле для �
 const photoUser = document.getElementById("photo-user"); // объект для вывода аватара пользователя
 const buttonSave = document.getElementById("button-save"); // кнопка сохранения изменений
 const error = document.getElementById("error"); // объект для вывода ошибок
+const idUserProfile = location.hash.replace('#', ''); // id уровня из пути в поисковой строке
 
-fetch(`http://localhost:3001/api/profile?idUser=${userInfo.id}`).then((res) => res.json())
+fetch(`http://localhost:3001/api/profile?idUser=${idUserProfile}`).then((res) => res.json())
 .then(({infoUser, ratingUser}) => {
     
-    if (userInfo.id !== infoUser.id) { // если пользователь не на своей странице, блочим изменение информации
-        buttonSave.classList.add('d-none');
+    if (userInfo.id !== Number(idUserProfile)) { // если пользователь не на своей странице, блочим изменение информации
         description.disabled = true;
         github.disabled = true;
         // если отдельное приложение, блочить также имя пользователя и изменение аватара
     }
-
+    else { 
+        buttonSave.classList.remove('d-none');
+    }
+    
     rating.textContent = `Рейтинг - ${ratingUser.rating}/${ratingUser.count}`;
-    scores.textContent = `Собрано очков - ${ratingUser.scores}`;
+    scores.textContent = `Собрано очков - ${ratingUser.scores || 0}`;
     levelsDone.textContent = `Пройдено уровней - ${ratingUser.done}/${ratingUser.levels}`;
     usernameInfo.textContent = infoUser.username;
     github.value = infoUser.github;

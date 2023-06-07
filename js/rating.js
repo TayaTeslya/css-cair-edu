@@ -3,11 +3,17 @@ const scores = document.getElementById("scores"); // объект для выв�
 const levelsDone = document.getElementById("levels-done"); // объект для вывода количества пройденных уровней
 const userRating = document.getElementById("levels-statistic"); // объект для вывода рейтинга пользователей
 
-fetch(`http://localhost:3001/api/rating?idUser=${userInfo.id}`).then((res) => res.json())
+fetch(`http://localhost:3001/api/rating?idUser=${userInfo.id}&isStaff=${userInfo.isStaff}`).then((res) => res.json())
 .then(({ratingList, ratingUser}) => { // деструктуризация по названию в объекте, возвращаемом сервером
 
-    rating.textContent = `Рейтинг - ${ratingUser.rating}/${ratingUser.count}`;
-    scores.textContent = `Собрано очков - ${ratingUser.scores}`;
+    if (!userInfo.isStaff) {
+        rating.textContent = `Рейтинг - ${ratingUser.rating}/${ratingUser.count}`;
+        scores.textContent = `Собрано очков - ${ratingUser.scores}`;
+    }
+    else {
+        rating.parentNode.classList.add('d-none');
+        scores.parentNode.classList.add('d-none');
+    }
 
     ratingList.map((rating, index) => { //rating - элемент массива - как foreach
         userRating.innerHTML += `

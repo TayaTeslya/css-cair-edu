@@ -98,16 +98,21 @@ app.get('/api/level', (req, res) => { //level.html
 
 app.get('/api/rating', (req, res) => { // rating.html
     connection.query(
-        `select user.id, (select sum(max_score) from progress_level where id_user = user.id) as sumMaxScores, avatar_path as avatarPath, username from user where is_staff = 0 group by user.id order by sumMaxScores desc limit 100`,
+        `select user.id as idUser, (select sum(max_score) from progress_level where id_user = user.id) as sumMaxScores, avatar_path as avatarPath, username from user where is_staff = 0 group by user.id order by sumMaxScores desc limit 100`,
         (error, results, fields) => {
-            getRatingUser(req.query.idUser).then((ratingUser) => { // рейтинг пользователя и количество очков
-                res.send({
-                    ratingList: results, 
-                    ratingUser
+            if (req.query.isStaff) {
+                res.send({ratingList: results});
+            }
+            else {
+                getRatingUser(req.query.idUser).then((ratingUser) => { // рейтинг пользователя и количество очков
+                    res.send({
+                        ratingList: results, 
+                        ratingUser
+                    });
+                }).catch((error) => {
+                    console.log(error);
                 });
-            }).catch((error) => {
-                console.log(error);
-            });
+            }
         }
     );
 });
@@ -130,7 +135,7 @@ app.get('/api/profile', (req, res) => { // profile.html
 
 app.get('/api/newlevel', (req, res) => { // newlevel.html - вывод информации об уровне при редактировании
     connection.query(
-        `select name, code_level as codeLevel, id_user as idUser, max_score as maxScore from level where id = ${req.query.idLevel}`,
+        `select name, code_level as codeLevel, is_checked as isChecked, id_user as idUser, max_score as maxScore from level where id = ${req.query.idLevel}`,
         (error, level, fields) => {
             getHexCodes(req.query.idLevel).then((hexCodes) => {
                 res.send({
@@ -241,6 +246,109 @@ app.put('/api/deletelevel', (req, res) => { // newlevel.html - удаление 
     );
 });
 
+app.put('/api/editleveladmin', (req, res) => { // newlevel.html - редактирование уровня администратором
+    let id = results.insertId;
+    let thumbnail = `http://localhost:3001/levels/${id}.png`;
+    connection.query( // добавление уровня
+        `update level set thumbnail = '${thumbnail}' where id = ${id}`, 
+        (error, results, fields) => { // добавление hex-кодов
+            console.log(req.files.file);
+            req.files.file.mv(`./img/levels/${id}.png`);
+            if (!error) res.send({id});
+            else res.send(false);
+        }
+    );
+});
+
+app.put('/api/retrylevel', (req, res) => { // newlevel.html - редактирование уровня администратором
+    connection.query( 
+        `update progress_level set score = 0, code_level = '' where id_level = ${req.body.idLevel} and id_user = ${req.body.idUser}`, 
+        (error, results, fields) => { 
+            if (!error) res.send(true);
+            else res.send(false);
+        }
+    );
+});
+
+// DELETE
+
+app.delete('/api/favorite', (req, res) => { // удаление из избранное
+    connection.query(
+        `delete from favorite where id_level = ${req.body.idLevel} and id_user = ${req.body.idUser}`, 
+        (error, results, fields) => {
+            if (!error) res.send(true);
+            else res.send(false);
+        }
+    );
+});
+
+app.delete('/api/deletelevels', (req, res) => { // автоматическое удаление уровней (при заходе на страницу mylevels.html)
+    connection.query(
+        `delete from level where date_delete <= CURRENT_DATE()`, 
+        (error, results, fields) => {
+            if (!error) res.send(true);
+            else res.send(false);
+        }
+    );
+});
+
+app.delete('/api/mylevels', (req, res) => {  // удаление уровней по кнопке на странице mylevels.html
+    connection.query(
+        `update progress_level set id_level = NULL where id_level = ${req.body.idLevel}`, 
+        (errorUpdate, resultsUpdate, fieldsUpdate) => {
+            deleteHexCodes(req.body.idLevel).then((del) => {
+                connection.query(
+                    `delete from level where id = ${req.body.idLevel}`, 
+                    (error, results, fields) => {
+                        if (!error) res.send(true);
+                        else res.send(false);
+                    }
+                );
+            });
+        }
+    );
+});
+
+// FUNCTIONS
+
+function getRatingUser(idUser) { // формирование строки рейтинга "Рейтинг - 124/3254" и "Очки - 5345"
+    return new Promise((resolve, reject) => { // асинхронная ф-ция
+        connection.query(
+            `select user.id, (select sum(max_score) from progress_level where id_user = user.id) as sumScores, (select count(level.id) from level) as countLevels, (select count(progress_level.id) from progress_level, level where progress_level.id_user = user.id and progress_level.max_score = level.max_score and id_level = level.id) as countProgressLevels from user where is_staff = 0 group by user.id order by sumScores desc`,
+            (error, results, fields) => {
+                if (error) { // ошибка
+                    reject(error);
+                }
+                else { // результат
+                    resolve({
+                        rating: results.indexOf(results.find((element) => element.id === Number(idUser))) + 1, 
+                        count: results.length,
+                        scores: results.find((element) => element.id === Number(idUser)).sumScores,
+                        levels: results.find((element) => element.id === Number(idUser)).countLevels,
+                        done: results.find((element) => element.id === Number(idUser)).countProgressLevels
+                    });
+                }
+            }
+        );
+    });
+}
+
+function getHexCodes(idLevel) { // получение hex-кодов
+    return new Promise((resolve, reject) => { // асинхронная ф-ция
+        connection.query( // цвета уровня
+        `select hex_code as hexCode from color where id_level = ${idLevel}`, 
+            (error, results, fields) => {
+                if (error) { // ошибка
+                    reject(error);
+                }
+                else { // результат
+                    resolve(results);
+                }
+            }
+        );
+    });
+}
+
 function deleteHexCodes(idLevel) {
     return new Promise((resolve, reject) => { // асинхронная ф-ция
         connection.query( // цвета уровня
@@ -271,96 +379,6 @@ function addHexCodes(idLevel, hexCodes) {  // добавление цветов 
         }
         connection.query(
             insert,
-            (error, results, fields) => {
-                if (error) { // ошибка
-                    reject(error);
-                }
-                else { // результат
-                    resolve(results);
-                }
-            }
-        );
-    });
-}
-
-app.put('/api/editleveladmin', (req, res) => { // newlevel.html - редактирование уровня администратором
-    let id = results.insertId;
-    let thumbnail = `http://localhost:3001/levels/${id}.png`;
-    connection.query( // добавление уровня
-        `update level set thumbnail = '${thumbnail}' where id = ${id}`, 
-        (error, results, fields) => { // добавление hex-кодов
-            console.log(req.files.file);
-            req.files.file.mv(`./img/levels/${id}.png`);
-            if (!error) res.send({id});
-            else res.send(false);
-        }
-    );
-});
-
-// DELETE
-
-app.delete('/api/favorite', (req, res) => { // удаление из избранное
-    connection.query(
-        `delete from favorite where id_level = ${req.body.idLevel} and id_user = ${req.body.idUser}`, 
-        (error, results, fields) => {
-            if (!error) res.send(true);
-            else res.send(false);
-        }
-    );
-});
-
-app.delete('/api/deletelevels', (req, res) => { // автоматическое удаление уровней (при заходе на страницу mylevels.html)
-    connection.query(
-        `delete from level where date_delete <= CURRENT_DATE()`, 
-        (error, results, fields) => {
-            if (!error) res.send(true);
-            else res.send(false);
-        }
-    );
-});
-
-app.delete('/api/mylevels', (req, res) => {  // удаление уровней по кнопке на странице mylevels.html
-    deleteHexCodes(req.body.idLevel).then((del) => {
-        connection.query(
-            `delete from level where id = ${req.body.idLevel}`, 
-            (error, results, fields) => {
-                if (!error) res.send(true);
-                else res.send(false);
-                console.log(error);
-            }
-        );
-     });
-});
-
-// FUNCTIONS
-
-
-function getRatingUser(idUser) { // формирование строки рейтинга "Рейтинг - 124/3254" и "Очки - 5345"
-    return new Promise((resolve, reject) => { // асинхронная ф-ция
-        connection.query(
-            `select user.id, (select sum(max_score) from progress_level where id_user = user.id) as sumScores, (select count(level.id) from level) as countLevels, (select count(progress_level.id) from progress_level, level where progress_level.id_user = user.id and progress_level.max_score = level.max_score and id_level = level.id) as countProgressLevels from user where is_staff = 0 group by user.id order by sumScores desc`,
-            (error, results, fields) => {
-                if (error) { // ошибка
-                    reject(error);
-                }
-                else { // результат
-                    resolve({
-                        rating: results.indexOf(results.find((element) => element.id === Number(idUser))) + 1, 
-                        count: results.length,
-                        scores: results.find((element) => element.id === Number(idUser)).sumScores,
-                        levels: results.find((element) => element.id === Number(idUser)).countLevels,
-                        done: results.find((element) => element.id === Number(idUser)).countProgressLevels
-                    });
-                }
-            }
-        );
-    });
-}
-
-function getHexCodes(idLevel) { // получение hex-кодов
-    return new Promise((resolve, reject) => { // асинхронная ф-ция
-        connection.query( // цвета уровня
-        `select hex_code as hexCode from color where id_level = ${idLevel}`, 
             (error, results, fields) => {
                 if (error) { // ошибка
                     reject(error);
