@@ -18,7 +18,7 @@ if (userInfo.isStaff) { // список навигации для админис
 }
 else { // список навигации для учеников
     profileMenu.innerHTML = `
-    <a href="../pages/profile.html" class="category-top">
+    <a href="../pages/profile.html#${userInfo.id}" class="category-top">
         Профиль
     </a>
     <a href="../pages/statistics.html" class="">

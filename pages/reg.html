@@ -23,7 +23,7 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-12 d-flex justify-content-center justify-content-md-end">
                 <div class="anime-little profile d-flex align-items-center justify-content-center">
-                    <a href="../pages/reg.html">Создать аккаунт</a>
+                    <a href="../pages/auth.html">Войти в аккаунт</a>
                 </div>
             </div>
         </div>
@@ -31,13 +31,22 @@
     <main class="main">
         <section class="h-100 mh-100 form-container d-flex align-items-center justify-content-center">
            <form class="form d-flex flex-column gap-3 align-items-center">
-                <h2>Авторизация</h2>
+                <h2>Регистрация</h2>
+                <div class="d-flex align-items-center search w-100">
+                    <input class="ps-3 pe-3 search-input" type="text" placeholder="Имя пользователя" id="username">
+                </div>
                 <div class="d-flex align-items-center search w-100">
                     <input class="ps-3 pe-3 search-input" type="text" placeholder="Логин" id="login">
                 </div>
                 <div class="d-flex align-items-center search w-100">
                     <input type="password" class="ps-3 pe-3 search-input" type="text" placeholder="Пароль" id="password">
-                    <button type="button" class="pe-2 ps-2 search-button" id="toggle-visivility">
+                    <button type="button" class="pe-2 ps-2 search-button" id="toggle-visibility">
+                        <img class="icon" src="../img/icons/visibility.png" alt="">
+                    </button>
+                </div>
+                <div class="d-flex align-items-center search w-100">
+                    <input type="password" class="ps-3 pe-3 search-input" type="text" placeholder="Подтвердите пароль" id="confirm-password">
+                    <button type="button" class="pe-2 ps-2 search-button" id="confirm-toggle-visibility">
                         <img class="icon" src="../img/icons/visibility.png" alt="">
                     </button>
                 </div>
@@ -60,6 +69,6 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <script src="../js/auth.js"></script>
+    <script src="../js/reg.js"></script>
 </body>
 </html>

@@ -60,7 +60,7 @@ function setLevels(condition) {
                 </div>
             </div>
             <div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4 align-items-center justify-content-center">
-                <span>${level.maxScoreUser ? `${level.maxScoreUser} из ${level.maxScore} (${Math.floor(100 / level.maxScoreUser * level.maxScore)}%)` : `0 из ${level.maxScore} (0%)`}</span>
+                <span>${level.maxScoreUser ? `${level.maxScoreUser} из ${level.maxScore} (${Math.floor(100 / level.maxScore * level.maxScoreUser)}%)` : `0 из ${level.maxScore} (0%)`}</span>
             </div>`;
         }
     }

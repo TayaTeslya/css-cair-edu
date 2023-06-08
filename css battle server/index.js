@@ -4,6 +4,7 @@ const bodyParser = require('body-parser'); // библиотека для выт
 const fileUpload = require('express-fileupload'); // библиотека для загрузки файлов на сервер
 const cors = require('cors'); // библиотека для настройки работы с браузером
 const fs = require('fs'); // для загрузки файлов на сервер
+const cryptoJS = require('crypto-js'); // для хеширования пароля
 // import { createServer } from "http"; // создание сервера, работающего с помощью http
 
 const app = express(); // создание объекта сервера
@@ -87,7 +88,7 @@ app.get('/api/rating', (req, res) => { // rating.html
     connection.query(
         `select user.id as idUser, (select sum(max_score) from progress_level where id_user = user.id) as sumMaxScores, avatar_path as avatarPath, username from user where is_staff = 0 group by user.id order by sumMaxScores desc limit 100`,
         (error, results, fields) => {
-            if (req.query.isStaff) {
+            if (Number(req.query.isStaff)) {
                 res.send({ratingList: results});
             }
             else {
@@ -141,11 +142,26 @@ app.get('/api/newlevel', (req, res) => { // newlevel.html - вывод инфо�
 
 app.post('/api/auth', (req, res) => { // req - запрос - то, что мы передаем при отправке запроса на сервер, res - результат, который сервер отправляет
     connection.query( // информация о авторизованном пользователе - для всех страниц
-        `select id, username, avatar_path as avatarPath, is_staff as isStaff from user where login = '${req.body.login}' and password = '${req.body.password}'`, (error, results, fields) => {
+        `select id, username, avatar_path as avatarPath, is_staff as isStaff from user where login = '${req.body.login}' and password = '${cryptoJS.SHA256(req.body.password).toString()}'`, (error, results, fields) => {
            if (results.length > 0) res.send(results[0]);
            else res.send(false);
         }
         
+    );
+});
+
+app.post('/api/reg', (req, res) => { // req - запрос - то, что мы передаем при отправке запроса на сервер, res - результат, который сервер отправляет
+    connection.query( // информация о авторизованном пользователе - для всех страниц
+        `select id from user where login = '${req.body.login}'`, (errorSelect, resultsSelect, fieldsSelect) => {
+            if (resultsSelect.length > 0) res.send(false);
+            else {
+                connection.query( // информация о авторизованном пользователе - для всех страниц
+                    `insert into user (username, login, password) values ('${req.body.username}', '${req.body.login}' , '${cryptoJS.SHA256(req.body.password).toString()}')`, (error, results, fields) => {
+                        res.send(true);
+                    }
+                );
+            }
+        }
     );
 });
 

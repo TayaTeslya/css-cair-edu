@@ -18,62 +18,12 @@ toggleVisivility.addEventListener('click', (event) => { // изменение в
 });
 
 auth.addEventListener('click', (event) => {
-    // let loginValue = login.value.trim();
-    // // проверки валидности логина
-    // if (loginValue.length === 0) {
-    //     error.textContent = 'Введите логин';
-    //     return;
-    // }
-    // if (loginValue.length < 5) {
-    //     error.textContent = 'Логин должно содержать минимум 5 символов';
-    //     return;
-    // }
-    // if (loginValue.length > 20) {
-    //     error.textContent = 'Логин должно содержать максимум 20 символов';
-    //     return;
-    // }
-    // if (/[А-Яа-я!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?]/g.test(loginValue)) { 
-    //     error.textContent = 'Логин может содержать только латинские буквы, цифры и символ нижнего подчеркивания';
-    //     return;
-    // }
-    // if (/[\s]/g.test(loginValue)) {
-    //     error.textContent = 'Логин не должен содержать пробелы';
-    //     return;
-    // }
-    // if (/^[\d_]/g.test(loginValue)) {
-    //     error.textContent = 'Логин должен начинаться с буквы';
-    //     return;
-    // }
-    // // проверки валидности пароля
-    // let passwordValue = password.value;
-    // if (passwordValue.length === 0) {
-    //     error.textContent = 'Введите пароль';
-    //     return;
-    // }
-    // if (passwordValue.length < 8) {
-    //     error.textContent = 'Пароль должен содержать минимум 8 символов';
-    //     return;
-    // }
-    // if (passwordValue.length > 30) {
-    //     error.textContent = 'Пароль должен содержать максимум 30 символов';
-    //     return;
-    // }
-    // if (/[&()+=\[\]{};':"\\|<>\/?]/g.test(passwordValue)) { 
-    //     error.textContent = 'Пароль не может содержать символы "( ) { } ? + < > [ ] = ; " \' : & | / \\"';
-    //     return;
-    // }
-    // if (!/[!@#$%^*_,.\-]/g.test(passwordValue)) {
-    //     error.textContent = 'Пароль должен содержать хотя-бы один спец-символ "! @ # $ % ^ * - _ , ."';
-    //     return;
-    // }
-    // if (passwordValue.includes('  ')) { 
-    //     error.textContent = 'Пароль не должен содержать два пробела подряд';
-    //     return;
-    // }
     if (/[&()+=\[\]{};':"\\|<>\/?]/g.test(password.value)) { 
+        error.textContent = 'Неправильный логин и/или пароль';
         return;
     }
     if (/[&()+=\[\]{};':"\\|<>\/?]/g.test(login.value)) { 
+        error.textContent = 'Неправильный логин и/или пароль';
         return;
     }
     error.textContent = '';
