@@ -5,7 +5,6 @@ const adminButton = document.getElementById("admin-button");
 
 let levels;
 let currentLevels;
-// let options = {author: '', name: '', }
 
 if (userInfo.isStaff) {
     userButton.classList.add('d-none');

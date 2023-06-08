@@ -4,6 +4,11 @@ const username = document.getElementById("username"); // объект имени
 const profilePhoto = document.getElementById("profile-photo"); // объект для вывода аватарки пользователя
 
 let userInfo = JSON.parse(localStorage.getItem("user")); // получение объекта пользователя
+
+if (!userInfo) { // редирект на авторизацию, если пользователь не авторизовался
+    location = '../pages/auth.html';
+}
+
 username.textContent = userInfo.username;
 profilePhoto.src = userInfo.avatarPath;
 
@@ -26,6 +31,9 @@ else { // список навигации для учеников
     </a>
     <a href="../pages/rating.html" class="category-bottom">
         Рейтинг
+    </a>
+    <a href="../pages/account.html" class="category-bottom">
+        Данные об аккаунте
     </a>
     <a href="../pages/auth.html" class="category-bottom">
         Выйти из аккаунта

@@ -137,6 +137,14 @@ app.get('/api/newlevel', (req, res) => { // newlevel.html - вывод инфо�
     );
 });
 
+app.get('/api/account', (req, res) => { // newlevel.html - вывод информации об уровне при редактировании
+    connection.query(
+        `SELECT username, description, avatar_path as avatarPath, link_github as github, login FROM user where id = ${req.query.idUser}`,
+        (error, infoUser, fields) => {
+            res.send(infoUser[0]);
+        }
+    );
+});
 
 // POST
 
@@ -277,6 +285,15 @@ app.put('/api/retrylevel', (req, res) => { // newlevel.html - редактиро
     connection.query( 
         `update progress_level set score = 0, code_level = '' where id_level = ${req.body.idLevel} and id_user = ${req.body.idUser}`, 
         (error, results, fields) => { 
+            if (!error) res.send(true);
+            else res.send(false);
+        }
+    );
+});
+
+app.put('/api/account', (req, res) => { // req - запрос - то, что мы передаем при отправке запроса на сервер, res - результат, который сервер отправляет
+    connection.query( // информация о авторизованном пользователе - для всех страниц
+        `update user set username = '${req.body.username}', description = '${req.body.description}', avatar_path = '${req.body.avatarPath}', link_github = '${req.body.github}', login = '${req.body.login}' ${req.body.password ? `, password = '${cryptoJS.SHA256(req.body.password).toString()}'` : ''} where id = ${req.body.idUser}`, (error, results, fields) => {
             if (!error) res.send(true);
             else res.send(false);
         }

@@ -5,6 +5,7 @@ const hexCodesContainer = document.getElementById("hex-codes"); // объект 
 const idLevel = location.hash.replace('#', ''); // id уровня из пути в поисковой строке
 const scores = document.getElementById("scores"); // кол-во очков
 const reason = document.getElementById("reason"); // причина удаления
+const title = document.getElementsByTagName('title')[0];
 
 let hexCodes = []; // массив для хранения всех hex-кодов
 let idUser;
@@ -19,6 +20,7 @@ if (userInfo.isStaff) { // кнопка "Отклонить" для админи
 }
 
 if (idLevel) {
+    title.textContent += 'Редактирование уровня';
     fetch(`http://localhost:3001/api/newlevel?idLevel=${idLevel}`).then((res) => res.json())
     .then(({level, hexCodes}) => {
         idUser = level.idUser;
@@ -40,6 +42,9 @@ if (idLevel) {
     }).catch((error) => {
         console.log(error);
     });
+}
+else {
+    title.textContent += 'Создание уровня';
 }
 
 saveCodeToImg.addEventListener('click', () => { // событие клика на кнопку сохранения
