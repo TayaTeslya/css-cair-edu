@@ -123,7 +123,7 @@ app.get('/api/profile', (req, res) => { // profile.html
 
 app.get('/api/newlevel', (req, res) => { // newlevel.html - вывод информации об уровне при редактировании
     connection.query(
-        `select name, code_level as codeLevel, is_checked as isChecked, id_user as idUser, max_score as maxScore from level where id = ${req.query.idLevel}`,
+        `select name, code_level as codeLevel, is_checked as isChecked, date_delete as dateDelete, id_user as idUser, max_score as maxScore, reason from level where id = ${req.query.idLevel}`,
         (error, level, fields) => {
             getHexCodes(req.query.idLevel).then((hexCodes) => {
                 res.send({
@@ -199,13 +199,11 @@ app.post('/api/newlevel', (req, res) => { // newlevel.html - создание у
         ${req.body.maxScore})`, 
         (error, results, fields) => { // добавление hex-кодов
             let id = results.insertId;
-            console.log(req.body.hexCodes);
             addHexCodes(id, req.body.hexCodes).then((hexDone) => {
                 let thumbnail = `http://localhost:3001/levels/${id}.png`;
                 connection.query( // добавление уровня
                     `update level set thumbnail = '${thumbnail}' where id = ${id}`, 
                     (error, results, fields) => { // добавление hex-кодов
-                        console.log(req.files.file);
                         req.files.file.mv(`./img/levels/${id}.png`);
                         if (!error) res.send({id});
                         else res.send(false);
@@ -244,7 +242,6 @@ app.put('/api/editlevel', (req, res) => { // newlevel.html - редактиро�
     connection.query( // добавление уровня
         `update level set reason = null, date_delete = null, name = '${req.body.name}', code_level = '${req.body.codeLevel}', is_checked = ${req.body.isChecked}, max_score = ${req.body.maxScore} where id = ${req.body.idLevel}`, 
         (error, results, fields) => { // добавление hex-кодов
-            console.log(req.files.file);
             req.files.file.mv(`./img/levels/${req.body.idLevel}.png`);
             deleteHexCodes(req.body.idLevel).then((del) => {
                 addHexCodes(req.body.idLevel, req.body.hexCodes).then((add) => {
@@ -258,8 +255,9 @@ app.put('/api/editlevel', (req, res) => { // newlevel.html - редактиро�
 
 app.put('/api/deletelevel', (req, res) => { // newlevel.html - удаление уровня админом
     let today = new Date();
+    today.setDate(today.getDate() + 7);
     connection.query( 
-        `update level set reason = '${req.body.reason}', date_delete = '${today.getFullYear()}-${today.getMonth()}-${today.getDate()}' where id = ${req.body.idLevel}`, 
+        `update level set is_checked = 1, reason = '${req.body.reason}', date_delete = '${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}' where id = ${req.body.idLevel}`, 
         (error, results, fields) => { 
             if (!error) res.send({id: req.body.idLevel});
             else res.send(false);
@@ -273,7 +271,6 @@ app.put('/api/editleveladmin', (req, res) => { // newlevel.html - редакти
     connection.query( // добавление уровня
         `update level set thumbnail = '${thumbnail}' where id = ${id}`, 
         (error, results, fields) => { // добавление hex-кодов
-            console.log(req.files.file);
             req.files.file.mv(`./img/levels/${id}.png`);
             if (!error) res.send({id});
             else res.send(false);
@@ -313,22 +310,13 @@ app.delete('/api/favorite', (req, res) => { // удаление из избра�
 });
 
 app.delete('/api/deletelevels', (req, res) => { // автоматическое удаление уровней (при заходе на страницу mylevels.html)
-    deleteHexCodes(idLevel).then((delHexCodes) => {
-        connection.query(
-            `delete from color where id = ${req.body.idLevel}`, 
-            (errorUpdate, resultsUpdate, fieldsUpdate) => {
-                connection.query(
-                    `delete from level where date_delete <= CURRENT_DATE()`, 
-                    (error, results, fields) => {
-                        if (!error) res.send(true);
-                        else res.send(false);
-                    }
-                );
-            }
-        );
-    }).catch((error) => {
-        console.log(error);
-    })
+    connection.query(
+        `delete from level where date_delete <= CURRENT_DATE()`, 
+        (error, results, fields) => {
+            if (!error) res.send(true);
+            else res.send(false);
+        }
+    );
 });
 
 app.delete('/api/mylevels', (req, res) => {  // удаление уровней по кнопке на странице mylevels.html

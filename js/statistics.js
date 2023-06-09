@@ -30,7 +30,7 @@ fetch(`http://localhost:3001/api/levels?idUser=${userInfo.id}&isStatistic=true`)
 function setLevels(condition) {
     levelsStatistic.innerHTML = ''; // очищение объекта для вывода уровней
     for (const level of currentLevels.filter(condition)) { // цикл, проходящий по отфильтрованным по категориям уровням
-        if (!userInfo.isStaff && level.isChecked) { // вывод доступных для учеников уровней
+        if (!userInfo.isStaff && level.isChecked && !level.dateDelete) { // вывод доступных для учеников уровней
             levelsStatistic.innerHTML += 
             `<div class="d-flex col-lg-4 col-md-4 col-sm-4 col-4">
                 <a id="${level.id}" href="../pages/level.html#${level.id}" class="d-flex w-100 align-items-center justify-content-center gap-3">

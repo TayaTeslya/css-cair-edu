@@ -24,8 +24,9 @@ if (idLevel) {
     fetch(`http://localhost:3001/api/newlevel?idLevel=${idLevel}`).then((res) => res.json())
     .then(({level, hexCodes}) => {
         idUser = level.idUser;
-        if ((idUser !== userInfo.id || level.isChecked) && !userInfo.isStaff) {
-            location = `../index.html`;
+        if (((idUser !== userInfo.id && !userInfo.isStaff) || ((!level.dateDelete && level.isChecked) && idUser == userInfo.id))) {
+            console.log(level.dateDelete);
+            location = `../pages/level.html#${idLevel}`;
             return;
         }
         hexCodesContainer.innerHTML = '';
@@ -39,6 +40,7 @@ if (idLevel) {
         nameLevel.value = level.name;
         editor.setValue(level.codeLevel);
         scores.value = level.maxScore;
+        reason.value = level.reason || '';
     }).catch((error) => {
         console.log(error);
     });
@@ -103,7 +105,7 @@ saveCodeToImg.addEventListener('click', () => { // событие клика н�
 
     // проверка введения количества очков для админа !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             
-    let resCode = editor.getValue().split('\n'); // массив строк када пользователя
+    let resCode = editor.getValue().split('\n'); // массив строк кода пользователя
     let property; // переменная значения свойства
     let hexCode; // переменная для преобразования цвета в hex-code
 
@@ -171,9 +173,7 @@ function deleteLevel() {
             body: formData
         })
         .then((res) => res.json()).then((res) => {
-            if (res) {
-                location.reload();
-            }
+            if (res) location = '../index.html';
         });
     }
     else {

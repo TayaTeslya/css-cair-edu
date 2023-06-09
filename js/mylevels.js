@@ -73,7 +73,7 @@ function setLevels(condition) {
                         <p class="${checked === "Отклонён" && "error"} card-author ov-text">${checked}</p>
                     </div>
                     ${ 
-                        !level.isChecked ? `
+                        !level.isChecked || level.dateDelete ? `
                         <div data-id-level='${level.id}' class="button-delete-level card-status-level d-flex col-1 col-sm-1 col-lg-1 col-md-1 justify-content-end">
                             <img src="../img/icons/delete_icon.png" alt="">
                         </div> ` : ''
