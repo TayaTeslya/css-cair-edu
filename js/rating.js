@@ -1,3 +1,12 @@
+/*
+Данный файл является скриптом страницы статистики пользователя
+Переменные:
+    rating - объект для вывода рейтинга пользователя
+    scores - объект для вывода очков пользователя
+    levelsDone - объект для вывода количества пройденных уровней
+    userRating - объект для вывода рейтинга пользователей
+*/
+
 const rating = document.getElementById("rating"); //  объект для вывода рейтинга
 const scores = document.getElementById("scores"); // объект для вывода очков
 const levelsDone = document.getElementById("levels-done"); // объект для вывода количества пройденных уровней

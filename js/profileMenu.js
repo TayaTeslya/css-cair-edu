@@ -1,3 +1,15 @@
+/*
+Данный файл является скриптом меню профиля
+Переменные:
+    profileContainer - объект кнопки профиля
+    profileMenu - объект списка навигации профиля
+    username - объект поля ввода имени пользователя
+    profilePhoto - объект для вывода аватарки пользователя
+    userInfo - объект с информацией о пользователе
+Функции:
+    profileContainer.addEventListener - событие клика по объекту кнопки профиля; изменяет видимость списка навигации профиля
+*/
+
 const profileContainer = document.getElementById("profile-container"); // кнопка профиля
 const profileMenu = document.getElementById("profile-menu"); // список навигации профиля
 const username = document.getElementById("username"); // объект имени пользователя

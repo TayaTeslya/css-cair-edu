@@ -1,3 +1,22 @@
+/*
+Данный файл является скриптом страницы создания/редактирования уровня
+Переменные:
+    deleteButton - объект кнопки удаления уровня
+    saveCodeToImg = document.getElementById('save-code-to-img'); // кнопка "Сохранить"
+    nameLevel - поле ввода названия уровня
+    hexCodesContainer - объект для вывода hex-кодов
+    idLevel - id уровня из пути в поисковой строке
+    scores - объект поля для ввода количества очков
+    reason - объект поля для ввода причина удаления
+    title - объект названия страницы
+    hexCodes - массив используемых hex-кодов
+    idUser - id автора уровня
+Функции:
+    saveCodeToImg.addEventListener - событие клика по кнопке сохранения уровня: проверка валидности кода, сохранение уровня или вывод ошибки
+    deleteButton.addEventListener - событие клика по кнопке удаления уровня: проверка валидности введенной причины удаления, вызов функции deleteLevel или вывод ошибки
+    deleteLevel - функция удаления уровня
+*/
+
 const deleteButton = document.getElementById("delete-button"); // кнопка удаления уровня
 const saveCodeToImg = document.getElementById('save-code-to-img'); // кнопка "Сохранить"
 const nameLevel = document.getElementById('name-level'); // поле ввода названия уровня
@@ -5,7 +24,7 @@ const hexCodesContainer = document.getElementById("hex-codes"); // объект 
 const idLevel = location.hash.replace('#', ''); // id уровня из пути в поисковой строке
 const scores = document.getElementById("scores"); // кол-во очков
 const reason = document.getElementById("reason"); // причина удаления
-const title = document.getElementsByTagName('title')[0];
+const title = document.getElementsByTagName('title')[0]; // объект названия страницы
 
 let hexCodes = []; // массив для хранения всех hex-кодов
 let idUser;

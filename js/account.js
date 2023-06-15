@@ -1,9 +1,35 @@
+/*
+Данный файл является скриптом страницы статистики пользователя
+Переменные:
+    usernameInfo - объект поля ввода имени пользователя
+    github - объект поля ввода сылки на гитхаб
+    description - объект поля ввода информации о себе
+    photoUser - объект для вывода аватара пользователя
+    buttonSave - объект кнопки сохранения изменений
+    error - объект для вывода ошибок
+    login - объект поля ввода логина
+    password - объект поля ввода пароля
+    confirmPassword - объект поля повторного ввода пароля
+    toggleVisibility - объект кнопки для смены видимости пароля в поле ввода пароля
+    confirmToggleVisibility - объект кнопки для смены видимости пароля в поле ввода повторного пароля
+    imgPicker - объект для выбора аватарки
+    pickerOpener - объект для вызова выбора аватара
+    avatarImages - объект вывода аватарки
+    avatarPath - путь до аватарки
+Функции:
+    setToggleVisibility - функция смены видимости текста в поле ввода пароля и в поле повторного ввода пароля
+        Принимает в себя:
+            event - объект, хранящий в себе информацию о событии
+            field - объект поля ввода
+    buttonSave.addEventListener - событие клика по кнопке сохранения; проверка валидации, сохранение или вывод ошибки
+*/
+
 const usernameInfo = document.getElementById("username-info"); // объект для вывода имени пользователя
 const github = document.getElementById("github"); // поле для ввода сылки на гитхаб
 const description = document.getElementById("description"); // поле для ввода информации о себе
 const photoUser = document.getElementById("photo-user"); // объект для вывода аватара пользователя
 const buttonSave = document.getElementById("button-save"); // кнопка сохранения изменений
-const error = document.getElementById("error"); // объект для вывода ошибокX
+const error = document.getElementById("error"); // объект для вывода ошибок
 const login = document.getElementById('login'); // поле ввода логина
 const password = document.getElementById('password'); // поле ввода пароля
 const confirmPassword = document.getElementById('confirm-password'); // поле повторного ввода пароля

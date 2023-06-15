@@ -1,7 +1,22 @@
+/*
+Данный файл является скриптом главной страницы
+Переменные:
+    favorite - объект кнопки добавления в/удаления из избранного
+    levelContainer - объект для вывода уровней
+    userButton - объект кнопок для учеников
+    adminButton - объект кнопок для администраторов
+    levels - массив объектов уровней
+    currentLevels - массив объектов отфильтрованных и/или соответствующих поиску уровней
+Функции:
+    setLevels - функция вывода уровней
+        Принимает в себя:
+            condition - фильтр и/или строка поиска
+*/
+
 const favorite = document.getElementsByClassName("favorite"); // кнопка добавления в/удаления из избранного
 const levelContainer = document.getElementById("levels-container"); // объект для вывода уровней
-const userButton = document.getElementById("user-button");
-const adminButton = document.getElementById("admin-button");
+const userButton = document.getElementById("user-button"); // объект кнопок для учеников
+const adminButton = document.getElementById("admin-button"); // объект кнопок для администраторов
 
 let levels;
 let currentLevels;

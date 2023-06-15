@@ -1,12 +1,29 @@
+/*
+Данный файл является скриптом главной страницы
+Переменные:
+    saveCodeToImg - объект кнопки сохранения прогресса прохождения уровня
+    resultScore - объект для вывода результатов прохождения уровня
+    maxScore - обхект для вывода максимального результата прохождения уровня
+    hexCodesContainer - объект для вывода необходимых для прохождения hex-кодов
+    author - объект для вывода автора уровня
+    nameLevel - объект для вывода номера и названия уровня
+    defaultImg - объект для вывода картинки уровня
+    idLevel - id уровня из пути в поисковой строке
+    reTryLevel - объект кнопки сброса прогресса уровня
+Функции:
+    saveCodeToImg.addEventListener - событие клика по кнопке "Сохранить"; проверка валидности введенного кода, сохранение и вывод результатов или вывод ошибки
+    reTryLevel.addEventListener - событие клика по кнопке "Перепройти"; сброс прогресса уровня
+*/
+
 const saveCodeToImg = document.getElementById('save-code-to-img'); // кнопка "Сохранить"
-const resultScore = document.getElementById('result-score'); // Объект для вывода результата прохождения уровня
-const maxScore = document.getElementById('max-score'); // Объект для вывода максимального результата прохождения уровня
-const hexCodesContainer = document.getElementsByClassName('hex-codes-container'); // Объект для вывода необходимых для прохождения hex-кодов
-const author = document.getElementsByClassName("card-author"); // Объект для вывода автора уровня
-const nameLevel = document.getElementsByClassName("card-name-level"); // Объект для вывода номера и названия уровня
-const defaultImg = document.getElementsByClassName("img-default"); // Объект для вывода картинки уровня
+const resultScore = document.getElementById('result-score'); // объект для вывода результата прохождения уровня
+const maxScore = document.getElementById('max-score'); // объект для вывода максимального результата прохождения уровня
+const hexCodesContainer = document.getElementsByClassName('hex-codes-container'); // объект для вывода необходимых для прохождения hex-кодов
+const author = document.getElementsByClassName("card-author"); // объект для вывода автора уровня
+const nameLevel = document.getElementsByClassName("card-name-level"); // объект для вывода номера и названия уровня
+const defaultImg = document.getElementsByClassName("img-default"); // объект для вывода картинки уровня
 const idLevel = location.hash.replace('#', ''); // id уровня из пути в поисковой строке
-const reTryLevel = document.getElementById('re-try-level'); // кнопка "перепройти"
+const reTryLevel = document.getElementById('re-try-level'); // объект кнопки сброса прогресса уровня
 
 fetch(`http://localhost:3001/api/level?idUser=${userInfo.id}&idLevel=${idLevel}`).then((res) => res.json())
 .then(({level, hexCodes, progress}) => {
@@ -52,7 +69,6 @@ fetch(`http://localhost:3001/api/level?idUser=${userInfo.id}&idLevel=${idLevel}`
 
     saveCodeToImg.addEventListener('click', () => { // событие клика по кнопке "Сохранить"
         if (!isValid) return;
-        console.log('kek');
         domtoimage.toPixelData(resultDom) // получение пикселей картинки из кода пользователя
         .then(function (imgDataUser) { 
             let canvas = document.createElement("canvas"); // создание канвы для отрисовки картинки уровня

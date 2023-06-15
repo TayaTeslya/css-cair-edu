@@ -1,11 +1,32 @@
+/*
+Данный файл является скриптом формы регистрации
+Переменные:
+    login - объект поля ввода логина
+    password - объект поля ввода пароля
+    confirmPassword - объект поля повторного ввода пароля
+    toggleVisibility - объект кнопки смены видимости текста в поле ввода пароля 
+    confirmToggleVisibility - объект кнопки смены видимости текста в поле повторного ввода пароля
+    reg - объект кнопки создания аккаунта
+    error - объект для вывода ошибок
+    username - объект для поля ввода имени пользователя
+Функции:
+    toggleVisibility.addEventListener - событие клика на кнопку смены видимости пароля в поле ввода пароля, вызывает функцию setToggleVisibility
+    confirmToggleVisibility.addEventListener - событие клика на кнопку смены видимости пароля в поле ввода повторного пароля, вызывает функцию setToggleVisibility
+    setToggleVisibility - функция смены видимости текста в поле ввода пароля и в поле повторного ввода пароля
+        Принимает в себя:
+            event - объект, хранящий в себе информацию о событии
+            field - объект поля ввода
+    reg.addEventListener - событие клика на кнопку "Создать аккаунт"; проверка валидности, создание аккаунта и открытие формы авторизации или вывод ошибки
+*/
+
 const login = document.getElementById('login'); // поле ввода логина
 const password = document.getElementById('password'); // поле ввода пароля
 const confirmPassword = document.getElementById('confirm-password'); // поле повторного ввода пароля
 const toggleVisibility = document.getElementById('toggle-visibility'); // смена видимости пароля в поле ввода пароля
 const confirmToggleVisibility = document.getElementById('confirm-toggle-visibility'); // смена видимости пароля в поле ввода повторного пароля
-const auth = document.getElementById('auth'); // кнопка входа в аккаунт
-const error = document.getElementById('error');
-const username = document.getElementById('username');
+const reg = document.getElementById('reg'); // кнопка создания аккаунта
+const error = document.getElementById('error'); // объект для вывода ошибок
+const username = document.getElementById('username'); // объект для ввода имени пользователя
 
 localStorage.clear();
 
@@ -23,7 +44,7 @@ function setToggleVisibility(event, field) {
     }
 }
 
-auth.addEventListener('click', (event) => {
+reg.addEventListener('click', (event) => {
      // проверка валидности имени пользователя
      let usernameValue = username.value.trim();
      if (/[!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?]/g.test(usernameValue)) { 

@@ -1,7 +1,19 @@
+/*
+Данный файл является скриптом фильтрации и поиска уровней
+Переменные:
+    categoriesButton - объект кнопки вывода списка категорий
+    categoriesList - объект списка категорий
+    searchLevel - объект поля ввода поиска уровней
+    selectedCategory - выбранная категория игр (по умолчанию - все)
+Функции:
+    categoriesButton.addEventListener - событие клика по кнопке вывода списка категорий; меняет видимость объекта списка категорий
+    changeCategory - функция смены выбранной категории
+    searchLevel.addEventListener - событие ввода в поле ввода поиска; вызов функции вывода уровней с передачей текста поля поиска
+*/
+
 const categoriesButton = document.getElementById("categories"); // кнопка вывода списка категорий
 const categoriesList = document.getElementById("categories-list"); // объект списка категорий
 const searchLevel = document.getElementById('search-level'); // кнопка поиска уровней
-
 
 let selectedCategory = 0; // выбранная категория игр (по умолчанию - все)
 

@@ -1,6 +1,28 @@
+/*
+Данный файл является скриптом страницы уровня пользователей
+Переменные:
+    buttonsDeleteLevel - объект кнопки удаления уровня
+    levelContainer - объект для вывода уровней
+    searchLevel - объект поля ввода для поиска уровней
+    checked - флаг статуса проверки уровня
+    levels - массив объектов уровней
+Функции:
+    setLevels - функция вывода уровней
+        Принимает в себя:
+            condition - фильтр и/или строка поиска
+    getDateDelete - функция для формирования строки причины и даты удаления отклоненного уровня
+        Принимает в себя:
+            reason - причина удаления
+            dateDelete - дата удаления
+    getNumberOfDays - подсчёт количества дней до даты удаления
+        Принимает в себя:
+            end - дата удаления
+    searchLevel.addEventListener - событие ввода символа в поле поиска; вызывает функцию setLevels, передавая ей строку из поля ввода
+*/
+
 const buttonsDeleteLevel = document.getElementsByClassName('button-delete-level'); // кнопка удаления уровня
 const levelContainer = document.getElementById("levels-container"); // объект для вывода уровней
-const searchLevel = document.getElementById('search-level'); // кнопка поиска уровней
+const searchLevel = document.getElementById('search-level'); // объект поиска уровней
 
 let checked; // флаг проверки уровня
 let levels; // массив объектов с уровнями
