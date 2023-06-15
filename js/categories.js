@@ -67,7 +67,7 @@ function changeCategory() {
         case 1: setLevels((element) => !element.author); break; // "Основные"
         case 2: setLevels((element) => element.author); break; // "Пользовательские"
         case 3: // "Избранное" для ученика, "На проверке" для администратора
-            if (userInfo.isStaff) setLevels((element) => !element.checked); 
+            if (userInfo.isStaff) setLevels((element) => !element.isChecked); 
             else setLevels((element) => element.favorite); 
             break;
         case 4: setLevels((element) => element.maxScore === element.maxScoreUser); break; // "Пройденные"

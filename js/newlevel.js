@@ -50,7 +50,8 @@ else {
 }
 
 saveCodeToImg.addEventListener('click', () => { // событие клика на кнопку сохранения
-
+    
+    if (!isValid) return;
     if (userInfo.isStaff) {
         if (!scores.value.trim()) {
             error.classList.add('error');
@@ -110,8 +111,12 @@ saveCodeToImg.addEventListener('click', () => { // событие клика н�
     let hexCode; // переменная для преобразования цвета в hex-code
 
     for (const str of resCode) { // сохранение массива hex-кодов
-        if (str.includes('color')) {
-            property = str.split(':')[1]; // сохранение значения свойства
+        if (str.includes('color') && !str.includes('{')) {
+            try {
+                property = str.split(':')[1]; // сохранение значения свойства
+            } catch (error) {
+                continue;
+            }
             if (property) {
                 property = property.replaceAll(' ', '');
                 property = property.slice(0, property.length - 1); // убираем ";" из свойства
@@ -119,8 +124,12 @@ saveCodeToImg.addEventListener('click', () => { // событие клика н�
                 if (hexCode) hexCodes.push(hexCode); // если пустой, значит лежал не цвет
             }
         }
-        else if (str.includes('border') || str.includes('background')) {
-            property = str.split(':')[1].trim(); // сохранение значения свойства
+        else if ((str.includes('border') || str.includes('background')) && !str.includes('{')) {
+            try {
+                property = str.split(':')[1].trim(); // сохранение значения свойства
+            } catch (error) {
+                continue;
+            }
             property = property.slice(0, property.length - 1); // убираем точку с запятой
             if (property.includes('#')) {
                 property = property.slice(property.indexOf('#'), property.indexOf('#') + 7);

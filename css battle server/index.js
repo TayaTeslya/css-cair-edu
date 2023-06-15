@@ -154,7 +154,6 @@ app.post('/api/auth', (req, res) => { // req - запрос - то, что мы 
            if (results.length > 0) res.send(results[0]);
            else res.send(false);
         }
-        
     );
 });
 
@@ -311,10 +310,25 @@ app.delete('/api/favorite', (req, res) => { // удаление из избра�
 
 app.delete('/api/deletelevels', (req, res) => { // автоматическое удаление уровней (при заходе на страницу mylevels.html)
     connection.query(
-        `delete from level where date_delete <= CURRENT_DATE()`, 
-        (error, results, fields) => {
-            if (!error) res.send(true);
-            else res.send(false);
+        `update progress_level inner join level on id_level = level.id set id_level = null where date_delete <= current_date()`, 
+        (error, resultsDelete, fields) => {
+            connection.query(
+                `select id from level where date_delete <= CURRENT_DATE()`, 
+                (error, resultsDelete, fields) => {
+                    connection.query(
+                        `delete from level where date_delete <= CURRENT_DATE()`, 
+                        (error, results, fields) => {
+                            if (!error) {
+                                for (const deleteLevel of resultsDelete) {
+                                    fs.unlinkSync(`./img/levels/${deleteLevel.id}.png`);
+                                }
+                                res.send(true);
+                            }
+                            else res.send(false);
+                        }
+                    );
+                }
+            );
         }
     );
 });
@@ -327,6 +341,7 @@ app.delete('/api/mylevels', (req, res) => {  // удаление уровней 
                 connection.query(
                     `delete from level where id = ${req.body.idLevel}`, 
                     (error, results, fields) => {
+                        fs.unlinkSync(`./img/levels/${req.body.idLevel}.png`);
                         if (!error) res.send(true);
                         else res.send(false);
                     }

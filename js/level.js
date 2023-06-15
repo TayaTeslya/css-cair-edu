@@ -51,8 +51,8 @@ fetch(`http://localhost:3001/api/level?idUser=${userInfo.id}&idLevel=${idLevel}`
     }
 
     saveCodeToImg.addEventListener('click', () => { // событие клика по кнопке "Сохранить"
-        console.log(isValid);
         if (!isValid) return;
+        console.log('kek');
         domtoimage.toPixelData(resultDom) // получение пикселей картинки из кода пользователя
         .then(function (imgDataUser) { 
             let canvas = document.createElement("canvas"); // создание канвы для отрисовки картинки уровня

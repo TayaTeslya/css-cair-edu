@@ -14,7 +14,7 @@ let defaultCode = `<style>\n\t.class {\n\t\tbackground-color: white;\n\t\twidth:
 editor.setValue(defaultCode); // начальный код уровней
 resultDom.innerHTML = editor.getValue(); // отображение результата пользовательского кода
 
-let isValid = false; // флаг валидности
+let isValid = true; // флаг валидности
 
 editor.on('change', () => { // событие изменения в редакторе кода
     let resCode = editor.getValue().split('\n'); // массив кода пользователя по строкам
@@ -39,6 +39,14 @@ editor.on('change', () => { // событие изменения в редакт
             }
             else if (resCode[key].includes('img')) {
                 error.textContent = 'WARNING! img является запрещенным.';
+                break find;
+            }
+            else if (resCode[key].includes('href')) {
+                error.textContent = 'WARNING! href является запрещенным.';
+                break find;
+            }
+            else if (resCode[key].includes('<a')) {
+                error.textContent = 'WARNING! Тег <a> является запрещенным.';
                 break find;
             }
             else if (resCode[key].includes('image')) {

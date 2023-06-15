@@ -10,6 +10,7 @@ fetch(`http://localhost:3001/api/deletelevels`, {
     headers: {'Content-Type' : 'application/json'}
 })
 .then((res) => {
+    console.log('lkek');
     fetch(`http://localhost:3001/api/mylevels?idUser=${userInfo.id}`).then((res) => res.json())
     .then((res) => {
 
